@@ -1,8 +1,7 @@
 ---
-title: Image
+title: test_image_dir
 subtitle:
-date: 2023-05-29T13:10:23+08:00
-draft: false
+date: 2023-05-29T13:24:38+08:00
 author:
   name:
   link:
@@ -39,7 +38,6 @@ repost:
 
 <!--more-->
 
-图片
+好的
 
-![](/images/a.png)
-
+![](pic/bb.png)
