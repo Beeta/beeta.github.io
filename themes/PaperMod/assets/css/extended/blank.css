@@ -1,0 +1,28 @@
+/*
+This is just a placeholder blank stylesheet so as to support adding custom styles budled with theme's default styles
+
+Read https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#bundling-custom-css-with-themes-assets for more info
+*/
+
+pre,
+code {
+  font-family: "JetBrains Mono", "Source Code Pro", "LXGW WenKai Screen",
+    monospace;
+}
+
+body {
+  font-family: "LXGW WenKai Screen", "SF Pro SC", "PingFang SC",
+    "Source Han Sans CN", "Microsoft Yahei", sans-serif;
+  font-size: 16px;
+}
+
+.post-content img {
+  margin: auto;
+}
+
+:root {
+  --hljs-bg: #22272e;
+}
+.dark {
+  --hljs-bg: #22272e;
+}
