@@ -1,1 +1,36 @@
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url><loc>http://tubaozi.top/categories/</loc><lastmod>2023-05-29T13:24:38+08:00</lastmod></url><url><loc>http://tubaozi.top/tags/draft/</loc><lastmod>2023-05-29T13:24:38+08:00</lastmod></url><url><loc>http://tubaozi.top/categories/draft/</loc><lastmod>2023-05-29T13:24:38+08:00</lastmod></url><url><loc>http://tubaozi.top/posts/</loc><lastmod>2023-05-29T13:24:38+08:00</lastmod></url><url><loc>http://tubaozi.top/tags/</loc><lastmod>2023-05-29T13:24:38+08:00</lastmod></url><url><loc>http://tubaozi.top/posts/test_image_dir/</loc><lastmod>2023-05-29T13:24:38+08:00</lastmod></url><url><loc>http://tubaozi.top/</loc><lastmod>2023-05-29T13:24:38+08:00</lastmod></url><url><loc>http://tubaozi.top/posts/1st/</loc><lastmod>2023-05-28T22:32:06+08:00</lastmod></url></urlset>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://tubaozi.top/posts/</loc>
+    <lastmod>2023-06-06T01:09:27+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/</loc>
+    <lastmod>2023-06-06T01:09:27+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/posts/create_blog_with_hugo/</loc>
+    <lastmod>2023-06-06T01:09:27+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/categories/</loc>
+    <lastmod>2023-05-29T13:24:38+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/tags/draft/</loc>
+    <lastmod>2023-05-29T13:24:38+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/categories/draft/</loc>
+    <lastmod>2023-05-29T13:24:38+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/tags/</loc>
+    <lastmod>2023-05-29T13:24:38+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/posts/test_image_dir/</loc>
+    <lastmod>2023-05-29T13:24:38+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/posts/1st/</loc>
+    <lastmod>2023-05-28T22:32:06+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/archives/</loc>
+  </url><url>
+    <loc>http://tubaozi.top/search/</loc>
+  </url>
+</urlset>
