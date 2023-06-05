@@ -1,0 +1,86 @@
+baseURL: "http://tubaozi.top/"
+title: 今是昨非
+paginate: 10
+theme: PaperMod
+languageCode: zh
+defaultContentLanguage: zh
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: true
+buildExpired: false
+enableEmoji: true
+# googleAnalytics: G-P9B4DKL1HC
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+menu:
+  main:
+    - name: 时间线
+      url: archives
+      weight: 10
+    - name: 分类
+      url: categories/
+      weight: 20
+    - name: 标签
+      url: tags/
+      weight: 30
+    - name: 搜索
+      url: search/
+      weight: 40
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  description: "个人博客"
+  author: 昭
+  # author: ["Me", "You"] # multiple authors
+  # images: /favicon.ico
+
+  defaultTheme: auto
+  disableThemeToggle: false
+  # ShowShareButtons: true
+  # ShowReadingTime: true
+  # disableSpecial1stPost: true
+  displayFullLangName: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: false
+  ShowCodeCopyButtons: true
+  ShowToc: true
+
+  # home-info mode
+  homeInfoParams:
+    Title: "悟已往之不谏，知来者之可追"
+    Content: >
+
+  # profileMode:
+  #   enabled: true # needs to be explicitly set
+  #   title: ExampleSite
+  #   subtitle: "This is subtitle"
+  #   imageUrl: "<img location>"
+  #   imageWidth: 120
+  #   imageHeight: 120
+  #   imageTitle: my image
+  #   buttons:
+  #     - name: Posts
+  #       url: posts
+  #     - name: Tags
+  #       url: tags
+  socialIcons:
+    - name: Github
+      url: "https://github.com/Beeta"
+    - name: RSS
+      url: "index.xml"
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
