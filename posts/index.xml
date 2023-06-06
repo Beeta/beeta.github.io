@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Posts on 今是昨非</title>
+    <title>Posts on 今是昨非 | 技术.生活.阅读.思考</title>
     <link>http://tubaozi.top/posts/</link>
-    <description>Recent content in Posts on 今是昨非</description>
+    <description>Recent content in Posts on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Tue, 06 Jun 2023 01:09:27 +0800</lastBuildDate><atom:link href="http://tubaozi.top/posts/index.xml" rel="self" type="application/rss+xml" />
@@ -13,8 +13,9 @@
       <pubDate>Tue, 06 Jun 2023 01:09:27 +0800</pubDate>
       
       <guid>http://tubaozi.top/posts/create_blog_with_hugo/</guid>
-      <description>第一章 todo
-第二章 todo</description>
+      <description>第一章 todo 你好，我这里还好这个怎么样
+我觉得吃的还不错。你好，我是
+a = 2 s = 3 第二章 </description>
     </item>
     
     <item>

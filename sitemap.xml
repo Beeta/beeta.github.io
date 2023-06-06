@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://tubaozi.top/about/</loc>
+    <lastmod>2023-06-06T12:56:55+08:00</lastmod>
+  </url><url>
     <loc>http://tubaozi.top/posts/</loc>
     <lastmod>2023-06-06T01:09:27+08:00</lastmod>
   </url><url>
@@ -20,10 +23,10 @@
     <loc>http://tubaozi.top/categories/draft/</loc>
     <lastmod>2023-05-29T13:24:38+08:00</lastmod>
   </url><url>
-    <loc>http://tubaozi.top/tags/</loc>
+    <loc>http://tubaozi.top/posts/test_image_dir/</loc>
     <lastmod>2023-05-29T13:24:38+08:00</lastmod>
   </url><url>
-    <loc>http://tubaozi.top/posts/test_image_dir/</loc>
+    <loc>http://tubaozi.top/tags/</loc>
     <lastmod>2023-05-29T13:24:38+08:00</lastmod>
   </url><url>
     <loc>http://tubaozi.top/posts/1st/</loc>
