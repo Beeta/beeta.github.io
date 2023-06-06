@@ -1,5 +1,5 @@
 baseURL: "http://tubaozi.top/"
-title: 今是昨非
+title: 今是昨非 | 技术.生活.阅读.思考
 paginate: 10
 theme: PaperMod
 languageCode: zh
@@ -19,18 +19,21 @@ minify:
 
 menu:
   main:
-    - name: 时间线
+    - name: 🔎 搜索
+      url: search/
+      weight: 9
+    - name: ⏱️ 时间轴
       url: archives
       weight: 10
-    - name: 分类
+    - name: ⛩️ 分类
       url: categories/
       weight: 20
-    - name: 标签
+    - name: 🧩 标签
       url: tags/
       weight: 30
-    - name: 搜索
-      url: search/
-      weight: 40
+    - name: 🙋🏻‍♂️ 关于
+      url: about
+      weight: 50
 
 outputs:
   home:
@@ -41,7 +44,7 @@ outputs:
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   description: "个人博客"
-  author: 昭
+  author: Beeta
   # author: ["Me", "You"] # multiple authors
   # images: /favicon.ico
 
@@ -60,6 +63,8 @@ params:
   homeInfoParams:
     Title: "悟已往之不谏，知来者之可追"
     Content: >
+      - ✨ 欢迎来到我的个人博客
+      - 🤔 我在这里分享技术、读书、生活还有思考。
 
   # profileMode:
   #   enabled: true # needs to be explicitly set
@@ -79,6 +84,22 @@ params:
       url: "https://github.com/Beeta"
     - name: RSS
       url: "index.xml"
+    - name: email
+      url: "mailto:zrc199021@163.com"
+
+  label: # 左上角图标
+    text: "今是昨非"
+    icon: "img/足迹.png"
+    iconHeight: 35
+
+  # fuseOpts: # 搜索配置
+  #   isCaseSensitive: false
+  #   shouldSort: true
+  #   location: 0
+  #   distance: 1000
+  #   threshold: 0.4
+  #   minMatchCharLength: 0
+  #   keys: [ "title", "permalink", "summary" ]
 
 markup:
   goldmark:

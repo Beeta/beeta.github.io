@@ -1,5 +1,5 @@
 ---
-title: "归档 ⏱️"
+title: "⏱️ blog 时间轴"
 layout: "archives"
 url: "/archives/"
 summary: "archives"
