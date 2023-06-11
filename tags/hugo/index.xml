@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>今是昨非 | 技术.生活.阅读.思考</title>
-    <link>http://tubaozi.top/</link>
-    <description>Recent content on 今是昨非 | 技术.生活.阅读.思考</description>
+    <title>Hugo on 今是昨非 | 技术.生活.阅读.思考</title>
+    <link>http://tubaozi.top/tags/hugo/</link>
+    <description>Recent content in Hugo on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 12 Jun 2023 00:07:59 +0800</lastBuildDate><atom:link href="http://tubaozi.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Jun 2023 00:07:59 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hugo 静态博客搭建指南</title>
       <link>http://tubaozi.top/posts/2023/create_blog_with_hugo/</link>
@@ -24,18 +24,6 @@ hugo new site /path/to/sitename 站点目录结构：
 hugo new posts/xx.md 默认生成的 xx.md 内容和解释如下：
 title: &amp;#34;xx&amp;#34; # 网站显示的文章名字，可以与文件名不同 date: 2021-08-19T15:04:55+08:00 draft: true # 是否为草稿 # 下面两个默认没有，需要自己加 categories: [&amp;#34;互联网&amp;#34;] # 文章分类 tags: [&amp;#34;Hugo&amp;#34;, &amp;#34;Github Pages&amp;#34;, &amp;#34;Github Actions&amp;#34;, &amp;#34;CI/CD&amp;#34;] # 文章标签 一般情况下，我们都要新建这些文件构建网站的骨架：</description>
     </item>
-    
-    <item>
-      <title>🙋🏻‍♂️关于</title>
-      <link>http://tubaozi.top/about/</link>
-      <pubDate>Tue, 06 Jun 2023 12:56:55 +0800</pubDate>
-      
-      <guid>http://tubaozi.top/about/</guid>
-      <description>关于我
-名字: Beeta 位置: 深圳 职业: 在某厂从事数据开发和分析工作 联系: enJjMTk5MDIxQDE2My5jb20= </description>
-    </item>
-    
-    
     
   </channel>
 </rss>

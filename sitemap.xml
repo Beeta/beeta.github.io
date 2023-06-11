@@ -2,35 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://tubaozi.top/about/</loc>
-    <lastmod>2023-06-06T12:56:55+08:00</lastmod>
+    <loc>http://tubaozi.top/categories/</loc>
+    <lastmod>2023-06-12T00:07:59+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/tags/github/</loc>
+    <lastmod>2023-06-12T00:07:59+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/tags/hugo/</loc>
+    <lastmod>2023-06-12T00:07:59+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/posts/2023/create_blog_with_hugo/</loc>
+    <lastmod>2023-06-12T00:07:59+08:00</lastmod>
   </url><url>
     <loc>http://tubaozi.top/posts/</loc>
-    <lastmod>2023-06-06T01:09:27+08:00</lastmod>
-  </url><url>
-    <loc>http://tubaozi.top/</loc>
-    <lastmod>2023-06-06T01:09:27+08:00</lastmod>
-  </url><url>
-    <loc>http://tubaozi.top/posts/create_blog_with_hugo/</loc>
-    <lastmod>2023-06-06T01:09:27+08:00</lastmod>
-  </url><url>
-    <loc>http://tubaozi.top/categories/</loc>
-    <lastmod>2023-05-29T13:24:38+08:00</lastmod>
-  </url><url>
-    <loc>http://tubaozi.top/tags/draft/</loc>
-    <lastmod>2023-05-29T13:24:38+08:00</lastmod>
-  </url><url>
-    <loc>http://tubaozi.top/categories/draft/</loc>
-    <lastmod>2023-05-29T13:24:38+08:00</lastmod>
-  </url><url>
-    <loc>http://tubaozi.top/posts/test_image_dir/</loc>
-    <lastmod>2023-05-29T13:24:38+08:00</lastmod>
+    <lastmod>2023-06-12T00:07:59+08:00</lastmod>
   </url><url>
     <loc>http://tubaozi.top/tags/</loc>
-    <lastmod>2023-05-29T13:24:38+08:00</lastmod>
+    <lastmod>2023-06-12T00:07:59+08:00</lastmod>
   </url><url>
-    <loc>http://tubaozi.top/posts/1st/</loc>
-    <lastmod>2023-05-28T22:32:06+08:00</lastmod>
+    <loc>http://tubaozi.top/categories/%E5%BB%BA%E7%AB%99/</loc>
+    <lastmod>2023-06-12T00:07:59+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/</loc>
+    <lastmod>2023-06-12T00:07:59+08:00</lastmod>
+  </url><url>
+    <loc>http://tubaozi.top/about/</loc>
+    <lastmod>2023-06-06T12:56:55+08:00</lastmod>
   </url><url>
     <loc>http://tubaozi.top/archives/</loc>
   </url><url>

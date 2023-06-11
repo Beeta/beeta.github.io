@@ -6,34 +6,23 @@
     <description>Recent content in Posts on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 06 Jun 2023 01:09:27 +0800</lastBuildDate><atom:link href="http://tubaozi.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Jun 2023 00:07:59 +0800</lastBuildDate><atom:link href="http://tubaozi.top/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>利用hugo创建博客</title>
-      <link>http://tubaozi.top/posts/create_blog_with_hugo/</link>
-      <pubDate>Tue, 06 Jun 2023 01:09:27 +0800</pubDate>
+      <title>Hugo 静态博客搭建指南</title>
+      <link>http://tubaozi.top/posts/2023/create_blog_with_hugo/</link>
+      <pubDate>Mon, 12 Jun 2023 00:07:59 +0800</pubDate>
       
-      <guid>http://tubaozi.top/posts/create_blog_with_hugo/</guid>
-      <description>第一章 todo 你好，我这里还好这个怎么样
-我觉得吃的还不错。你好，我是
-a = 2 s = 3 第二章 </description>
-    </item>
-    
-    <item>
-      <title>test_image_dir</title>
-      <link>http://tubaozi.top/posts/test_image_dir/</link>
-      <pubDate>Mon, 29 May 2023 13:24:38 +0800</pubDate>
-      
-      <guid>http://tubaozi.top/posts/test_image_dir/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>1st</title>
-      <link>http://tubaozi.top/posts/1st/</link>
-      <pubDate>Sun, 28 May 2023 22:32:06 +0800</pubDate>
-      
-      <guid>http://tubaozi.top/posts/1st/</guid>
-      <description></description>
+      <guid>http://tubaozi.top/posts/2023/create_blog_with_hugo/</guid>
+      <description>一直想着建个自己的网站，顺便折腾点主题。前几天突发奇想注册了这个域名。顺手也把网站搭起来。调研了现在静态博客的情况，之前印象中的流行框架 HEXO 已然被 Hugo 盖住了风头。学习了下 Hugo，够简单，功能也够丰富。虽然网上 Hugo 搭建指南一大把，但我还是记录一下自己的使用过程，也作为第一篇正式博文。
+你可以在这篇博客中了解到：
+Hugo 搭建静态博客方法 利用 github pages 托管网页 利用 github action 自动发布网页 一些建站过程中的 tips 安装Hugo Hugo的官网是https://gohugo.io/，另外有个中文文档网站https://gohugo.org/也可以参考。
+官方推荐了很多安装方式，但我觉得直接下载二进制文件最为方便(升级需要手动)，Hugo有标准版、扩展版两个版本，扩展版支持对 WebP 图像进行编码和使用嵌入式 LibSass 转译器将 Sass 转译到 CSS，官方也推荐使用扩展版。
+下载后，放到对应路径，添加到 PATH 环境变量，更方便使用。安装完后，使用以下命令进行验证：
+hugo version 使用Hugo 生成站点 即在指定路径下生成名为 sitename 的文件夹
+hugo new site /path/to/sitename 站点目录结构：
+▸ archetypes/ ▸ content/ ▸ layouts/ ▸ static/ config.toml 创建文章 在content文件夹下新建posts文件夹并新建xx.md文档
+hugo new posts/xx.md 默认生成的 xx.md 内容和解释如下：
+title: &amp;#34;xx&amp;#34; # 网站显示的文章名字，可以与文件名不同 date: 2021-08-19T15:04:55+08:00 draft: true # 是否为草稿 # 下面两个默认没有，需要自己加 categories: [&amp;#34;互联网&amp;#34;] # 文章分类 tags: [&amp;#34;Hugo&amp;#34;, &amp;#34;Github Pages&amp;#34;, &amp;#34;Github Actions&amp;#34;, &amp;#34;CI/CD&amp;#34;] # 文章标签 一般情况下，我们都要新建这些文件构建网站的骨架：</description>
     </item>
     
   </channel>
