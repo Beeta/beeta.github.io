@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>标签1 on 今是昨非 | 技术.生活.阅读.思考</title>
-    <link>http://tubaozi.top/tags/%E6%A0%87%E7%AD%BE1/</link>
-    <description>Recent content in 标签1 on 今是昨非 | 技术.生活.阅读.思考</description>
+    <title>建站 on 今是昨非 | 技术.生活.阅读.思考</title>
+    <link>http://tubaozi.top/tags/%E5%BB%BA%E7%AB%99/</link>
+    <description>Recent content in 建站 on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 09 Jul 2023 01:31:39 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/%E6%A0%87%E7%AD%BE1/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Jul 2023 01:31:39 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/%E5%BB%BA%E7%AB%99/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>博文写作和发布最佳实践</title>
       <link>http://tubaozi.top/posts/2023/blog_write_best_practices/</link>
