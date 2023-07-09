@@ -6,7 +6,25 @@
     <description>Recent content in 🧩 标签 on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 12 Jun 2023 00:07:59 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Jul 2023 01:31:39 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>标签1</title>
+      <link>http://tubaozi.top/tags/%E6%A0%87%E7%AD%BE1/</link>
+      <pubDate>Sun, 09 Jul 2023 01:31:39 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/tags/%E6%A0%87%E7%AD%BE1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>标签2</title>
+      <link>http://tubaozi.top/tags/%E6%A0%87%E7%AD%BE2/</link>
+      <pubDate>Sun, 09 Jul 2023 01:31:39 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/tags/%E6%A0%87%E7%AD%BE2/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Github</title>
       <link>http://tubaozi.top/tags/github/</link>
