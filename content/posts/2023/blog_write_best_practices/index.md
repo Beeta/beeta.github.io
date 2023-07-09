@@ -33,14 +33,21 @@ cover:
 ```bash
 goblog # alias命令，cd到博客所在的git仓库
 # 新建博文markdown
-# 规范：在posts/年份/博文标题目录/index.md
+# 规范：posts/年份/博文标题目录/index.md -》最中路径在content下
 # 年份是便于分类，博文标题做目录是为了让图片和md文件在一块，标题用英文，在url上好看些，md文档的front matter 的title字段可定义中文标题
 hugo new posts/2023/博文标题/index.md
 ```
 
 ## 2. 使用 typora 编辑md文件
 
-1. 打开文件：`open -a typora index.md`
+1. 打开文件
+
+   ```bash
+   open -a typora content/posts/2023/博文标题/index.md
+   ```
+
+   
+
 2. 编辑front matter，
    - 注意编辑标题、分类、tag等，
    - draft改为false，
