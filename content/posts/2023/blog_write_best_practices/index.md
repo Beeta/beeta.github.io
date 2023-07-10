@@ -38,7 +38,6 @@ hugo new posts/2023/博文标题/index.md
 ```
 
 ## 2. 使用 wolai+typora 编辑md文件
-
 > 使用wolai编辑正文，使用 typora 编辑front matter和查看图片引用是否正常
 
 1. 使用 wolai 编辑正文，然后以md格式导出
@@ -48,14 +47,10 @@ hugo new posts/2023/博文标题/index.md
 open -a typora content/posts/2023/博文标题/index.md
 ```
 
-
-
 编辑front matter：
-
 - 注意编辑标题、分类、tag等，
 - draft 改为 false，
 - slug 是博文 url 的最后字段，如果为空默认就用当前目录，slug会默认做转换：将所有字母转换为小写字母，「-」替换空格，删除所有特殊字符
-
 
 
 另外，还要在typora中设置「图片复制到`./assets`文件夹」
