@@ -76,6 +76,6 @@ git push origin master # 可能需要代理
 
 提交后，会激活[github action](https://github.com/Beeta/beeta.github.io/actions)自动发布，稍后即可在 [tubaozi.top](http://tubaozi.top/) 看到了。
 
-## 5. 备份
+## 5. 备份(不用了 2 中实际已经备份了)
 
 将md文件导入到 `wolai: -> Life/个人博客tubaozi.top/博文备份` 下
