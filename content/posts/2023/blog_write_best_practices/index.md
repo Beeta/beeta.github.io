@@ -37,20 +37,22 @@ goblog # alias命令，cd到博客所在的git仓库
 hugo new posts/2023/博文标题/index.md
 ```
 
-## 2. 使用 typora 编辑md文件
+## 2. 使用 wolai+typora 编辑md文件
 
-1. 打开文件
+> 使用wolai编辑正文，使用typora编辑frontmatter和查看图片引用是否正常
 
-   ```bash
-   open -a typora content/posts/2023/博文标题/index.md
-   ```
+1. 使用wolai编辑正文，然后以md格式导出
+2. 使用typora打开文件并编辑
 
-   
+```bash
+open -a typora content/posts/2023/博文标题/index.md
+```
 
-2. 编辑front matter，
-   - 注意编辑标题、分类、tag等，
-   - draft改为false，
-   - slug是博文url的最后字段，如果为空默认就用当前目录，slug会默认做转换：将所有字母转换为小写字母，「-」替换空格，删除所有特殊字符
+编辑front matter，
+
+- 注意编辑标题、分类、tag等，
+- draft改为false，
+- slug是博文url的最后字段，如果为空默认就用当前目录，slug会默认做转换：将所有字母转换为小写字母，「-」替换空格，删除所有特殊字符
 
 
 
