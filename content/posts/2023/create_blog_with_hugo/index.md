@@ -286,7 +286,9 @@ jobs:
 
 - `hugo.toml`是最近版本新改的，之前是`config.yml`，两者都行，甚至`hugo.yml`也行。我比较习惯yaml语法，所以用最后这个
 - 每次发布都会重刷 public 里的所有文件，所以一些需要保留的文件需要放到static目录下
-- 可以在static下放 favicon.ico 文件，再网页标题栏显示图标
+  - 可以在static下放 favicon.ico 文件，再网页标题栏显示图标
+  - github页面展示需要的 CNAME文件也放在这
+
 - 博客图片也可以放到 static 下，但是我个人习惯 md 文件和图片在同目录下。所以我的方式是每个博文一个文件夹，下面新建`index.md`作为博文主体。文件夹最好是英文，这样 url 编码好看些。
 - 生成的文章内部头部配置信息包括一些文章名称，时间之类的信息，可以事先在目录 archetypes/default.md 下使用模板，这样在用命令 hugo new 生成文章后会自动加上模板里的配置
 - 我的博客代码托管在：https://github.com/Beeta/beeta.github.io
