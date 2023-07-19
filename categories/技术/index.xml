@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>技术 on 今是昨非 | 技术.生活.阅读.思考</title>
+    <link>http://tubaozi.top/categories/%E6%8A%80%E6%9C%AF/</link>
+    <description>Recent content in 技术 on 今是昨非 | 技术.生活.阅读.思考</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 19 Jul 2023 15:23:05 +0800</lastBuildDate><atom:link href="http://tubaozi.top/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>关于IPython的几个冷知识</title>
+      <link>http://tubaozi.top/posts/2023/ipython_tips/</link>
+      <pubDate>Wed, 19 Jul 2023 15:23:05 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2023/ipython_tips/</guid>
+      <description>一直在用ipython，有几个很重要的tip是今天才知道。
+使用python -m 打开ipython 因为ipython在安装时候已经写入到了python命令同目录下，所以平常直接ipython就可以进入了。但最近突发奇想，想用python -m ipython打开，却发现打不开
+python3 -m ipython # 报错：/xxxxxx/bin/python: No module named ipython 研究了好久才发现，原来需要有大小写！
+python3 -m IPython 那新问题又来了，我怎么知道我装的模块实际名字是什么呢？不去查谁知道ipython的正式名字是IPython呢。我们可以用pkgutil这个内置模块进行查询
+import pkgutil for module in pkgutil.iter_modules(): if &amp;#34;ipython&amp;#34; in module.name.lower(): # 注意把模块名都小写化，同时去除这个条件也可以输出所有的模块名字 print(module.name) ipython -i 用法 之前没用过，在研究上面问题的时候看到了。这个参数的含义是加载一个py文件并进入交互系统，作用就是进入ipython之后，我们就可以直接调用py文件内定义的变量和函数了。
+比如有个文件script.py
+# script.py x = 10 y = 20 def add(a, b): return a + b 我们使用python3 -m IPython -i script.py 或者 ipython -i script.py 进入ipython
+In [1]: x Out[1]: 10 In [2]: y Out[2]: 20 In [3]: print(add(3,5)) 8 未完待续 </description>
+    </item>
+    
+  </channel>
+</rss>
