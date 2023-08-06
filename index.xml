@@ -6,7 +6,28 @@
     <description>Recent content on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 19 Jul 2023 15:23:05 +0800</lastBuildDate><atom:link href="http://tubaozi.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Aug 2023 13:57:25 +0800</lastBuildDate><atom:link href="http://tubaozi.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何高效地阅读 Python 代码？</title>
+      <link>http://tubaozi.top/posts/2023/reading_code/</link>
+      <pubDate>Sun, 06 Aug 2023 13:57:25 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2023/reading_code/</guid>
+      <description>如何高效地阅读 Python 代码？ 副标题：一个重要但很少被讨论的技能
+从网上看到这篇英文文章，感觉还不错，翻译了一下。Claude2 也有参与翻译😝
+AI摘要 这篇文章讨论了阅读代码的重要性以及一些高效阅读代码的策略。作者指出，阅读代码需要不同于编写代码的技能，并且认为相信自己可以轻松地阅读发布的解决方案是一个常见的误解。文章提供了一个练习的代码库，并展示了一些阅读代码的策略，如忽略函数定义和简化重复的代码块。作者还强调了使用IDE（集成开发环境）来帮助快速识别和关注代码的重要性。最后，文章提到了编写可读的代码以及学习阅读其他人的代码和第三方库的重要性。
+正文 阅读代码是一项重要的技能，但却不常被讨论。我认为存在这样的假设：如果你学会了相当好地编写代码，你也会自动学会有效地阅读代码。但是阅读代码需要不同于编写代码的技能，所以我不认为这是一个安全的假设。
+一位读者最近询问《Python Crash Course》中练习的一个解决方案。他说他的解决方案比我发布的简单许多，并说他们很难阅读发布的解决方案。我认为这是一个很好的例子，说明有效代码阅读的策略根本不明显。在这篇文章中，我将展示我们讨论的代码，以及一些比从头到尾逐行阅读更有效的处理代码的策略。
+练习内容 我们讨论的练习分两个部分。第一部分是:
+彩票
+制作一个包含10个数字和5个字母的列表或元组。从中随机选择4个数字或字母,打印出匹配这4个数字或字母的任意一注彩票可获奖。 这个练习旨在让人们练习使用Python标准库中的代码，比如 random.choice()函数。
+下面是后续练习:
+彩票分析
+你可以用一个循环来模拟刚刚建立的彩票游戏有多难中奖。建一个名为 my_ticket 的列表或元组。编写一个循环获取数字，直到抽中的彩票获奖为止，循环结束后打印循环了多少次才得到中奖的彩票。 在读者已经开始学习序列、循环、函数和类的时候，给他们布置这样一个既具体又开放的练习是很有意思的。对这样的练习任务制定解决方案，可以应用你所学的知识。
+发布的解决方案 如果你不习惯阅读代码，发布的解决方案会觉得有点长，但我全部贴出来：
+from random import choice def get_winning_ticket(possibilities): &amp;#34;&amp;#34;&amp;#34;Return a winning ticket from a set of possibilities.&amp;#34;&amp;#34;&amp;#34; winning_ticket = [] # We don&amp;#39;t want to repeat winning numbers or letters, so we&amp;#39;ll use a # while loop. while len(winning_ticket) &amp;lt; 4: pulled_item = choice(possibilities) # Only add the pulled item to the winning ticket if it hasn&amp;#39;t # already been pulled.</description>
+    </item>
+    
     <item>
       <title>关于IPython的几个冷知识</title>
       <link>http://tubaozi.top/posts/2023/ipython_tips/</link>
