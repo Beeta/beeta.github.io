@@ -6,7 +6,16 @@
     <description>Recent content in ⛩️ 分类 on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 06 Aug 2023 13:57:25 +0800</lastBuildDate><atom:link href="http://tubaozi.top/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Aug 2023 15:58:13 +0800</lastBuildDate><atom:link href="http://tubaozi.top/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>建站</title>
+      <link>http://tubaozi.top/categories/%E5%BB%BA%E7%AB%99/</link>
+      <pubDate>Thu, 10 Aug 2023 15:58:13 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/categories/%E5%BB%BA%E7%AB%99/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>编程</title>
       <link>http://tubaozi.top/categories/%E7%BC%96%E7%A8%8B/</link>
@@ -22,15 +31,6 @@
       <pubDate>Wed, 19 Jul 2023 15:23:05 +0800</pubDate>
       
       <guid>http://tubaozi.top/categories/%E6%8A%80%E6%9C%AF/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>建站</title>
-      <link>http://tubaozi.top/categories/%E5%BB%BA%E7%AB%99/</link>
-      <pubDate>Sun, 09 Jul 2023 01:31:39 +0800</pubDate>
-      
-      <guid>http://tubaozi.top/categories/%E5%BB%BA%E7%AB%99/</guid>
       <description></description>
     </item>
     

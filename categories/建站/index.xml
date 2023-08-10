@@ -6,7 +6,26 @@
     <description>Recent content in 建站 on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 09 Jul 2023 01:31:39 +0800</lastBuildDate><atom:link href="http://tubaozi.top/categories/%E5%BB%BA%E7%AB%99/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Aug 2023 15:58:13 +0800</lastBuildDate><atom:link href="http://tubaozi.top/categories/%E5%BB%BA%E7%AB%99/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>为博客添加giscus评论系统</title>
+      <link>http://tubaozi.top/posts/2023/add-giscus-comment/</link>
+      <pubDate>Thu, 10 Aug 2023 15:58:13 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2023/add-giscus-comment/</guid>
+      <description>背景 调研了很多静态博客的评论系统：
+utterances Giscus(教程)，继承自utterances https://twikoo.js.org/ 评论系统(教程) Gittalk：利用issue直接作为博文 waline 已经装完了utterances，在整理资料的时候发现giscus好像更好：有中文+能回复，所以临时改成了giscus
+前置准备 确定仓库：一般选择博客本身即可，比如这里我的 Beeta/beeta.github.io，要确保是公开的
+安装giscus(选择上面的仓库)
+启用Discussions功能
+获取giscus配置 完成上述准备工作后就可以访问 giscus 官网 获取配置信息了
+关注点：
+仓库要写前面明确的仓库 页面和discussion的映射关系一般用第一个 分类选Announcements，因为这个类型的discussion只有管理员才有权限操作 做完上面的操作后，会在下面生成一个script配置文件：
+配置到博客系统 复制上面的script代码段。添加到当前使用主题目录文件nw对应的位置。
+我用的Papermod，路径在：themes/PaperMod/layouts/partials/comments.html
+提交代码，就可以在博文最下面看到评论框了。</description>
+    </item>
+    
     <item>
       <title>博文写作和发布最佳实践</title>
       <link>http://tubaozi.top/posts/2023/blog_write_best_practices/</link>
