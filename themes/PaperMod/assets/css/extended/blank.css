@@ -6,14 +6,14 @@ Read https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#bundling-custom-cs
 
 pre,
 code {
-  font-family: "JetBrains Mono", "Source Code Pro", "LXGW WenKai Screen",
+  font-family: "JetBrains Mono", "Source Code Pro", "LXGW WenKai Screen R",
     monospace;
 }
 
 body {
-  font-family: "LXGW WenKai Screen", "SF Pro SC", "PingFang SC",
+  font-family: "LXGW WenKai Screen R", "SF Pro SC", "PingFang SC",
     "Source Han Sans CN", "Microsoft Yahei", sans-serif;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .post-content img {
