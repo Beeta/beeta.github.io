@@ -14,6 +14,10 @@ body {
   font-family: "LXGW WenKai Screen R", "SF Pro SC", "PingFang SC",
     "Source Han Sans CN", "Microsoft Yahei", sans-serif;
   font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+
 }
 
 .post-content img {
