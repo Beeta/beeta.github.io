@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>ai on 今是昨非 | 技术.生活.阅读.思考</title>
+    <link>http://tubaozi.top/tags/ai/</link>
+    <description>Recent content in ai on 今是昨非 | 技术.生活.阅读.思考</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 17 Nov 2023 17:22:53 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>应不应该用 ai 总结文章</title>
+      <link>http://tubaozi.top/posts/2023/summarize-article-using-ai/</link>
+      <pubDate>Fri, 17 Nov 2023 17:22:53 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2023/summarize-article-using-ai/</guid>
+      <description>思考 大模型异军突起，很多以前实现起来很困难的功能在大模型前面变的轻而易举，「总结」能力就是其中一种。在我用的起劲的时候，突然反思，我这样做对吗？会不会让我自己丧失总结的能力？会不会失去阅读的兴趣？
+画了个波士顿矩阵：
+想了想，工具是帮助自己的，人类发明了计算器我能怕丧失计算能力而不用吗？君子爱器，取之有道，只要把握好一个度就好了。用ai总结的目的是帮自己快速过滤没有意义的文章，剩下的文章是需要自己认真研读的。
+所以可以这么做：让ai总结，并问一些问题，比如文中是否有不合直觉的地方等等然后再决定是否详读。
+资源 整理一下当前可以用的ai总结工具
+kimi ：个人觉得最好用 kagi：内容多，但没有重点 sider：浏览器扩展，需要选中文本再操作 poe.com 内置的ai agent，比如：Summarise，URLsummary，Webpage等等 </description>
+    </item>
+    
+  </channel>
+</rss>
