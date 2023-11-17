@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>数码 on 今是昨非 | 技术.生活.阅读.思考</title>
+    <link>http://tubaozi.top/tags/%E6%95%B0%E7%A0%81/</link>
+    <description>Recent content in 数码 on 今是昨非 | 技术.生活.阅读.思考</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 17 Nov 2023 17:07:12 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/%E6%95%B0%E7%A0%81/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>XREAL Air2&amp;Beam使用体验</title>
+      <link>http://tubaozi.top/posts/2023/xreal-ar-glasses/</link>
+      <pubDate>Fri, 17 Nov 2023 17:07:12 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2023/xreal-ar-glasses/</guid>
+      <description>TL;DR 主要就是通过 Beam 安装的 app 看视频(B站和阿里云盘)，拥有了之前没有过的体验，不后悔 3dof功能非常有用：降低眩晕，而且会有真实感(所以没买雷鸟是对的) Beam续航大概四五个小时，发热严重，风扇有点响，按键声音有点响，感觉廉价 缘由 家里有了孩子后看电视就不方便，顺便也想玩vr/ar，借来朋友的pico4体验，除了乒乓游戏和看普通视频以外，别的感受都不怎么好，续航段，闷且眩晕感强烈，所以打消了买vr头显的念头。
+然后考察AR，对比了雷鸟和xreal选择了后者。感觉XREAL更酷一点，而且3dof悬停功能才有ar的感觉，不然就只是一个屏幕。
+产品：XREAL Air 2 + Beam 价格：3123 渠道：京东 开箱全家福 这里该有一张设备和配件的全家福😂
+Air 2使用感受 屏幕：接上beam，点亮屏幕的一刻，感觉还是很震撼的，在我眼前竟然有这么大一个屏幕，真就像坐在电影院一样。而且屏幕是非常清晰的，小字基本也能看清。
+音质：对于木耳的我来说，眼镜的声音效果也还好，很新奇的一个特点是官方宣传的「相位消除」技术，真就能达到声音只有自己能听到，旁边的人几乎听不见的情况。深夜看剧体验不错。
+佩戴：佩戴效果感觉也还好，比普通眼镜舒适度差一点，而且总有种带的位置不对的感觉。不过随着使用次数感觉越来越适应了。
+眼镜使用：眼镜本身没有电池，需要配合设备，比如手机、电脑等使用。
+在手机上：需要支持dp输出功能(oppo、华为等安卓旗舰支持)，我自己是小米13，没法使用。 在电脑上：有两种使用方式，直连即可作为一个外接屏幕；或者使用官方提供的Nebula工具，可以实现多个屏幕悬浮显示，效果很惊艳，但会有晃动和模糊的情况，用来办公的话还是差点。 Beam使用感受 基于我的手机不能直连，所以Beam成了必选项。
+Beam实际上就是一个低配能装apk的安卓盒子，额外提供3dof功能。不过对我来说已经够了，我在里面装了：bbll(bilibili三方app)、阿里云盘和电视直播app。
+不得不提的是3dof功能，能够吧屏幕「定」在空间某一处，减少眩晕增强虚拟现实感受，这还挺好的。
+但是beam本身素质就有点查了，续航三四个小时中规中矩，用十几分钟风扇就呼呼转，机身也是热乎乎的。最让我受不了的是按键声音贼差，质感特别廉价，我只能把beam藏在被窝里用。</description>
+    </item>
+    
+  </channel>
+</rss>
