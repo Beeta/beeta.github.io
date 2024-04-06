@@ -6,7 +6,36 @@
     <description>Recent content in 资源 on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 05 Apr 2024 00:26:54 +0800</lastBuildDate><atom:link href="http://tubaozi.top/categories/%E8%B5%84%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Apr 2024 10:52:00 +0800</lastBuildDate><atom:link href="http://tubaozi.top/categories/%E8%B5%84%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>资源：AI 工具</title>
+      <link>http://tubaozi.top/posts/2024/resource_ai/</link>
+      <pubDate>Sat, 06 Apr 2024 10:52:00 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2024/resource_ai/</guid>
+      <description>我常用的 ai大模型网站和工具
+更新说明 2024.04.06，第一版
+AI 搜索引擎 Perplexity：全世界最出名的，支持中文，综合体验良好，就是在国内有时候会抽风，短链接：pplx.ai
+秘塔AI搜索：国内类似工具，体验也不错，还有小程序
+Devv AI：面向程序员的 AI 搜索引擎，可以搜索技术类问题
+其他
+ThinkAny - AI 搜索引擎：@ArronYoung的作品
+Lepton Search：贾扬清的开源作品
+AI对话大模型 chatgpt、文心一言等就不列举了
+Kimi.ai - 帮你看更大的世界：最近很火的长文本 ai 大模型，我用来总结文章和资料挺好用
+Poe：集合了多家大模型的网站，有免费额度
+DeepSeek：国内量化基金幻方量化的作品，用的少但是体验流畅，支持通用对话和代码助手。
+AI bot 开发平台 用来开发和展示类似于 GPTs的自定义 AI bot 的平台
+扣子 - AI 智能体开发平台：字节产品，国内版本，开发流程和使用体验很好。但自己的云雀大模型拉胯
+Coze: Next-Gen AI Chatbot Developing Platform：字节国外版本，免费使用 gpt4，就问你爽不爽
+灵境矩阵 | 想象即现实：百度的基于文心大模型的智能体平台，试试 prompt 编排
+百度智能云千帆AppBuilder：百度的 ai 原生应用开发平台，支持多个模型，支持多个框架和组件，相比灵境矩阵更底层一些。
+AI 工具大全｜导航 AIbase - 智能匹配最适合您的AI产品和网站：有排行榜
+AI帮个忙 | 多功能AI小帮手：即刻出品的
+AI工具集 | 700+ AI工具集合官网，国内外AI工具集导航大全：这个比较常用
+爱AI：配置好的AI bot比较多，比如OKR 专家，小说助手等，还支持画画</description>
+    </item>
+    
     <item>
       <title>资源：视频观看下载</title>
       <link>http://tubaozi.top/posts/2024/resource_video/</link>
