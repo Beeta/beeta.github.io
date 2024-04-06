@@ -62,7 +62,7 @@ cover:
 
 [**Coze: Next-Gen AI Chatbot Developing Platform**](https://www.coze.com/ "Coze: Next-Gen AI Chatbot Developing Platform")：字节国外版本，免费使用 gpt4，就问你爽不爽
 
-[**灵境矩阵 | 想象即现实**](https://agents.baidu.com/agent/create "灵境矩阵 | 想象即现实")：百度的基于文心大模型的智能体平台，试试 prompt 编排
+[**灵境矩阵 | 想象即现实**](https://agents.baidu.com/agent/create "灵境矩阵 | 想象即现实")：百度的基于文心大模型的智能体平台，支持 prompt 编排
 
 [**百度智能云千帆AppBuilder**](https://cloud.baidu.com/product/AppBuilder "百度智能云千帆AppBuilder")：百度的 ai 原生应用开发平台，支持多个模型，支持多个框架和组件，相比灵境矩阵更底层一些。
 
