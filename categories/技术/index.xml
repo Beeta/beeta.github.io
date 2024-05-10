@@ -9,10 +9,10 @@
     <lastBuildDate>Sun, 14 Apr 2024 00:59:31 +0800</lastBuildDate><atom:link href="http://tubaozi.top/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>微信公众号文章链接</title>
-      <link>http://tubaozi.top/posts/2024/wechat_url/</link>
+      <link>http://tubaozi.top/posts/2024/wechat-url/</link>
       <pubDate>Sun, 14 Apr 2024 00:59:31 +0800</pubDate>
       
-      <guid>http://tubaozi.top/posts/2024/wechat_url/</guid>
+      <guid>http://tubaozi.top/posts/2024/wechat-url/</guid>
       <description>背景 一直以来对微信公众号文章的链接比较疑惑有时候很短，有时候很长，有时候保存的文章链接还会失效。
 最近在看github 上的etrobot/chatgptSummary 里面有对链接的解析。自己试了下发现有些问题。所以借此机会搞清楚微信文章链接的一些概念
 三种链接形式 短链接 https://mp.weixin.qq.com/s/LmWJGCLyddA9sAM7arYpag
