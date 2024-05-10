@@ -6,7 +6,23 @@
     <description>Recent content on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 14 Apr 2024 00:59:31 +0800</lastBuildDate><atom:link href="http://tubaozi.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 May 2024 00:07:23 +0800</lastBuildDate><atom:link href="http://tubaozi.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>报 bug 的礼仪</title>
+      <link>http://tubaozi.top/posts/2024/you-have-bug/</link>
+      <pubDate>Sat, 11 May 2024 00:07:23 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2024/you-have-bug/</guid>
+      <description>不要对一个程序员说：你的代码有bug。
+他的第一反应是：
+你的环境有问题吧；
+傻逼你会用吗。
+如果你委婉的说：你这个程序和预期的有点不一致，你看是不是我的使用方法有问题。
+他本能会想：操，是不是出bug了！
+🤔 思考：
+只图一时爽快，是短视的行为。对自己的成长和做人没有任何好处 自嘲自贬是最简单的高情商 </description>
+    </item>
+    
     <item>
       <title>微信公众号文章链接</title>
       <link>http://tubaozi.top/posts/2024/wechat_url/</link>
