@@ -6,7 +6,21 @@
     <description>Recent content in ai on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 06 Apr 2024 10:52:00 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Jun 2025 17:36:47 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Andrej Karpathy：AI 编程七步心法</title>
+      <link>http://tubaozi.top/posts/2025/ai-assisted-coding-rhythm/</link>
+      <pubDate>Tue, 17 Jun 2025 17:36:47 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2025/ai-assisted-coding-rhythm/</guid>
+      <description>Karpathy 的 AI 辅助编程心法，总结下来有七个关键步骤
+第一步：上下文拉满 (Stuff everything relevant into context)
+这是基础。你需要把项目所有相关的信息都喂给 AI。对于大型项目，这可能需要花些时间。如果是小项目，可以直接打包所有相关文件。Karpathy 甚至给出了一个 files-to-prompt 工具的示例命令： files-to-prompt . -e ts -e tsx -e css -e md --cxml --ignore node_modules -o prompt.xml 这个命令大致意思是，将当前目录下所有的 .ts, .tsx, .css, .md 文件内容（忽略 node_modules 文件夹）打包成一个 XML 格式的 prompt 文件，供 AI 读取。核心思想是：给 AI 足够的全貌信息。
+第二步：策略先行，而非代码 (Describe the next single, concrete incremental change)
+明确你想要实现的下一个具体、增量的改动是什么。关键点来了：不要直接让 AI 写代码。相反，你应该要求 AI 提出几种实现该目标的高级方法，并分析各自的优缺点（pros/cons）。Karpathy 指出，LLM 的判断力并非总是最佳，通常实现一个功能有好几种方式，先看选项再决定。如果需要，可以再让 AI 把选定的方法具体化
+第三步：选定方案，获取初稿 (Pick one approach, ask for first draft code)</description>
+    </item>
+    
     <item>
       <title>资源：AI 工具</title>
       <link>http://tubaozi.top/posts/2024/resource-ai/</link>
