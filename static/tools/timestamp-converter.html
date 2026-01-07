@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间格式转换工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f5f5f5;
+            color: #333333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #0066cc;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .input-section {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            background: #ffffff;
+            border: 2px solid #dddddd;
+            border-radius: 6px;
+            color: #333333;
+            font-size: 16px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+
+        input[type="text"].error {
+            border-color: #e74c3c;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #0066cc;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #0052a3;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .result-section {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .result-section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #0066cc;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .result-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #666666;
+            min-width: 140px;
+        }
+
+        .result-value {
+            flex: 1;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #333333;
+            margin: 0 15px;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            padding: 6px 12px;
+            background: #0066cc;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #0052a3;
+        }
+
+        .copy-btn.copied {
+            background: #27ae60;
+        }
+
+        .custom-format-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border: 1px solid #e9ecef;
+        }
+
+        .custom-format-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .custom-format-input input {
+            flex: 1;
+        }
+
+        .format-shortcuts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .format-shortcut-btn {
+            padding: 6px 12px;
+            background: #ffffff;
+            color: #333333;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            transition: all 0.2s;
+        }
+
+        .format-shortcut-btn:hover {
+            background: #e9ecef;
+            border-color: #0066cc;
+        }
+
+        .history-section {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .history-header h2 {
+            font-size: 18px;
+            color: #0066cc;
+        }
+
+        .clear-history-btn {
+            padding: 6px 12px;
+            background: #ffffff;
+            color: #333333;
+            border: 1px solid #dddddd;
+            font-size: 12px;
+        }
+
+        .clear-history-btn:hover {
+            background: #e74c3c;
+            border-color: #e74c3c;
+            color: #ffffff;
+        }
+
+        .history-list {
+            list-style: none;
+        }
+
+        .history-item {
+            padding: 10px 12px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Consolas', 'Monaco', monospace;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .history-item:hover {
+            background: #e9ecef;
+            border-color: #0066cc;
+        }
+
+        .history-item-time {
+            color: #999999;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #999999;
+            padding: 20px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .result-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .result-label {
+                min-width: auto;
+            }
+
+            .result-value {
+                margin: 0;
+                width: 100%;
+            }
+
+            .copy-btn {
+                align-self: flex-end;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .custom-format-input {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⏰ 时间格式转换工具</h1>
+
+        <!-- 输入区域 -->
+        <div class="input-section">
+            <div class="input-group">
+                <input type="text" id="timeInput" placeholder="输入任意时间格式 (如: 1734518400, 2025-12-18 10:30:00)">
+                <div class="error-message" id="errorMessage">无法识别的时间格式</div>
+            </div>
+            <div class="button-group">
+                <button id="currentTimeBtn">当前时间</button>
+                <button id="clearBtn">清空</button>
+            </div>
+        </div>
+
+        <!-- 转换结果区域 -->
+        <div class="result-section">
+            <h2>转换结果</h2>
+            <div class="result-item">
+                <span class="result-label">Unix时间戳(秒)</span>
+                <span class="result-value" id="unixSeconds">-</span>
+                <button class="copy-btn" data-target="unixSeconds">复制</button>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Unix时间戳(毫秒)</span>
+                <span class="result-value" id="unixMillis">-</span>
+                <button class="copy-btn" data-target="unixMillis">复制</button>
+            </div>
+            <div class="result-item">
+                <span class="result-label">人类可读格式</span>
+                <span class="result-value" id="readable">-</span>
+                <button class="copy-btn" data-target="readable">复制</button>
+            </div>
+
+            <!-- 自定义格式区域 -->
+            <div class="custom-format-section">
+                <h3 style="font-size: 14px; margin-bottom: 10px; color: #007acc;">自定义格式</h3>
+                <div class="format-shortcuts">
+                    <button class="format-shortcut-btn" data-format="YYYY-MM-DD HH:mm:ss">YYYY-MM-DD HH:mm:ss</button>
+                    <button class="format-shortcut-btn" data-format="YYYY/MM/DD HH:mm:ss">YYYY/MM/DD HH:mm:ss</button>
+                    <button class="format-shortcut-btn" data-format="MM/DD/YYYY hh:mm A">MM/DD/YYYY hh:mm A</button>
+                    <button class="format-shortcut-btn" data-format="YYYY年MM月DD日 HH时mm分ss秒">YYYY年MM月DD日 HH时mm分ss秒</button>
+                </div>
+                <div class="custom-format-input">
+                    <input type="text" id="customFormat" placeholder="输入格式串 (如: YYYY-MM-DD)">
+                </div>
+                <div class="result-item">
+                    <span class="result-label">自定义结果</span>
+                    <span class="result-value" id="customResult">-</span>
+                    <button class="copy-btn" data-target="customResult">复制</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 历史记录区域 -->
+        <div class="history-section">
+            <div class="history-header">
+                <h2>历史记录 (最近10条)</h2>
+                <button class="clear-history-btn" id="clearHistoryBtn">清空历史</button>
+            </div>
+            <ul class="history-list" id="historyList">
+                <li class="empty-message">暂无历史记录</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Day.js 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/plugin/customParseFormat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/plugin/advancedFormat.js"></script>
+    <script>
+        // 加载Day.js插件
+        if (typeof dayjs !== 'undefined') {
+            dayjs.extend(window.dayjs_plugin_customParseFormat);
+            dayjs.extend(window.dayjs_plugin_advancedFormat);
+        }
+
+        // 全局变量
+        let currentDayjsObject = null;
+        let debounceTimer = null;
+
+        // DOM元素
+        const timeInput = document.getElementById('timeInput');
+        const errorMessage = document.getElementById('errorMessage');
+        const currentTimeBtn = document.getElementById('currentTimeBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const customFormatInput = document.getElementById('customFormat');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const historyList = document.getElementById('historyList');
+
+        // 结果元素
+        const resultElements = {
+            unixSeconds: document.getElementById('unixSeconds'),
+            unixMillis: document.getElementById('unixMillis'),
+            readable: document.getElementById('readable'),
+            customResult: document.getElementById('customResult')
+        };
+
+        // 格式识别函数
+        function detectTimeFormat(input) {
+            input = input.trim();
+
+            // 空输入
+            if (!input) return null;
+
+            // Unix时间戳(秒) - 10位数字
+            if (/^\d{10}$/.test(input)) {
+                return { type: 'unix_seconds', value: parseInt(input) };
+            }
+
+            // Unix时间戳(毫秒) - 13位数字
+            if (/^\d{13}$/.test(input)) {
+                return { type: 'unix_millis', value: parseInt(input) };
+            }
+
+            // 尝试用Day.js解析
+            let dayjsObj = dayjs(input);
+            if (dayjsObj.isValid()) {
+                return { type: 'auto', value: dayjsObj };
+            }
+
+            return null;
+        }
+
+        // 转换时间
+        function convertTime(input) {
+            const detected = detectTimeFormat(input);
+
+            if (!detected) {
+                showError();
+                clearResults();
+                return;
+            }
+
+            hideError();
+
+            // 根据识别类型创建dayjs对象
+            if (detected.type === 'unix_seconds') {
+                currentDayjsObject = dayjs.unix(detected.value);
+            } else if (detected.type === 'unix_millis') {
+                currentDayjsObject = dayjs(detected.value);
+            } else {
+                currentDayjsObject = detected.value;
+            }
+
+            // 检查有效性
+            if (!currentDayjsObject.isValid()) {
+                showError();
+                clearResults();
+                return;
+            }
+
+            // 更新所有结果
+            updateResults();
+
+            // 保存到历史记录
+            saveToHistory(input, detected.type);
+        }
+
+        // 更新结果显示
+        function updateResults() {
+            if (!currentDayjsObject) return;
+
+            resultElements.unixSeconds.textContent = currentDayjsObject.unix();
+            resultElements.unixMillis.textContent = currentDayjsObject.valueOf();
+            resultElements.readable.textContent = currentDayjsObject.format('YYYY-MM-DD HH:mm:ss');
+
+            // 更新自定义格式
+            updateCustomFormat();
+        }
+
+        // 更新自定义格式结果
+        function updateCustomFormat() {
+            if (!currentDayjsObject) {
+                resultElements.customResult.textContent = '-';
+                return;
+            }
+
+            const formatStr = customFormatInput.value.trim();
+            if (!formatStr) {
+                resultElements.customResult.textContent = '-';
+                return;
+            }
+
+            try {
+                resultElements.customResult.textContent = currentDayjsObject.format(formatStr);
+            } catch (e) {
+                resultElements.customResult.textContent = '格式错误';
+            }
+        }
+
+        // 清空结果
+        function clearResults() {
+            currentDayjsObject = null;
+            Object.values(resultElements).forEach(el => {
+                el.textContent = '-';
+            });
+        }
+
+        // 显示错误
+        function showError() {
+            timeInput.classList.add('error');
+            errorMessage.classList.add('show');
+        }
+
+        // 隐藏错误
+        function hideError() {
+            timeInput.classList.remove('error');
+            errorMessage.classList.remove('show');
+        }
+
+        // 复制到剪贴板
+        async function copyToClipboard(text, button) {
+            try {
+                await navigator.clipboard.writeText(text);
+                const originalText = button.textContent;
+                button.textContent = '已复制';
+                button.classList.add('copied');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1000);
+            } catch (err) {
+                alert('复制失败,请手动复制');
+            }
+        }
+
+        // 历史记录管理
+        const HISTORY_KEY = 'timeConverterHistory';
+        const MAX_HISTORY = 10;
+
+        function saveToHistory(input, type) {
+            let history = getHistory();
+
+            // 避免重复记录
+            if (history.length > 0 && history[0].input === input) {
+                return;
+            }
+
+            const record = {
+                input: input,
+                timestamp: Date.now(),
+                type: type
+            };
+
+            history.unshift(record);
+
+            // 限制最多10条
+            if (history.length > MAX_HISTORY) {
+                history = history.slice(0, MAX_HISTORY);
+            }
+
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+            renderHistory();
+        }
+
+        function getHistory() {
+            try {
+                const data = localStorage.getItem(HISTORY_KEY);
+                return data ? JSON.parse(data) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function clearHistory() {
+            localStorage.removeItem(HISTORY_KEY);
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const history = getHistory();
+
+            if (history.length === 0) {
+                historyList.innerHTML = '<li class="empty-message">暂无历史记录</li>';
+                return;
+            }
+
+            historyList.innerHTML = history.map(record => {
+                const timeAgo = getTimeAgo(record.timestamp);
+                return `
+                    <li class="history-item" data-input="${escapeHtml(record.input)}">
+                        <span>${escapeHtml(record.input)}</span>
+                        <span class="history-item-time">${timeAgo}</span>
+                    </li>
+                `;
+            }).join('');
+        }
+
+        function getTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+
+            if (seconds < 60) return `${seconds}秒前`;
+            if (seconds < 3600) return `${Math.floor(seconds / 60)}分钟前`;
+            if (seconds < 86400) return `${Math.floor(seconds / 3600)}小时前`;
+            return `${Math.floor(seconds / 86400)}天前`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // 事件监听
+        timeInput.addEventListener('input', (e) => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                convertTime(e.target.value);
+            }, 300);
+        });
+
+        currentTimeBtn.addEventListener('click', () => {
+            const now = Math.floor(Date.now() / 1000);
+            timeInput.value = now;
+            convertTime(now.toString());
+        });
+
+        clearBtn.addEventListener('click', () => {
+            timeInput.value = '';
+            clearResults();
+            hideError();
+            customFormatInput.value = '';
+        });
+
+        customFormatInput.addEventListener('input', () => {
+            updateCustomFormat();
+        });
+
+        // 格式快捷按钮
+        document.querySelectorAll('.format-shortcut-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                customFormatInput.value = btn.dataset.format;
+                updateCustomFormat();
+            });
+        });
+
+        // 复制按钮
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.dataset.target;
+                const text = resultElements[targetId].textContent;
+                if (text && text !== '-') {
+                    copyToClipboard(text, btn);
+                }
+            });
+        });
+
+        // 历史记录点击
+        historyList.addEventListener('click', (e) => {
+            const item = e.target.closest('.history-item');
+            if (item) {
+                const input = item.dataset.input;
+                timeInput.value = input;
+                convertTime(input);
+            }
+        });
+
+        // 清空历史按钮
+        clearHistoryBtn.addEventListener('click', () => {
+            if (confirm('确定要清空所有历史记录吗?')) {
+                clearHistory();
+            }
+        });
+
+        // 键盘快捷键
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K 清空
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                clearBtn.click();
+            }
+
+            // Enter 当前时间
+            if (e.key === 'Enter' && document.activeElement === timeInput) {
+                e.preventDefault();
+                currentTimeBtn.click();
+            }
+        });
+
+        // 初始化
+        renderHistory();
+    </script>
+</body>
+</html>

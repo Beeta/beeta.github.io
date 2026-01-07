@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剪贴板格式查看器</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #paste-area {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 2px dashed #aaa;
+            border-radius: 5px;
+            resize: vertical;
+            background-color: #fff;
+        }
+        #output {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            max-height: 75vh; /* Increased max-height slightly */
+            overflow-y: auto;
+        }
+        .format {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .format:last-child {
+             border-bottom: none; /* Remove border for the last item */
+             margin-bottom: 0;
+             padding-bottom: 0;
+        }
+        .format h2 {
+            color: #0066cc;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .format-content {
+            max-height: 300px; /* Increased max-height for text content */
+            overflow-y: auto;
+            background-color: #f9f9f9; /* Slightly adjusted background */
+            border: 1px solid #e0e0e0; /* Slightly adjusted border */
+            border-radius: 3px;
+            padding: 10px;
+            font-size: 0.9em; /* Slightly smaller font for content */
+        }
+        /* Style for the container holding file info + image */
+        .file-entry {
+             margin-bottom: 15px;
+             padding-bottom: 10px;
+             border-bottom: 1px dotted #ddd;
+        }
+        .file-entry:last-child {
+             margin-bottom: 0;
+             padding-bottom: 0;
+             border-bottom: none;
+        }
+        /* Style for displayed images */
+        .pasted-image {
+            max-width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Ensure it takes its own line */
+            margin-top: 10px; /* Space below the text info */
+            border: 1px solid #ccc; /* Add a light border around images */
+        }
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; /* Use monospace font */
+        }
+        .empty-format-note {
+             font-style: italic;
+             color: #888;
+             padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>剪贴板格式查看器</h1>
+    <textarea id="paste-area" placeholder="在页面任意位置粘贴内容（Ctrl+V 或 Cmd+V）"></textarea>
+    <div id="output"><p>粘贴内容以查看可用的剪贴板格式和数据。</p></div>
+
+    <script>
+        const pasteArea = document.getElementById('paste-area');
+        const output = document.getElementById('output');
+
+        function handlePaste(event) {
+            // Prevent the default paste behavior (e.g., pasting into the textarea)
+            event.preventDefault();
+            const clipboardData = event.clipboardData || window.clipboardData;
+            output.innerHTML = ''; // Clear previous output
+
+            if (!clipboardData) {
+                output.innerHTML = '<p>无法访问剪贴板数据。您的浏览器可能不支持此功能或需要用户权限。</p>';
+                return;
+            }
+
+            const formats = clipboardData.types;
+            const files = clipboardData.files; // Get files list once (for Files format)
+            const items = clipboardData.items; // Get items list once (for modern API access, especially images)
+
+            console.log("剪贴板数据:", clipboardData);
+            console.log("可用格式:", formats);
+            console.log("文件数量:", files.length);
+            console.log("项目数量:", items ? items.length : 'N/A');
+
+            if (formats.length === 0 && files.length === 0 && (!items || items.length === 0)) {
+                 output.innerHTML = '<p>检测到粘贴操作，但剪贴板数据中没有找到标准格式、文件或项目。</p>';
+                 return;
+            }
+
+            // --- Iterate through detected formats ---
+            formats.forEach(format => {
+                const formatDiv = document.createElement('div');
+                formatDiv.className = 'format';
+
+                const formatTitle = document.createElement('h2');
+                formatTitle.textContent = format;
+                formatDiv.appendChild(formatTitle);
+
+                // Wrapper for content (text or image)
+                const formatContentWrapper = document.createElement('div');
+                let contentDisplayed = false; // Flag to check if content was handled by special cases
+
+                // --- 1. Special Handling for "Files" format ---
+                // This is common when pasting files from the OS.
+                if (format === 'Files' && files.length > 0) {
+                    const fileListContent = document.createElement('div');
+                    fileListContent.className = 'format-content'; // Apply styling
+
+                    Array.from(files).forEach(file => {
+                        const fileContainer = document.createElement('div');
+                        fileContainer.className = 'file-entry'; // Container for each file's info + image
+
+                        // Display file information text
+                        const fileInfo = document.createElement('div');
+                        fileInfo.textContent = `${file.name}（${file.type || '未知类型'}，${file.size} 字节）`;
+                        fileContainer.appendChild(fileInfo);
+
+                        // Check if the file is an image and display it below the text
+                        if (file.type.startsWith('image/')) {
+                            try {
+                                const img = document.createElement('img');
+                                const objectURL = URL.createObjectURL(file);
+
+                                img.src = objectURL;
+                                img.alt = `${file.name}（粘贴的图片）`;
+                                img.className = 'pasted-image'; // Apply image styles
+
+                                // IMPORTANT: Revoke the object URL once the image is loaded (or fails)
+                                // to prevent memory leaks.
+                                img.onload = () => {
+                                    console.log(`Image ${file.name} loaded, revoking ${objectURL}`);
+                                    URL.revokeObjectURL(objectURL);
+                                };
+                                img.onerror = () => {
+                                    console.error("加载图片出错:", file.name);
+                                    URL.revokeObjectURL(objectURL); // Revoke even on error
+                                    img.alt += '（加载失败）'; // Update alt text
+                                    // Optionally add an error message element
+                                    const errorMsg = document.createElement('div');
+                                    errorMsg.textContent = '无法加载图片预览。';
+                                    errorMsg.style.color = 'red';
+                                    fileContainer.appendChild(errorMsg);
+                                };
+
+                                fileContainer.appendChild(img); // Append the image below the file info
+                            } catch (err) {
+                                 console.error(`为 ${file.name} 创建对象 URL 时出错:`, err);
+                                 const errorMsg = document.createElement('div');
+                                 errorMsg.textContent = '创建图片预览出错。';
+                                 errorMsg.style.color = 'red';
+                                 fileContainer.appendChild(errorMsg);
+                            }
+                        }
+                        fileListContent.appendChild(fileContainer); // Append container for this file
+                    });
+                    formatContentWrapper.appendChild(fileListContent);
+                    contentDisplayed = true;
+                }
+                // --- 2. Special Handling for "image/*" types (if not already handled by Files) ---
+                // This is common when pasting image data directly (e.g., screenshots, copy image)
+                // We use clipboardData.items for this, which is more reliable than getData for blobs.
+                else if (format.startsWith('image/') && files.length === 0 && items) {
+                    // Check items only if Files format wasn't present or empty
+                    let imageFromItemsDisplayed = false;
+                    for (let i = 0; i < items.length; i++) {
+                        const item = items[i];
+                        // Find the first item matching the current format that is a file/blob
+                        if (item.kind === 'file' && item.type === format) {
+                            const file = item.getAsFile(); // This gets the image data as a Blob
+                            if (file) {
+                                try {
+                                    // Display image from item
+                                    const img = document.createElement('img');
+                                    const objectURL = URL.createObjectURL(file);
+
+                                    img.src = objectURL;
+                                    img.alt = `粘贴的图片（${format}，${file.size} 字节）`;
+                                    img.className = 'pasted-image'; // Apply image styles
+
+                                    img.onload = () => {
+                                        console.log(`Image from item ${format} loaded, revoking ${objectURL}`);
+                                        URL.revokeObjectURL(objectURL);
+                                    };
+                                    img.onerror = () => {
+                                        console.error("从项目加载图片出错:", format);
+                                        URL.revokeObjectURL(objectURL);
+                                        img.alt += '（加载失败）';
+                                        const errorMsg = document.createElement('div');
+                                        errorMsg.textContent = '无法加载图片预览。';
+                                        errorMsg.style.color = 'red';
+                                         formatContentWrapper.appendChild(errorMsg);
+                                    };
+
+                                    // Add a descriptive text above the image
+                                    const imgInfo = document.createElement('div');
+                                    // Use file.size if available, otherwise indicate unknown size
+                                    const sizeText = file.size ? `，${file.size} 字节` : '';
+                                    imgInfo.textContent = `图片数据（${format}${sizeText}）`;
+                                    // No 'format-content' class needed here, just simple text
+                                    formatContentWrapper.appendChild(imgInfo);
+
+                                    formatContentWrapper.appendChild(img); // Append image
+                                    imageFromItemsDisplayed = true;
+                                    contentDisplayed = true;
+                                    break; // Handle only the first matching item for this format
+                                } catch (err) {
+                                    console.error(`为图片项目 ${format} 创建对象 URL 时出错:`, err);
+                                    const errorMsg = document.createElement('div');
+                                    errorMsg.textContent = '创建图片预览出错。';
+                                    errorMsg.style.color = 'red';
+                                    formatContentWrapper.appendChild(errorMsg);
+                                }
+                            }
+                        }
+                    }
+                     // If image wasn't found via items, fall through to default text handling below
+                }
+
+                // --- 3. Default Handling (Text, HTML, Fallbacks) ---
+                // Handles text/*, application/*, and serves as fallback if image handling failed
+                if (!contentDisplayed) {
+                    const formatContent = document.createElement('pre');
+                    let content = '';
+                    let retrievalError = false;
+
+                    try {
+                        content = clipboardData.getData(format);
+
+                        if (format === 'Files' && files.length === 0) {
+                            // Explicitly handle Files format reported but with no actual files
+                            content = '（剪贴板中未找到文件）';
+                        } else if (format.startsWith('image/') && files.length > 0) {
+                            // If it's an image format but Files were present, assume handled there
+                            content = '（图片数据可能显示在上面的"Files"部分）';
+                        } else if (content === '' && !format.startsWith('text/')) {
+                            // If getData returns empty for non-text, it might be intentional or unavailable
+                            content = '（此格式的数据为空或无法检索）';
+                        }
+                         // Note: text/html is displayed as raw source by default in <pre>
+                        formatContent.textContent = content;
+
+                    } catch (e) {
+                        retrievalError = true;
+                        console.warn(`无法获取格式数据: ${format}`, e);
+                        // Provide more context based on format type
+                         if (format.startsWith('image/')) {
+                             content = '（无法直接检索图片数据。如果存在，它可能通过"Files"或 Items API 可用。）';
+                         } else if (format === 'Files'){
+                              content = '（访问文件列表详情时出错。）';
+                         } else {
+                             content = `（无法直接检索数据: ${e.message}）`;
+                         }
+                        formatContent.textContent = content;
+                    }
+
+                    // Only add the <pre> element if there's content or an error message
+                    if (content || retrievalError) {
+                        formatContentWrapper.appendChild(formatContent);
+                        formatContentWrapper.className = 'format-content'; // Add class for styling text content
+                    } else {
+                         // If formatContentWrapper is still empty, it means getData returned empty string
+                         // and it wasn't an explicit Files/Image fallback case. Add a note.
+                         const emptyNote = document.createElement('div');
+                         emptyNote.textContent = '（未检索到数据或数据为空字符串）';
+                         emptyNote.className = 'empty-format-note';
+                         formatContentWrapper.appendChild(emptyNote);
+                    }
+                }
+
+                // Append the content wrapper (containing text or image) to the format div
+                formatDiv.appendChild(formatContentWrapper);
+                output.appendChild(formatDiv); // Append the whole section for this format
+            });
+
+            // --- Additional Clipboard Event Information ---
+            const eventInfo = document.createElement('div');
+            eventInfo.className = 'format'; // Reuse format styling
+            eventInfo.innerHTML = `
+                <h2>剪贴板事件信息</h2>
+                <div class="format-content">
+                    <pre>
+事件类型: ${event.type}
+可用格式 (${formats.length}): ${formats.join(', ') || '无'}
+报告的文件数量: ${files.length}
+剪贴板项目数量: ${items ? items.length : 'N/A (不支持或不可用 Items API)'}
+                    </pre>
+                </div>
+            `;
+            // Append event info only if there was some content pasted initially
+            if (output.hasChildNodes()){
+                 output.appendChild(eventInfo);
+            } else if (!output.innerHTML) { // Double check if output is truly empty
+                output.innerHTML = '<p>检测到粘贴操作，但无法读取或显示数据。</p>';
+            }
+        }
+
+        // Listen for paste events on the textarea (useful if focused)
+        pasteArea.addEventListener('paste', handlePaste);
+
+        // Listen for paste events on the entire document (allows pasting anywhere)
+        document.addEventListener('paste', handlePaste);
+
+        // Initial message update
+        if (navigator.clipboard && typeof navigator.clipboard.read !== 'function') {
+            const warning = document.createElement('p');
+            warning.style.color = 'orange';
+            warning.textContent = '警告: 您的浏览器可能不完全支持现代剪贴板 API（读取权限）。粘贴可能依赖于传统的事件方法。';
+            output.appendChild(warning);
+        }
+    </script>
+</body>
+</html>
