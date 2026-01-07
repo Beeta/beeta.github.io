@@ -6,435 +6,398 @@
     <title>HTML工具导航</title>
     <!-- 使用Bootstrap CDN实现基本样式 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- 自定义样式 - 基于 Arco Design 设计规范 -->
+    <!-- 自定义样式 -->
     <style>
-        /* Arco Design 色彩系统 */
-        :root {
-            /* 主色调 */
-            --arco-primary-1: #f0f5ff;
-            --arco-primary-2: #d6e4ff;
-            --arco-primary-3: #adc6ff;
-            --arco-primary-4: #85a5ff;
-            --arco-primary-5: #597ef7;
-            --arco-primary-6: #2f54eb;
-            --arco-primary-7: #1d39c4;
-            --arco-primary-8: #10239e;
-            --arco-primary-9: #061178;
-            --arco-primary-10: #030852;
-            
-            /* 功能色 */
-            --arco-success-6: #00b42a;
-            --arco-warning-6: #ff7d00;
-            --arco-danger-6: #f53f3f;
-            --arco-info-6: #165dff;
-            
-            /* 中性色 */
-            --arco-gray-1: #ffffff;
-            --arco-gray-2: #fafafa;
-            --arco-gray-3: #f5f5f5;
-            --arco-gray-4: #f0f0f0;
-            --arco-gray-5: #e8e8e8;
-            --arco-gray-6: #d9d9d9;
-            --arco-gray-7: #bfbfbf;
-            --arco-gray-8: #8c8c8c;
-            --arco-gray-9: #595959;
-            --arco-gray-10: #434343;
-            --arco-gray-11: #262626;
-            --arco-gray-12: #1f1f1f;
-            
-            /* 文本色 */
-            --arco-text-primary: var(--arco-gray-11);
-            --arco-text-secondary: var(--arco-gray-9);
-            --arco-text-tertiary: var(--arco-gray-8);
-            --arco-text-quaternary: var(--arco-gray-7);
-            
-            /* 边框色 */
-            --arco-border-color: var(--arco-gray-6);
-            --arco-border-color-light: var(--arco-gray-5);
-            --arco-border-color-lighter: var(--arco-gray-4);
-            
-            /* 背景色 */
-            --arco-bg-color: var(--arco-gray-2);
-            --arco-bg-color-light: var(--arco-gray-1);
-            --arco-bg-color-overlay: var(--arco-gray-2);
-            
-            /* 阴影 */
-            --arco-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-            --arco-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --arco-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
-            --arco-shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.16);
-            
-            /* 圆角 */
-            --arco-radius-sm: 2px;
-            --arco-radius-md: 4px;
-            --arco-radius-lg: 6px;
-            --arco-radius-xl: 8px;
-            --arco-radius-2xl: 12px;
-            
-            /* 间距 */
-            --arco-space-xs: 4px;
-            --arco-space-sm: 8px;
-            --arco-space-md: 12px;
-            --arco-space-lg: 16px;
-            --arco-space-xl: 20px;
-            --arco-space-2xl: 24px;
-            --arco-space-3xl: 32px;
-            
-            /* 过渡 */
-            --arco-transition-duration: 0.2s;
-            --arco-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            --arco-transition: all var(--arco-transition-duration) var(--arco-transition-timing-function);
-        }
-        
-        /* 基础样式 */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-            background-color: var(--arco-bg-color);
-            color: var(--arco-text-primary);
-            line-height: 1.5;
-            font-size: 14px;
+        * {
             margin: 0;
-            padding: var(--arco-space-2xl) 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        /* 容器样式 */
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f5f5f5;
+            color: #333333;
+            padding: 20px;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #0066cc;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
         .container {
             max-width: 1200px;
-            width: 100%;
             margin: 0 auto;
-            padding: 0 var(--arco-space-xl);
         }
-        
-        /* 卡片基础样式 */
-        .arco-card {
-            background-color: var(--arco-gray-1);
-            border: 1px solid var(--arco-border-color);
-            border-radius: var(--arco-radius-lg);
-            box-shadow: var(--arco-shadow-sm);
-            transition: var(--arco-transition);
-            overflow: hidden;
-        }
-        
-        /* 导航栏样式 - 基于 Arco Design Header */
+
+        /* 导航栏样式 */
         .navbar {
-            background-color: var(--arco-gray-1) !important;
-            border: 1px solid var(--arco-border-color);
-            border-radius: var(--arco-radius-lg);
-            box-shadow: var(--arco-shadow-sm);
-            padding: var(--arco-space-lg) var(--arco-space-xl) !important;
-            margin-bottom: var(--arco-space-2xl);
+            background-color: #ffffff !important;
+            border: 1px solid #dddddd;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 16px 20px !important;
+            margin-bottom: 24px;
         }
-        
+
         .navbar-brand {
             font-size: 18px;
             font-weight: 600;
-            color: var(--arco-primary-6);
+            color: #0066cc;
             margin: 0;
         }
-        
+
         /* 搜索和操作栏 */
         .search-and-actions {
-            margin-bottom: var(--arco-space-2xl);
+            margin-bottom: 24px;
         }
-        
-        /* 搜索容器样式 */
+
         .search-container {
-            margin-bottom: var(--arco-space-md);
+            margin-bottom: 12px;
         }
-        
-        /* Arco Design 输入框样式 */
+
+        /* 搜索输入框样式 */
+        #searchInput {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: #ffffff;
+            border: 2px solid #dddddd;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #333333;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        #searchInput:focus {
+            border-color: #0066cc;
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.15);
+            outline: none;
+        }
+
+        #searchInput::placeholder {
+            color: #999999;
+        }
+
+        /* 通用输入框样式 */
         .input-group {
             display: flex;
             align-items: center;
-            background-color: var(--arco-gray-1);
-            border: 1px solid var(--arco-border-color);
-            border-radius: var(--arco-radius-lg);
-            transition: var(--arco-transition);
+            background-color: #ffffff;
+            border: 2px solid #dddddd;
+            border-radius: 6px;
+            transition: all 0.2s;
             overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-        
+
         .input-group:focus-within {
-            border-color: var(--arco-primary-6);
-            box-shadow: 0 0 0 2px var(--arco-primary-2);
+            border-color: #0066cc;
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.15);
         }
-        
+
         .input-group-text {
             background-color: transparent;
             border: none;
-            color: var(--arco-text-tertiary);
-            padding: var(--arco-space-md) var(--arco-space-lg);
+            color: #999999;
+            padding: 12px 16px;
             font-size: 16px;
         }
-        
+
         .form-control {
             flex: 1;
             background-color: transparent;
             border: none;
-            padding: var(--arco-space-md) var(--arco-space-sm);
+            padding: 12px 8px;
             font-size: 14px;
-            color: var(--arco-text-primary);
-            border-radius: 0;
+            color: #333333;
             box-shadow: none;
-            transition: var(--arco-transition);
+            transition: all 0.2s;
         }
-        
+
         .form-control:focus {
             box-shadow: none;
             outline: none;
-            color: var(--arco-text-primary);
         }
-        
-        /* Arco Design 按钮样式 */
+
+        /* 按钮样式 */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            padding: var(--arco-space-md) var(--arco-space-xl);
-            border-radius: var(--arco-radius-lg);
-            border: 1px solid transparent;
-            transition: var(--arco-transition);
-            cursor: pointer;
+            transition: all 0.2s;
             white-space: nowrap;
         }
-        
-        /* 主要按钮 */
+
         .btn-primary {
-            background-color: var(--arco-primary-6);
-            border-color: var(--arco-primary-6);
-            color: var(--arco-gray-1);
+            background-color: #0066cc;
+            color: #ffffff;
         }
-        
+
         .btn-primary:hover {
-            background-color: var(--arco-primary-7);
-            border-color: var(--arco-primary-7);
-            box-shadow: var(--arco-shadow-md);
+            background-color: #0052a3;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        
-        /* 成功按钮 */
-        .btn-success {
-            background-color: var(--arco-success-6);
-            border-color: var(--arco-success-6);
-            color: var(--arco-gray-1);
-        }
-        
-        .btn-success:hover {
-            background-color: #00a127;
-            border-color: #00a127;
-            box-shadow: var(--arco-shadow-md);
-        }
-        
-        /* 次要按钮 */
+
         .btn-secondary {
-            background-color: var(--arco-gray-2);
-            border-color: var(--arco-border-color);
-            color: var(--arco-text-primary);
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            color: #333333;
         }
-        
+
         .btn-secondary:hover {
-            background-color: var(--arco-gray-3);
-            border-color: var(--arco-gray-5);
-            box-shadow: var(--arco-shadow-md);
+            background-color: #f5f5f5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        
-        /* 危险按钮 */
+
         .btn-danger {
-            background-color: var(--arco-danger-6);
-            border-color: var(--arco-danger-6);
-            color: var(--arco-gray-1);
+            background-color: #e74c3c;
+            color: #ffffff;
         }
-        
+
         .btn-danger:hover {
             background-color: #dd3636;
-            border-color: #dd3636;
-            box-shadow: var(--arco-shadow-md);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        
-        /* 描边按钮 */
+
         .btn-outline-primary {
             background-color: transparent;
-            border: 1px solid var(--arco-primary-6);
-            color: var(--arco-primary-6);
+            border: 1px solid #0066cc;
+            color: #0066cc;
         }
-        
+
         .btn-outline-primary:hover {
-            background-color: var(--arco-primary-1);
+            background-color: #f0f5ff;
         }
-        
-        /* 工具卡片样式 - 基于 Arco Design Card */
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* 工具卡片样式 */
         .tool-card {
-            background-color: var(--arco-gray-1);
-            border: 1px solid var(--arco-border-color);
-            border-radius: var(--arco-radius-lg);
-            box-shadow: var(--arco-shadow-sm);
-            transition: var(--arco-transition);
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            box-shadow: none;
+            transition: all 0.2s;
             overflow: hidden;
-            margin-bottom: var(--arco-space-xl);
+            cursor: pointer;
+            position: relative;
+            height: 100%;
         }
-        
+
         .tool-card:hover {
-            border-color: var(--arco-primary-5);
-            box-shadow: var(--arco-shadow-md);
+            border-color: #0066cc;
+            box-shadow: 0 2px 12px rgba(0, 102, 204, 0.1);
+            transform: translateY(-4px);
         }
-        
+
         .tool-card .card-header {
-            background-color: var(--arco-gray-1);
-            border-bottom: 1px solid var(--arco-border-color-light);
-            padding: var(--arco-space-xl);
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 10px 14px;
         }
-        
+
         .tool-card .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--arco-text-primary);
-            margin: 0;
-        }
-        
-        .tool-card .card-body {
-            padding: var(--arco-space-xl);
-        }
-        
-        .tool-card .card-text {
-            color: var(--arco-text-secondary);
             font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: var(--arco-space-lg);
+            font-weight: 600;
+            color: #333333;
+            margin: 0;
+            display: flex;
+            align-items: center;
         }
-        
-        /* Arco Design 徽章样式 */
+
+        .tool-card .card-title i {
+            font-size: 16px;
+            margin-right: 6px;
+        }
+
+        .tool-card .card-body {
+            padding: 12px 14px;
+        }
+
+        .tool-card .card-text {
+            color: #666666;
+            font-size: 12px;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            min-height: 34px;
+        }
+
+        /* 编辑按钮样式 */
+        .edit-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 8px;
+            background-color: transparent;
+            border: 1px solid #dddddd;
+            color: #666666;
+            font-size: 12px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: all 0.2s;
+        }
+
+        .tool-card:hover .edit-btn {
+            opacity: 1;
+        }
+
+        .edit-btn:hover {
+            background-color: #0066cc;
+            border-color: #0066cc;
+            color: #ffffff;
+        }
+
+        .edit-btn i {
+            font-size: 12px;
+        }
+
+        /* 徽章样式 */
         .badge {
             display: inline-flex;
             align-items: center;
-            padding: 2px 8px;
-            background-color: var(--arco-primary-1);
-            color: var(--arco-primary-6);
+            padding: 4px 12px;
+            background-color: #e6f2ff;
+            color: #0066cc;
             font-size: 12px;
             font-weight: 500;
-            border-radius: var(--arco-radius-sm);
-            margin-bottom: var(--arco-space-lg);
+            border-radius: 4px;
         }
-        
-        /* 空状态样式 - 基于 Arco Design Empty */
+
+        /* 空状态样式 */
         .empty-state {
             text-align: center;
-            padding: var(--arco-space-3xl);
-            background-color: var(--arco-gray-1);
-            border: 1px solid var(--arco-border-color);
-            border-radius: var(--arco-radius-lg);
-            margin-bottom: var(--arco-space-2xl);
+            padding: 60px 20px;
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 6px;
+            margin-bottom: 24px;
         }
-        
+
         .empty-state i {
             font-size: 48px;
-            color: var(--arco-gray-6);
-            margin-bottom: var(--arco-space-lg);
+            color: #cccccc;
+            margin-bottom: 16px;
         }
-        
+
         .empty-state h3 {
             font-size: 16px;
             font-weight: 600;
-            color: var(--arco-text-primary);
-            margin-bottom: var(--arco-space-sm);
+            color: #333333;
+            margin-bottom: 8px;
         }
-        
+
         .empty-state p {
             font-size: 14px;
-            color: var(--arco-text-tertiary);
+            color: #999999;
             margin: 0;
         }
-        
-        /* 模态框样式 - 基于 Arco Design Modal */
+
+        /* 模态框样式 */
         .modal {
-            background-color: rgba(0, 0, 0, 0.45);
+            background-color: rgba(0, 0, 0, 0.5);
         }
-        
+
         .modal-content {
-            background-color: var(--arco-gray-1);
-            border: 1px solid var(--arco-border-color);
-            border-radius: var(--arco-radius-lg);
-            box-shadow: var(--arco-shadow-xl);
-            margin: auto;
-            max-width: 540px;
-            width: 90%;
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 6px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
-        
+
         .modal-header {
-            border-bottom: 1px solid var(--arco-border-color-light);
-            padding: var(--arco-space-xl);
+            border-bottom: 1px solid #f0f0f0;
+            padding: 20px;
         }
-        
+
         .modal-title {
             font-size: 16px;
             font-weight: 600;
-            color: var(--arco-text-primary);
-            margin: 0;
+            color: #333333;
         }
-        
+
         .modal-body {
-            padding: var(--arco-space-xl);
+            padding: 20px;
         }
-        
+
         .modal-footer {
-            border-top: 1px solid var(--arco-border-color-light);
-            padding: var(--arco-space-lg) var(--arco-space-xl);
+            border-top: 1px solid #f0f0f0;
+            padding: 16px 20px;
             display: flex;
             justify-content: flex-end;
-            gap: var(--arco-space-md);
+            gap: 12px;
         }
-        
-        /* Arco Design 表单样式 */
+
+        /* 表单样式 */
         .form-label {
             display: block;
             font-size: 14px;
             font-weight: 500;
-            color: var(--arco-text-primary);
-            margin-bottom: var(--arco-space-sm);
+            color: #333333;
+            margin-bottom: 8px;
         }
-        
+
         .form-control {
             width: 100%;
-            background-color: var(--arco-gray-1);
-            border: 1px solid var(--arco-border-color);
-            border-radius: var(--arco-radius-lg);
-            padding: var(--arco-space-md) var(--arco-space-lg);
+            background-color: #ffffff;
+            border: 2px solid #dddddd;
+            border-radius: 6px;
+            padding: 12px;
             font-size: 14px;
-            color: var(--arco-text-primary);
-            transition: var(--arco-transition);
+            color: #333333;
+            transition: border-color 0.2s;
         }
-        
+
         .form-control:focus {
-            border-color: var(--arco-primary-6);
-            box-shadow: 0 0 0 2px var(--arco-primary-2);
+            border-color: #0066cc;
             outline: none;
         }
-        
+
         .form-control::placeholder {
-            color: var(--arco-text-quaternary);
+            color: #999999;
         }
-        
-        .form-text {
-            font-size: 12px;
-            color: var(--arco-text-tertiary);
-            margin-top: var(--arco-space-xs);
-        }
-        
+
         textarea.form-control {
             resize: vertical;
             min-height: 80px;
         }
-        
-        /* 表单组样式 */
+
         .form-group {
-            margin-bottom: var(--arco-space-xl);
+            margin-bottom: 20px;
         }
-        
-        /* 编辑表单样式 */
-        .edit-form .form-group {
-            margin-bottom: var(--arco-space-xl);
+
+        .form-text {
+            font-size: 12px;
+            color: #999999;
+            margin-top: 4px;
         }
-        
-        /* 动画效果 - 基于 Arco Design 动效规范 */
+
+        .text-danger {
+            color: #e74c3c;
+        }
+
+        /* 工具列表容器 */
+        #toolList {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* 动画效果 */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -445,46 +408,46 @@
                 transform: translateY(0);
             }
         }
-        
+
         .tool-card {
             animation: fadeIn 0.3s ease-out;
         }
-        
-        /* 响应式设计 - 基于 Arco Design 响应式规范 */
+
+        /* 响应式设计 */
         @media (max-width: 768px) {
             body {
-                padding: var(--arco-space-xl) 0;
+                padding: 10px;
             }
-            
-            .container {
-                padding: 0 var(--arco-space-lg);
+
+            h1 {
+                font-size: 24px;
             }
-            
+
             .navbar {
-                padding: var(--arco-space-lg) !important;
+                padding: 12px !important;
             }
-            
+
             .btn {
-                padding: var(--arco-space-md) var(--arco-space-lg);
+                padding: 10px 16px;
                 font-size: 14px;
             }
-            
+
             .modal-content {
-                margin: var(--arco-space-lg);
+                margin: 16px;
                 width: auto;
             }
-            
+
             .modal-header,
             .modal-body,
             .modal-footer {
-                padding: var(--arco-space-lg);
+                padding: 16px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 导航栏 - 基于 Arco Design Header -->
+        <!-- 导航栏 -->
         <nav class="navbar">
             <div class="container-fluid">
                 <h1 class="navbar-brand">
@@ -498,15 +461,12 @@
             </div>
         </nav>
 
-        <!-- 搜索和操作栏 - 基于 Arco Design Space -->
+        <!-- 搜索和操作栏 -->
         <div class="search-and-actions">
             <div class="row">
                 <div class="col-md-8">
                     <div class="search-container">
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-search"></i></span>
-                            <input type="text" id="searchInput" class="form-control" placeholder="搜索工具名称或描述">
-                        </div>
+                        <input type="text" id="searchInput" placeholder="搜索工具名称或描述">
                     </div>
                 </div>
                 <div class="col-md-4 text-end">
@@ -522,12 +482,12 @@
             </div>
         </div>
 
-        <!-- 工具列表 - 基于 Arco Design Grid -->
+        <!-- 工具列表 -->
         <div class="row" id="toolList">
             <!-- 工具卡片将通过JavaScript动态生成 -->
         </div>
 
-        <!-- 空状态 - 基于 Arco Design Empty -->
+        <!-- 空状态 -->
         <div id="emptyState" class="empty-state" style="display: none;">
             <i class="bi bi-app"></i>
             <h3>暂无工具</h3>
@@ -535,7 +495,7 @@
         </div>
     </div>
 
-    <!-- 编辑模态框 - 基于 Arco Design Modal -->
+    <!-- 编辑模态框 -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -762,42 +722,35 @@
             }
         }
         
-        // 渲染工具列表 - 基于 Arco Design Card 组件规范
+        // 渲染工具列表
         function renderTools(toolsToRender) {
             const toolList = document.getElementById('toolList');
             const emptyState = document.getElementById('emptyState');
-            
+
             if (toolsToRender.length === 0) {
-                // 显示空状态 - 符合 Arco Design Empty 组件规范
+                // 显示空状态
                 toolList.innerHTML = '';
                 emptyState.style.display = 'block';
             } else {
-                // 渲染工具卡片 - 符合 Arco Design Card 组件规范
+                // 渲染工具卡片
                 emptyState.style.display = 'none';
                 
                 const cards = toolsToRender.map(tool => {
                     return `
                         <div class="col-md-4 mb-4">
-                            <div class="tool-card">
+                            <div class="tool-card" data-url="${tool.url}">
+                                <button class="btn edit-btn" data-id="${tool.id}" onclick="event.stopPropagation();">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
                                 <div class="card-header">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title">
-                                            <i class="${tool.icon || 'bi bi-tools'} me-2" style="color: var(--arco-primary-6);"></i>
-                                            ${tool.name}
-                                        </h5>
-                                        <button class="btn btn-sm btn-outline-primary edit-btn" data-id="${tool.id}">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                    </div>
+                                    <h5 class="card-title">
+                                        <i class="${tool.icon || 'bi bi-tools'}" style="color: #0066cc;"></i>
+                                        ${tool.name}
+                                    </h5>
                                 </div>
                                 <div class="card-body">
                                     <p class="card-text">${tool.description || '暂无描述'}</p>
                                     ${tool.category ? `<span class="badge">${tool.category}</span>` : ''}
-                                    <div class="d-grid mt-4">
-                                        <a href="${tool.url}" class="btn btn-primary" target="_blank">
-                                            <i class="bi bi-box-arrow-up-right me-1"></i> 打开工具
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -805,10 +758,21 @@
                 }).join('');
                 
                 toolList.innerHTML = cards;
-                
-                // 绑定编辑按钮事件 - 符合 Arco Design 交互规范
+
+                // 绑定卡片点击事件 - 点击卡片打开工具
+                document.querySelectorAll('.tool-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const url = this.getAttribute('data-url');
+                        if (url) {
+                            window.open(url, '_blank');
+                        }
+                    });
+                });
+
+                // 绑定编辑按钮事件
                 document.querySelectorAll('.edit-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation(); // 阻止事件冒泡,避免触发卡片点击
                         const toolId = parseInt(this.getAttribute('data-id'));
                         const tool = tools.find(tool => tool.id === toolId);
                         if (tool) {
