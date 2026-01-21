@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间轴生成器</title>
+    <style>
+/* ==================== 基础样式和CSS变量 ==================== */
+
+:root {
+    /* 主题颜色 - 将被主题样式覆盖 */
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --primary-light: #5dade2;
+
+    /* 时间轴尺寸 */
+    --timeline-width: 4px;
+    --node-size: 20px;
+    --node-border: 4px;
+    --spacing: 40px;
+
+    /* 背景和文本 */
+    --bg-color: #f5f7fa;
+    --card-bg: #ffffff;
+    --text-color: #2c3e50;
+    --text-secondary: #7f8c8d;
+    --border-color: #e0e0e0;
+
+    /* 阴影 */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+
+    /* 动画 */
+    --transition: all 0.3s ease;
+}
+
+/* ==================== 全局重置 ==================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ==================== 容器布局 ==================== */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+/* ==================== 工具栏样式 ==================== */
+
+.toolbar {
+    background: var(--card-bg);
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.toolbar-left h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.toolbar-right {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ==================== 按钮样式 ==================== */
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    outline: none;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-danger {
+    background: white;
+    color: #e74c3c;
+    border: 2px solid #e74c3c;
+}
+
+.btn-danger:hover {
+    background: #e74c3c;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ==================== 选择器 ==================== */
+
+.style-selector,
+.color-selector {
+    padding: 8px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-color);
+    background: white;
+    cursor: pointer;
+    transition: var(--transition);
+    outline: none;
+}
+
+.style-selector:hover,
+.color-selector:hover {
+    border-color: var(--primary-color);
+}
+
+.style-selector:focus,
+.color-selector:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* ==================== 时间轴容器 ==================== */
+
+.timeline-container {
+    position: relative;
+    min-height: 400px;
+}
+
+/* ==================== 空状态 ==================== */
+
+.empty-state {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+.empty-state.show {
+    display: block;
+}
+
+/* ==================== 时间轴基础结构 ==================== */
+
+.timeline {
+    position: relative;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.timeline-item {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== 内容包裹器 ==================== */
+
+.timeline-content-wrapper {
+    position: relative;
+    background: var(--card-bg);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.timeline-content-wrapper:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+}
+
+/* ==================== 时间标签 ==================== */
+
+.timeline-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    padding: 4px 10px;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: 4px;
+    display: inline-block;
+    transition: var(--transition);
+    outline: none;
+    cursor: text;
+}
+
+.timeline-label:hover {
+    background: rgba(52, 152, 219, 0.15);
+}
+
+.timeline-label:focus {
+    background: rgba(52, 152, 219, 0.2);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.timeline-label:empty::before {
+    content: '点击输入时间标签';
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+/* ==================== 事件内容 ==================== */
+
+.timeline-content {
+    font-size: 14px;
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 30px;
+    outline: none;
+    padding: 6px;
+    margin: -6px;
+    border-radius: 4px;
+    transition: var(--transition);
+    cursor: text;
+    word-wrap: break-word;
+}
+
+.timeline-content:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.timeline-content:focus {
+    background: rgba(0, 0, 0, 0.03);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.timeline-content:empty::before {
+    content: '点击输入事件内容';
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+/* ==================== 删除按钮 ==================== */
+
+.delete-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 5;
+}
+
+.timeline-content-wrapper:hover .delete-btn {
+    opacity: 1;
+}
+
+.delete-btn:hover {
+    background: #e74c3c;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* ==================== 样式1: 经典居中 (Classic) ==================== */
+
+body[data-style="classic"] .timeline {
+    padding: 20px 0;
+}
+
+body[data-style="classic"] .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--primary-light), var(--primary-color), var(--primary-dark));
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+body[data-style="classic"] .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    background: var(--card-bg);
+    border: 3px solid var(--primary-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    transition: var(--transition);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+}
+
+body[data-style="classic"] .timeline-item:hover::before {
+    transform: translate(-50%, -50%) scale(1.3);
+    box-shadow: 0 0 0 8px rgba(52, 152, 219, 0.15);
+}
+
+body[data-style="classic"] .timeline-item:nth-child(odd) {
+    justify-content: flex-start;
+}
+
+body[data-style="classic"] .timeline-item:nth-child(odd) .timeline-content-wrapper {
+    margin-left: 0;
+    margin-right: calc(50% + 40px);
+    text-align: right;
+}
+
+body[data-style="classic"] .timeline-item:nth-child(even) {
+    justify-content: flex-end;
+}
+
+body[data-style="classic"] .timeline-item:nth-child(even) .timeline-content-wrapper {
+    margin-left: calc(50% + 40px);
+    margin-right: 0;
+    text-align: left;
+}
+
+body[data-style="classic"] .timeline-content-wrapper {
+    width: calc(50% - 40px);
+    border-radius: 8px;
+}
+
+/* ==================== 样式2: 左侧Z字形 (Zigzag) ==================== */
+
+body[data-style="zigzag"] .timeline {
+    padding: 20px 0;
+}
+
+body[data-style="zigzag"] .timeline::before {
+    content: '';
+    position: absolute;
+    left: 60px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+body[data-style="zigzag"] .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 52px;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    background: var(--primary-color);
+    border: 3px solid var(--card-bg);
+    transform: translateY(-50%) rotate(45deg);
+    z-index: 10;
+    box-shadow: var(--shadow-md);
+}
+
+body[data-style="zigzag"] .timeline-item:hover::before {
+    transform: translateY(-50%) rotate(45deg) scale(1.2);
+}
+
+body[data-style="zigzag"] .timeline-item::after {
+    content: '';
+    position: absolute;
+    left: 69px;
+    top: 50%;
+    width: 40px;
+    height: 2px;
+    background: var(--primary-color);
+    transform: translateY(-50%);
+}
+
+body[data-style="zigzag"] .timeline-item {
+    justify-content: flex-start;
+}
+
+body[data-style="zigzag"] .timeline-item .timeline-content-wrapper {
+    margin-left: 120px;
+    margin-right: 0;
+    text-align: left;
+    width: calc(100% - 140px);
+    max-width: 800px;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* ==================== 样式3: 极简线条 (Minimal) ==================== */
+
+body[data-style="minimal"] .timeline {
+    padding: 20px 0;
+}
+
+body[data-style="minimal"] .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border-color);
+    transform: translateX(-50%);
+}
+
+body[data-style="minimal"] .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+body[data-style="minimal"] .timeline-item:hover::before {
+    transform: translate(-50%, -50%) scale(1.5);
+}
+
+body[data-style="minimal"] .timeline-item:nth-child(odd) {
+    justify-content: flex-start;
+}
+
+body[data-style="minimal"] .timeline-item:nth-child(odd) .timeline-content-wrapper {
+    margin-left: 0;
+    margin-right: calc(50% + 30px);
+    text-align: right;
+}
+
+body[data-style="minimal"] .timeline-item:nth-child(even) {
+    justify-content: flex-end;
+}
+
+body[data-style="minimal"] .timeline-item:nth-child(even) .timeline-content-wrapper {
+    margin-left: calc(50% + 30px);
+    margin-right: 0;
+    text-align: left;
+}
+
+body[data-style="minimal"] .timeline-content-wrapper {
+    width: calc(50% - 30px);
+    border-radius: 4px;
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+}
+
+body[data-style="minimal"] .timeline-content-wrapper:hover {
+    box-shadow: var(--shadow-sm);
+    transform: none;
+}
+
+/* ==================== 样式4: 3D立体 (Modern) ==================== */
+
+body[data-style="modern"] .timeline {
+    padding: 30px 0;
+}
+
+body[data-style="modern"] .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: linear-gradient(180deg, var(--primary-light) 0%, var(--primary-color) 50%, var(--primary-dark) 100%);
+    transform: translateX(-50%);
+    border-radius: 3px;
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+}
+
+body[data-style="modern"] .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 24px;
+    height: 24px;
+    background: radial-gradient(circle, var(--primary-light), var(--primary-color));
+    border: 4px solid var(--card-bg);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    box-shadow: 0 0 20px var(--primary-color), 0 0 40px rgba(52, 152, 219, 0.3);
+}
+
+body[data-style="modern"] .timeline-item:hover::before {
+    transform: translate(-50%, -50%) scale(1.4);
+    box-shadow: 0 0 30px var(--primary-color), 0 0 60px rgba(52, 152, 219, 0.5);
+}
+
+body[data-style="modern"] .timeline-item:nth-child(odd) {
+    justify-content: flex-start;
+}
+
+body[data-style="modern"] .timeline-item:nth-child(odd) .timeline-content-wrapper {
+    margin-left: 0;
+    margin-right: calc(50% + 50px);
+    text-align: right;
+}
+
+body[data-style="modern"] .timeline-item:nth-child(even) {
+    justify-content: flex-end;
+}
+
+body[data-style="modern"] .timeline-item:nth-child(even) .timeline-content-wrapper {
+    margin-left: calc(50% + 50px);
+    margin-right: 0;
+    text-align: left;
+}
+
+body[data-style="modern"] .timeline-content-wrapper {
+    width: calc(50% - 50px);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 255, 255, 0.9) 100%);
+}
+
+body[data-style="modern"] .timeline-content-wrapper:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== 样式5: 圆形徽章 (Badge) ==================== */
+
+body[data-style="badge"] .timeline {
+    padding: 30px 0;
+}
+
+body[data-style="badge"] .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-image: linear-gradient(var(--primary-color) 50%, transparent 50%);
+    background-size: 2px 20px;
+    transform: translateX(-50%);
+}
+
+body[data-style="badge"] .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    background: var(--card-bg);
+    border: 5px solid var(--primary-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+body[data-style="badge"] .timeline-item::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+}
+
+body[data-style="badge"] .timeline-item:hover::before {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+body[data-style="badge"] .timeline-item:nth-child(odd) {
+    justify-content: flex-start;
+}
+
+body[data-style="badge"] .timeline-item:nth-child(odd) .timeline-content-wrapper {
+    margin-left: 0;
+    margin-right: calc(50% + 60px);
+    text-align: right;
+}
+
+body[data-style="badge"] .timeline-item:nth-child(even) {
+    justify-content: flex-end;
+}
+
+body[data-style="badge"] .timeline-item:nth-child(even) .timeline-content-wrapper {
+    margin-left: calc(50% + 60px);
+    margin-right: 0;
+    text-align: left;
+}
+
+body[data-style="badge"] .timeline-content-wrapper {
+    width: calc(50% - 60px);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+body[data-style="badge"] .timeline-label {
+    border-radius: 16px;
+    padding: 6px 14px;
+}
+
+/* ==================== 颜色配色方案 ==================== */
+
+body[data-color="blue"] {
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --primary-light: #5dade2;
+}
+
+body[data-color="purple"] {
+    --primary-color: #9b59b6;
+    --primary-dark: #8e44ad;
+    --primary-light: #bb8fce;
+}
+
+body[data-color="orange"] {
+    --primary-color: #e67e22;
+    --primary-dark: #d35400;
+    --primary-light: #f39c12;
+}
+
+body[data-color="green"] {
+    --primary-color: #27ae60;
+    --primary-dark: #229954;
+    --primary-light: #58d68d;
+}
+
+body[data-color="gray"] {
+    --primary-color: #7f8c8d;
+    --primary-dark: #5d6d7e;
+    --primary-light: #95a5a6;
+}
+
+/* ==================== 响应式 ==================== */
+
+@media (max-width: 768px) {
+    .toolbar {
+        padding: 15px 20px;
+    }
+
+    .toolbar-left h1 {
+        font-size: 20px;
+    }
+
+    .toolbar-right {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .timeline-content-wrapper {
+        padding: 20px;
+    }
+
+    .timeline-label {
+        font-size: 13px;
+    }
+
+    .timeline-content {
+        font-size: 14px;
+    }
+
+    body[data-style] .timeline::before {
+        left: 30px !important;
+    }
+
+    body[data-style] .timeline-item {
+        justify-content: flex-start !important;
+    }
+
+    body[data-style] .timeline-item::before {
+        left: 30px !important;
+    }
+
+    body[data-style] .timeline-item:nth-child(odd) .timeline-content-wrapper,
+    body[data-style] .timeline-item:nth-child(even) .timeline-content-wrapper {
+        margin-left: 70px !important;
+        margin-right: 0 !important;
+        text-align: left !important;
+        width: calc(100% - 70px) !important;
+    }
+
+    body[data-style="zigzag"] .timeline {
+        padding-left: 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .toolbar-right {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn,
+    .style-selector,
+    .color-selector {
+        width: 100%;
+        text-align: center;
+    }
+
+    .timeline-item::before {
+        width: 16px !important;
+        height: 16px !important;
+        border-width: 3px !important;
+    }
+
+    .timeline-content-wrapper {
+        padding: 16px;
+    }
+
+    .delete-btn {
+        opacity: 1;
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-top: 12px;
+        display: inline-block;
+    }
+}
+    </style>
+</head>
+<body data-style="classic" data-color="blue">
+    <div class="container">
+        <!-- 工具栏 -->
+        <header class="toolbar">
+            <div class="toolbar-left">
+                <h1>时间轴生成器</h1>
+            </div>
+            <div class="toolbar-right">
+                <button id="addBtn" class="btn btn-primary">+ 添加事件</button>
+                <select id="styleSelector" class="style-selector">
+                    <option value="classic">经典居中</option>
+                    <option value="zigzag">左侧Z字形</option>
+                    <option value="minimal">极简线条</option>
+                    <option value="modern">3D立体</option>
+                    <option value="badge">圆形徽章</option>
+                </select>
+                <select id="colorSelector" class="color-selector">
+                    <option value="blue">蓝色</option>
+                    <option value="purple">紫色</option>
+                    <option value="orange">橙色</option>
+                    <option value="green">绿色</option>
+                    <option value="gray">灰色</option>
+                </select>
+                <button id="clearBtn" class="btn btn-danger">清空数据</button>
+            </div>
+        </header>
+
+        <!-- 时间轴容器 -->
+        <main class="timeline-container">
+            <div id="timeline" class="timeline">
+                <!-- 时间轴事件将在这里动态生成 -->
+            </div>
+            <div id="emptyState" class="empty-state">
+                <p>暂无事件，点击"添加事件"开始创建你的时间轴</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+/**
+ * 数据存储模块 - localStorage封装
+ */
+const TimelineStorage = {
+    STORAGE_KEY: 'nanocode_timeline_data',
+    STYLE_KEY: 'nanocode_timeline_style',
+    COLOR_KEY: 'nanocode_timeline_color',
+
+    save(items) {
+        try {
+            const data = {
+                version: '1.0',
+                updatedAt: new Date().toISOString(),
+                items: items
+            };
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+            return true;
+        } catch (e) {
+            if (e.name === 'QuotaExceededError') {
+                console.error('存储空间不足');
+                alert('存储空间不足，请删除一些事件后重试');
+            } else {
+                console.error('保存失败:', e);
+            }
+            return false;
+        }
+    },
+
+    load() {
+        try {
+            const data = localStorage.getItem(this.STORAGE_KEY);
+            if (!data) return [];
+
+            const parsed = JSON.parse(data);
+            return parsed.items || [];
+        } catch (e) {
+            console.error('读取数据失败:', e);
+            return [];
+        }
+    },
+
+    clear() {
+        try {
+            localStorage.removeItem(this.STORAGE_KEY);
+            return true;
+        } catch (e) {
+            console.error('清空数据失败:', e);
+            return false;
+        }
+    },
+
+    saveStyle(style) {
+        try {
+            localStorage.setItem(this.STYLE_KEY, style);
+        } catch (e) {
+            console.error('保存样式失败:', e);
+        }
+    },
+
+    loadStyle() {
+        try {
+            return localStorage.getItem(this.STYLE_KEY) || 'classic';
+        } catch (e) {
+            console.error('读取样式失败:', e);
+            return 'classic';
+        }
+    },
+
+    saveColor(color) {
+        try {
+            localStorage.setItem(this.COLOR_KEY, color);
+        } catch (e) {
+            console.error('保存颜色失败:', e);
+        }
+    },
+
+    loadColor() {
+        try {
+            return localStorage.getItem(this.COLOR_KEY) || 'blue';
+        } catch (e) {
+            console.error('读取颜色失败:', e);
+            return 'blue';
+        }
+    }
+};
+
+/**
+ * 时间轴交互管理模块
+ */
+class TimelineManager {
+    constructor(containerEl) {
+        this.container = containerEl;
+        this.items = [];
+        this.saveTimer = null;
+    }
+
+    generateId() {
+        return 'item-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+    }
+
+    render() {
+        if (this.items.length === 0) {
+            this.container.innerHTML = '';
+            document.getElementById('emptyState').classList.add('show');
+            return;
+        }
+
+        document.getElementById('emptyState').classList.remove('show');
+
+        this.container.innerHTML = this.items.map(item => this.renderItem(item)).join('');
+        this.bindEvents();
+    }
+
+    renderItem(item) {
+        return `
+            <div class="timeline-item" data-id="${item.id}">
+                <div class="timeline-content-wrapper">
+                    <div class="timeline-label" contenteditable="true">${this.escapeHtml(item.label)}</div>
+                    <div class="timeline-content" contenteditable="true">${this.escapeHtml(item.content)}</div>
+                    <button class="delete-btn">删除</button>
+                </div>
+            </div>
+        `;
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    addItem(label = '新事件', content = '点击编辑内容') {
+        const newItem = {
+            id: this.generateId(),
+            label: label,
+            content: content,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+
+        this.items.unshift(newItem);
+        this.render();
+        this.autoSave();
+
+        setTimeout(() => {
+            const firstLabel = this.container.querySelector('.timeline-label');
+            if (firstLabel) {
+                firstLabel.focus();
+                const range = document.createRange();
+                range.selectNodeContents(firstLabel);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }, 100);
+    }
+
+    updateItem(id, field, value) {
+        const item = this.items.find(item => item.id === id);
+        if (item) {
+            item[field] = value;
+            item.updatedAt = new Date().toISOString();
+            this.autoSave();
+        }
+    }
+
+    deleteItem(id) {
+        if (!confirm('确定要删除这个事件吗?')) {
+            return;
+        }
+
+        this.items = this.items.filter(item => item.id !== id);
+        this.render();
+        this.autoSave();
+    }
+
+    loadData(items) {
+        this.items = items;
+        this.render();
+    }
+
+    getData() {
+        return this.items;
+    }
+
+    bindEvents() {
+        this.container.addEventListener('blur', (e) => {
+            if (e.target.classList.contains('timeline-label') ||
+                e.target.classList.contains('timeline-content')) {
+                const itemEl = e.target.closest('.timeline-item');
+                if (!itemEl) return;
+
+                const id = itemEl.dataset.id;
+                const field = e.target.classList.contains('timeline-label') ? 'label' : 'content';
+                const value = e.target.textContent.trim();
+
+                this.updateItem(id, field, value);
+            }
+        }, true);
+
+        this.container.addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete-btn')) {
+                const itemEl = e.target.closest('.timeline-item');
+                if (itemEl) {
+                    this.deleteItem(itemEl.dataset.id);
+                }
+            }
+        });
+
+        this.container.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.classList.contains('timeline-label')) {
+                e.preventDefault();
+                e.target.blur();
+            }
+        });
+    }
+
+    autoSave() {
+        clearTimeout(this.saveTimer);
+        this.saveTimer = setTimeout(() => {
+            TimelineStorage.save(this.items);
+        }, 500);
+    }
+
+    forceSave() {
+        clearTimeout(this.saveTimer);
+        TimelineStorage.save(this.items);
+    }
+}
+
+/**
+ * 应用主逻辑
+ */
+let timelineManager;
+
+function getInitialData() {
+    return [
+        {
+            id: 'demo-1',
+            label: '2024年1月',
+            content: '项目启动，团队组建完成，开始需求分析和技术选型',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        },
+        {
+            id: 'demo-2',
+            label: '2024年春',
+            content: '完成UI设计稿和技术架构方案，启动核心功能开发',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        },
+        {
+            id: 'demo-3',
+            label: '开发阶段',
+            content: '核心功能开发完成，进入测试和优化阶段',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        }
+    ];
+}
+
+function initStyleAndColor() {
+    const savedStyle = TimelineStorage.loadStyle();
+    const savedColor = TimelineStorage.loadColor();
+
+    document.body.setAttribute('data-style', savedStyle);
+    document.body.setAttribute('data-color', savedColor);
+
+    document.getElementById('styleSelector').value = savedStyle;
+    document.getElementById('colorSelector').value = savedColor;
+}
+
+function changeStyle(style) {
+    document.body.setAttribute('data-style', style);
+    TimelineStorage.saveStyle(style);
+}
+
+function changeColor(color) {
+    document.body.setAttribute('data-color', color);
+    TimelineStorage.saveColor(color);
+}
+
+function bindToolbarEvents() {
+    document.getElementById('addBtn').addEventListener('click', () => {
+        timelineManager.addItem();
+    });
+
+    document.getElementById('styleSelector').addEventListener('change', (e) => {
+        changeStyle(e.target.value);
+    });
+
+    document.getElementById('colorSelector').addEventListener('change', (e) => {
+        changeColor(e.target.value);
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+        if (confirm('确定要清空所有数据吗？此操作不可恢复！')) {
+            TimelineStorage.clear();
+            timelineManager.loadData([]);
+        }
+    });
+}
+
+function setupAutoSave() {
+    window.addEventListener('beforeunload', () => {
+        if (timelineManager) {
+            timelineManager.forceSave();
+        }
+    });
+}
+
+function init() {
+    initStyleAndColor();
+
+    const timelineEl = document.getElementById('timeline');
+    timelineManager = new TimelineManager(timelineEl);
+
+    let savedData = TimelineStorage.load();
+
+    if (savedData.length === 0) {
+        savedData = getInitialData();
+        TimelineStorage.save(savedData);
+    }
+
+    timelineManager.loadData(savedData);
+
+    bindToolbarEvents();
+
+    setupAutoSave();
+
+    console.log('时间轴应用初始化完成');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
