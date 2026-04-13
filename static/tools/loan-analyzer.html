@@ -238,6 +238,7 @@
             }
             table {
                 width: 100%;
+                min-width: 540px;
                 border-collapse: collapse;
                 font-size: 13px;
             }
@@ -381,19 +382,66 @@
             /* Responsive */
             @media (max-width: 600px) {
                 .main {
-                    padding: 16px;
+                    padding: 12px;
                 }
                 .header {
-                    padding: 16px;
+                    padding: 14px 16px;
+                }
+                .header h1 {
+                    font-size: 18px;
                 }
                 .tabs {
-                    padding: 0 16px;
+                    padding: 0 8px;
+                }
+                .tab-btn {
+                    padding: 12px 14px;
+                    font-size: 13px;
+                }
+                .card {
+                    padding: 16px;
+                }
+                .form-grid {
+                    grid-template-columns: 1fr;
+                }
+                .summary-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .summary-value {
+                    font-size: 18px;
+                }
+                .chart-grid-2col {
+                    grid-template-columns: 1fr !important;
+                }
+                .prepay-action-bar {
+                    flex-wrap: wrap;
+                }
+                .prepay-action-bar .mode-select {
+                    max-width: 100% !important;
+                }
+                .prepay-row-grid {
+                    grid-template-columns: 1fr 1fr !important;
+                }
+                .prepay-row-grid .del-btn {
+                    grid-column: 1 / -1;
+                }
+                thead th,
+                tbody td {
+                    padding: 8px 8px;
+                    font-size: 12px;
+                }
+            }
+            @media (min-width: 601px) and (max-width: 900px) {
+                .main {
+                    padding: 20px;
                 }
                 .form-grid {
                     grid-template-columns: 1fr 1fr;
                 }
-                .summary-grid {
-                    grid-template-columns: 1fr 1fr;
+                .chart-grid-2col {
+                    grid-template-columns: 1fr !important;
+                }
+                .compare-grid {
+                    grid-template-columns: 1fr;
                 }
             }
         </style>
@@ -476,13 +524,29 @@
                     <div class="summary-grid" id="t1-summary"></div>
 
                     <!-- Tab1 图表区 -->
-                    <div class="card" style="margin-bottom:20px">
-                      <div class="card-title">可视化分析</div>
-                      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-                        <div id="chart-t1-payment" style="height:300px"></div>
-                        <div id="chart-t1-composition" style="height:300px"></div>
-                        <div id="chart-t1-cumulative" style="height:300px;grid-column:1/-1"></div>
-                      </div>
+                    <div class="card" style="margin-bottom: 20px">
+                        <div class="card-title">可视化分析</div>
+                        <div
+                            class="chart-grid-2col"
+                            style="
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                gap: 20px;
+                            "
+                        >
+                            <div
+                                id="chart-t1-payment"
+                                style="height: 280px"
+                            ></div>
+                            <div
+                                id="chart-t1-composition"
+                                style="height: 280px"
+                            ></div>
+                            <div
+                                id="chart-t1-cumulative"
+                                style="height: 260px; grid-column: 1/-1"
+                            ></div>
+                        </div>
                     </div>
                     <div class="table-wrap">
                         <div class="table-header">
@@ -580,11 +644,13 @@
                     <!-- 多条提前还款记录 -->
                     <div id="t2-prepay-list"></div>
                     <div
+                        class="prepay-action-bar"
                         style="
                             display: flex;
                             gap: 12px;
                             margin-top: 16px;
                             align-items: center;
+                            flex-wrap: wrap;
                         "
                     >
                         <button
@@ -595,14 +661,20 @@
                                 border: 1px dashed #93c5fd;
                                 font-size: 13px;
                                 padding: 8px 20px;
+                                white-space: nowrap;
                             "
                             onclick="addPrepayRow()"
                         >
                             + 添加一次提前还款
                         </button>
                         <div
-                            class="form-group"
-                            style="flex: 1; max-width: 260px; margin: 0"
+                            class="form-group mode-select"
+                            style="
+                                flex: 1;
+                                min-width: 200px;
+                                max-width: 300px;
+                                margin: 0;
+                            "
                         >
                             <select
                                 id="t2-prepay-mode"
@@ -613,6 +685,7 @@
                                     font-size: 13px;
                                     color: #2d3748;
                                     outline: none;
+                                    width: 100%;
                                 "
                             >
                                 <option value="reduce_payment">
@@ -623,7 +696,11 @@
                                 </option>
                             </select>
                         </div>
-                        <button class="btn btn-primary" onclick="calcTab2()">
+                        <button
+                            class="btn btn-primary"
+                            onclick="calcTab2()"
+                            style="white-space: nowrap"
+                        >
                             开始对比
                         </button>
                     </div>
@@ -637,13 +714,29 @@
                     <div class="compare-grid" id="t2-compare-summary"></div>
 
                     <!-- Tab2 图表区 -->
-                    <div class="card" style="margin-bottom:20px">
-                      <div class="card-title">可视化对比</div>
-                      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-                        <div id="chart-t2-payment" style="height:320px"></div>
-                        <div id="chart-t2-savings" style="height:320px"></div>
-                        <div id="chart-t2-remaining" style="height:300px;grid-column:1/-1"></div>
-                      </div>
+                    <div class="card" style="margin-bottom: 20px">
+                        <div class="card-title">可视化对比</div>
+                        <div
+                            class="chart-grid-2col"
+                            style="
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                gap: 20px;
+                            "
+                        >
+                            <div
+                                id="chart-t2-payment"
+                                style="height: 300px"
+                            ></div>
+                            <div
+                                id="chart-t2-savings"
+                                style="height: 300px"
+                            ></div>
+                            <div
+                                id="chart-t2-remaining"
+                                style="height: 260px; grid-column: 1/-1"
+                            ></div>
+                        </div>
                     </div>
 
                     <!-- 对比明细表格 -->
@@ -965,17 +1058,17 @@
                 div.id = `prepay-row-${id}`;
                 div.style.cssText =
                     "display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;margin-bottom:12px;padding:14px;background:#f7fafc;border-radius:8px;border:1px solid #e2e8f0";
+                div.classList.add("prepay-row-grid");
                 div.innerHTML = `
     <div class="form-group" style="margin:0">
       <label style="font-size:12px">第 N 期正常还款后提前还</label>
-      <input type="number" id="prepay-month-${id}" value="${month}" min="1" placeholder="如 12" style="padding:8px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;outline:none">
-      <span class="unit">在该期正常还款后额外一次性还款</span>
+      <input type="number" id="prepay-month-${id}" value="${month}" min="1" placeholder="如 12" style="padding:8px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;outline:none;width:100%">
     </div>
     <div class="form-group" style="margin:0">
       <label style="font-size:12px">提前还款金额（元）</label>
-      <input type="number" id="prepay-amount-${id}" value="${amount}" min="1" step="10000" placeholder="如 500000" style="padding:8px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;outline:none">
+      <input type="number" id="prepay-amount-${id}" value="${amount}" min="1" step="10000" placeholder="如 500000" style="padding:8px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;outline:none;width:100%">
     </div>
-    <button onclick="removePrepayRow(${id})" style="padding:8px 14px;border:1px solid #fca5a5;background:#fff5f5;color:#ef4444;border-radius:6px;font-size:13px;cursor:pointer;white-space:nowrap">删除</button>
+    <button class="del-btn" onclick="removePrepayRow(${id})" style="padding:8px 14px;border:1px solid #fca5a5;background:#fff5f5;color:#ef4444;border-radius:6px;font-size:13px;cursor:pointer;white-space:nowrap;align-self:end">删除</button>
   `;
                 document.getElementById("t2-prepay-list").appendChild(div);
             }
@@ -1392,7 +1485,9 @@
                 if (chartInstances[id]) {
                     chartInstances[id].dispose();
                 }
-                chartInstances[id] = echarts.init(el, null, { renderer: 'canvas' });
+                chartInstances[id] = echarts.init(el, null, {
+                    renderer: "canvas",
+                });
                 return chartInstances[id];
             }
 
@@ -1400,23 +1495,36 @@
             function sample(arr, maxPts = 120) {
                 if (arr.length <= maxPts) return arr;
                 const step = Math.ceil(arr.length / maxPts);
-                return arr.filter((_, i) => i % step === 0 || i === arr.length - 1);
+                return arr.filter(
+                    (_, i) => i % step === 0 || i === arr.length - 1,
+                );
             }
 
             function renderTab1Charts(plan) {
                 const sampled = sample(plan);
-                const labels = sampled.map(r => r.date || `第${r.month}期`);
-                const payments = sampled.map(r => +r.payment.toFixed(2));
-                const principals = sampled.map(r => +r.principalPart.toFixed(2));
-                const interests = sampled.map(r => +r.interestPart.toFixed(2));
+                const labels = sampled.map((r) => r.date || `第${r.month}期`);
+                const payments = sampled.map((r) => +r.payment.toFixed(2));
+                const principals = sampled.map(
+                    (r) => +r.principalPart.toFixed(2),
+                );
+                const interests = sampled.map(
+                    (r) => +r.interestPart.toFixed(2),
+                );
 
                 // 累计数据（用原始 plan）
-                let cumPayment = 0, cumInterest = 0;
-                const cumLabels = [], cumPay = [], cumInt = [];
+                let cumPayment = 0,
+                    cumInterest = 0;
+                const cumLabels = [],
+                    cumPay = [],
+                    cumInt = [];
                 for (const r of plan) {
                     cumPayment += r.payment;
                     cumInterest += r.interestPart;
-                    if (plan.length <= 120 || r.month % Math.ceil(plan.length/120) === 0 || r.month === plan.length) {
+                    if (
+                        plan.length <= 120 ||
+                        r.month % Math.ceil(plan.length / 120) === 0 ||
+                        r.month === plan.length
+                    ) {
                         cumLabels.push(r.date || `第${r.month}期`);
                         cumPay.push(+cumPayment.toFixed(0));
                         cumInt.push(+cumInterest.toFixed(0));
@@ -1424,52 +1532,212 @@
                 }
 
                 // 图1：月供走势折线
-                getChart('chart-t1-payment').setOption({
-                    title: { text: '月供走势', left: 'center', top: 8, textStyle: { fontSize: 13, fontWeight: 600 } },
-                    tooltip: { trigger: 'axis', formatter: p => `${p[0].name}<br/>月供：¥${p[0].value.toLocaleString()}` },
+                getChart("chart-t1-payment").setOption({
+                    title: {
+                        text: "月供走势",
+                        left: "center",
+                        top: 8,
+                        textStyle: { fontSize: 13, fontWeight: 600 },
+                    },
+                    tooltip: {
+                        trigger: "axis",
+                        formatter: (p) =>
+                            `${p[0].name}<br/>月供：¥${p[0].value.toLocaleString()}`,
+                    },
                     grid: { top: 48, bottom: 36, left: 70, right: 20 },
-                    xAxis: { type: 'category', data: labels, axisLabel: { interval: Math.floor(labels.length/6), fontSize: 11 } },
-                    yAxis: { type: 'value', axisLabel: { formatter: v => (v/10000).toFixed(0)+'万', fontSize: 11 } },
-                    series: [{
-                        type: 'line', data: payments, smooth: true,
-                        lineStyle: { color: '#3b82f6', width: 2 },
-                        areaStyle: { color: { type:'linear', x:0,y:0,x2:0,y2:1, colorStops:[{offset:0,color:'rgba(59,130,246,0.25)'},{offset:1,color:'rgba(59,130,246,0.02)'}] } },
-                        symbol: 'none'
-                    }]
+                    xAxis: {
+                        type: "category",
+                        data: labels,
+                        axisLabel: {
+                            interval: Math.floor(labels.length / 6),
+                            fontSize: 11,
+                        },
+                    },
+                    yAxis: {
+                        type: "value",
+                        axisLabel: {
+                            formatter: (v) => (v / 10000).toFixed(0) + "万",
+                            fontSize: 11,
+                        },
+                    },
+                    series: [
+                        {
+                            type: "line",
+                            data: payments,
+                            smooth: true,
+                            lineStyle: { color: "#3b82f6", width: 2 },
+                            areaStyle: {
+                                color: {
+                                    type: "linear",
+                                    x: 0,
+                                    y: 0,
+                                    x2: 0,
+                                    y2: 1,
+                                    colorStops: [
+                                        {
+                                            offset: 0,
+                                            color: "rgba(59,130,246,0.25)",
+                                        },
+                                        {
+                                            offset: 1,
+                                            color: "rgba(59,130,246,0.02)",
+                                        },
+                                    ],
+                                },
+                            },
+                            symbol: "none",
+                        },
+                    ],
                 });
 
                 // 图2：本金/利息堆叠面积
-                getChart('chart-t1-composition').setOption({
-                    title: { text: '本金 / 利息构成', left: 'center', top: 8, textStyle: { fontSize: 13, fontWeight: 600 } },
-                    tooltip: { trigger: 'axis', formatter: p => `${p[0].name}<br/>还本金：¥${p[0].value.toLocaleString()}<br/>还利息：¥${p[1].value.toLocaleString()}` },
-                    legend: { bottom: 0, itemWidth: 12, textStyle: { fontSize: 11 } },
+                getChart("chart-t1-composition").setOption({
+                    title: {
+                        text: "本金 / 利息构成",
+                        left: "center",
+                        top: 8,
+                        textStyle: { fontSize: 13, fontWeight: 600 },
+                    },
+                    tooltip: {
+                        trigger: "axis",
+                        formatter: (p) =>
+                            `${p[0].name}<br/>还本金：¥${p[0].value.toLocaleString()}<br/>还利息：¥${p[1].value.toLocaleString()}`,
+                    },
+                    legend: {
+                        bottom: 0,
+                        itemWidth: 12,
+                        textStyle: { fontSize: 11 },
+                    },
                     grid: { top: 48, bottom: 40, left: 70, right: 20 },
-                    xAxis: { type: 'category', data: labels, axisLabel: { interval: Math.floor(labels.length/6), fontSize: 11 } },
-                    yAxis: { type: 'value', axisLabel: { formatter: v => (v/10000).toFixed(1)+'万', fontSize: 11 } },
+                    xAxis: {
+                        type: "category",
+                        data: labels,
+                        axisLabel: {
+                            interval: Math.floor(labels.length / 6),
+                            fontSize: 11,
+                        },
+                    },
+                    yAxis: {
+                        type: "value",
+                        axisLabel: {
+                            formatter: (v) => (v / 10000).toFixed(1) + "万",
+                            fontSize: 11,
+                        },
+                    },
                     series: [
-                        { name: '还本金', type: 'line', stack: 'total', data: principals, smooth: true, symbol: 'none',
-                          lineStyle: { width: 0 }, areaStyle: { color: 'rgba(16,185,129,0.6)' } },
-                        { name: '还利息', type: 'line', stack: 'total', data: interests, smooth: true, symbol: 'none',
-                          lineStyle: { width: 0 }, areaStyle: { color: 'rgba(245,158,11,0.5)' } }
-                    ]
+                        {
+                            name: "还本金",
+                            type: "line",
+                            stack: "total",
+                            data: principals,
+                            smooth: true,
+                            symbol: "none",
+                            lineStyle: { width: 0 },
+                            areaStyle: { color: "rgba(16,185,129,0.6)" },
+                        },
+                        {
+                            name: "还利息",
+                            type: "line",
+                            stack: "total",
+                            data: interests,
+                            smooth: true,
+                            symbol: "none",
+                            lineStyle: { width: 0 },
+                            areaStyle: { color: "rgba(245,158,11,0.5)" },
+                        },
+                    ],
                 });
 
                 // 图3：累计还款 vs 累计利息（全宽）
-                getChart('chart-t1-cumulative').setOption({
-                    title: { text: '累计还款 vs 累计利息', left: 'center', top: 8, textStyle: { fontSize: 13, fontWeight: 600 } },
-                    tooltip: { trigger: 'axis', formatter: p => `${p[0].name}<br/>累计还款：¥${p[0].value.toLocaleString()}<br/>累计利息：¥${p[1].value.toLocaleString()}` },
-                    legend: { bottom: 0, itemWidth: 12, textStyle: { fontSize: 11 } },
+                getChart("chart-t1-cumulative").setOption({
+                    title: {
+                        text: "累计还款 vs 累计利息",
+                        left: "center",
+                        top: 8,
+                        textStyle: { fontSize: 13, fontWeight: 600 },
+                    },
+                    tooltip: {
+                        trigger: "axis",
+                        formatter: (p) =>
+                            `${p[0].name}<br/>累计还款：¥${p[0].value.toLocaleString()}<br/>累计利息：¥${p[1].value.toLocaleString()}`,
+                    },
+                    legend: {
+                        bottom: 0,
+                        itemWidth: 12,
+                        textStyle: { fontSize: 11 },
+                    },
                     grid: { top: 48, bottom: 40, left: 80, right: 20 },
-                    xAxis: { type: 'category', data: cumLabels, axisLabel: { interval: Math.floor(cumLabels.length/8), fontSize: 11 } },
-                    yAxis: { type: 'value', axisLabel: { formatter: v => (v/10000).toFixed(0)+'万', fontSize: 11 } },
+                    xAxis: {
+                        type: "category",
+                        data: cumLabels,
+                        axisLabel: {
+                            interval: Math.floor(cumLabels.length / 8),
+                            fontSize: 11,
+                        },
+                    },
+                    yAxis: {
+                        type: "value",
+                        axisLabel: {
+                            formatter: (v) => (v / 10000).toFixed(0) + "万",
+                            fontSize: 11,
+                        },
+                    },
                     series: [
-                        { name: '累计还款', type: 'line', data: cumPay, smooth: true, symbol: 'none',
-                          lineStyle: { color: '#3b82f6', width: 2 },
-                          areaStyle: { color: { type:'linear',x:0,y:0,x2:0,y2:1, colorStops:[{offset:0,color:'rgba(59,130,246,0.2)'},{offset:1,color:'rgba(59,130,246,0.02)'}] } } },
-                        { name: '累计利息', type: 'line', data: cumInt, smooth: true, symbol: 'none',
-                          lineStyle: { color: '#f59e0b', width: 2 },
-                          areaStyle: { color: { type:'linear',x:0,y:0,x2:0,y2:1, colorStops:[{offset:0,color:'rgba(245,158,11,0.2)'},{offset:1,color:'rgba(245,158,11,0.02)'}] } } }
-                    ]
+                        {
+                            name: "累计还款",
+                            type: "line",
+                            data: cumPay,
+                            smooth: true,
+                            symbol: "none",
+                            lineStyle: { color: "#3b82f6", width: 2 },
+                            areaStyle: {
+                                color: {
+                                    type: "linear",
+                                    x: 0,
+                                    y: 0,
+                                    x2: 0,
+                                    y2: 1,
+                                    colorStops: [
+                                        {
+                                            offset: 0,
+                                            color: "rgba(59,130,246,0.2)",
+                                        },
+                                        {
+                                            offset: 1,
+                                            color: "rgba(59,130,246,0.02)",
+                                        },
+                                    ],
+                                },
+                            },
+                        },
+                        {
+                            name: "累计利息",
+                            type: "line",
+                            data: cumInt,
+                            smooth: true,
+                            symbol: "none",
+                            lineStyle: { color: "#f59e0b", width: 2 },
+                            areaStyle: {
+                                color: {
+                                    type: "linear",
+                                    x: 0,
+                                    y: 0,
+                                    x2: 0,
+                                    y2: 1,
+                                    colorStops: [
+                                        {
+                                            offset: 0,
+                                            color: "rgba(245,158,11,0.2)",
+                                        },
+                                        {
+                                            offset: 1,
+                                            color: "rgba(245,158,11,0.02)",
+                                        },
+                                    ],
+                                },
+                            },
+                        },
+                    ],
                 });
             }
 
@@ -1478,12 +1746,22 @@
 
                 // 采样
                 const step = Math.ceil(maxLen / 120);
-                const labels = [], origPays = [], newPays = [], origRem = [], newRem = [];
+                const labels = [],
+                    origPays = [],
+                    newPays = [],
+                    origRem = [],
+                    newRem = [];
                 for (let i = 0; i < maxLen; i++) {
                     if (i % step !== 0 && i !== maxLen - 1) continue;
                     const o = originalPlan[i];
                     const n = newPlan[i];
-                    labels.push(o ? (o.date || `第${o.month}期`) : (n ? (n.date || `第${n.month}期`) : `第${i+1}期`));
+                    labels.push(
+                        o
+                            ? o.date || `第${o.month}期`
+                            : n
+                              ? n.date || `第${n.month}期`
+                              : `第${i + 1}期`,
+                    );
                     origPays.push(o ? +o.payment.toFixed(2) : null);
                     newPays.push(n ? +n.payment.toFixed(2) : null);
                     origRem.push(o ? +o.remaining.toFixed(0) : null);
@@ -1491,109 +1769,275 @@
                 }
 
                 // 提前还款节点标记线
-                const markLines = prepayEntries.map(e => ({
-                    xAxis: e.month <= labels.length ? labels[Math.min(Math.floor(e.month / step), labels.length - 1)] : null,
-                    label: { formatter: `第${e.month}期\n提前还款` }
-                })).filter(m => m.xAxis !== null);
+                const markLines = prepayEntries
+                    .map((e) => ({
+                        xAxis:
+                            e.month <= labels.length
+                                ? labels[
+                                      Math.min(
+                                          Math.floor(e.month / step),
+                                          labels.length - 1,
+                                      )
+                                  ]
+                                : null,
+                        label: { formatter: `第${e.month}期\n提前还款` },
+                    }))
+                    .filter((m) => m.xAxis !== null);
 
                 // 图1：月供对比折线
-                getChart('chart-t2-payment').setOption({
-                    title: { text: '月供对比走势', left: 'center', top: 8, textStyle: { fontSize: 13, fontWeight: 600 } },
-                    tooltip: {
-                        trigger: 'axis',
-                        formatter: p => {
-                            const parts = [`${p[0].name}`];
-                            p.forEach(s => s.value !== null && parts.push(`${s.seriesName}：¥${s.value.toLocaleString()}`));
-                            return parts.join('<br/>');
-                        }
+                getChart("chart-t2-payment").setOption({
+                    title: {
+                        text: "月供对比走势",
+                        left: "center",
+                        top: 8,
+                        textStyle: { fontSize: 13, fontWeight: 600 },
                     },
-                    legend: { bottom: 0, itemWidth: 12, textStyle: { fontSize: 11 } },
+                    tooltip: {
+                        trigger: "axis",
+                        formatter: (p) => {
+                            const parts = [`${p[0].name}`];
+                            p.forEach(
+                                (s) =>
+                                    s.value !== null &&
+                                    parts.push(
+                                        `${s.seriesName}：¥${s.value.toLocaleString()}`,
+                                    ),
+                            );
+                            return parts.join("<br/>");
+                        },
+                    },
+                    legend: {
+                        bottom: 0,
+                        itemWidth: 12,
+                        textStyle: { fontSize: 11 },
+                    },
                     grid: { top: 48, bottom: 40, left: 70, right: 20 },
-                    xAxis: { type: 'category', data: labels, axisLabel: { interval: Math.floor(labels.length/6), fontSize: 11 } },
-                    yAxis: { type: 'value', axisLabel: { formatter: v => (v/10000).toFixed(1)+'万', fontSize: 11 } },
+                    xAxis: {
+                        type: "category",
+                        data: labels,
+                        axisLabel: {
+                            interval: Math.floor(labels.length / 6),
+                            fontSize: 11,
+                        },
+                    },
+                    yAxis: {
+                        type: "value",
+                        axisLabel: {
+                            formatter: (v) => (v / 10000).toFixed(1) + "万",
+                            fontSize: 11,
+                        },
+                    },
                     series: [
-                        { name: '原月供', type: 'line', data: origPays, smooth: true, symbol: 'none',
-                          lineStyle: { color: '#94a3b8', width: 2 },
-                          markLine: { silent: true, lineStyle: { color: '#f59e0b', type: 'dashed' }, data: markLines.map(m => [{ xAxis: m.xAxis }, { xAxis: m.xAxis }]) } },
-                        { name: '新月供', type: 'line', data: newPays, smooth: true, symbol: 'none',
-                          lineStyle: { color: '#10b981', width: 2.5 } }
-                    ]
+                        {
+                            name: "原月供",
+                            type: "line",
+                            data: origPays,
+                            smooth: true,
+                            symbol: "none",
+                            lineStyle: { color: "#94a3b8", width: 2 },
+                            markLine: {
+                                silent: true,
+                                lineStyle: { color: "#f59e0b", type: "dashed" },
+                                data: markLines.map((m) => [
+                                    { xAxis: m.xAxis },
+                                    { xAxis: m.xAxis },
+                                ]),
+                            },
+                        },
+                        {
+                            name: "新月供",
+                            type: "line",
+                            data: newPays,
+                            smooth: true,
+                            symbol: "none",
+                            lineStyle: { color: "#10b981", width: 2.5 },
+                        },
+                    ],
                 });
 
                 // 图2：各次提前还款节省利息柱状图
                 // 计算每段区间节省的利息
                 const savingsData = [];
                 let tempPlan = calcPrincipalPlan(
-                    parseFloat(document.getElementById('t2-principal').value),
-                    parseFloat(document.getElementById('t2-rate').value),
-                    parseInt(document.getElementById('t2-months').value),
-                    document.getElementById('t2-startdate').value || null
+                    parseFloat(document.getElementById("t2-principal").value),
+                    parseFloat(document.getElementById("t2-rate").value),
+                    parseInt(document.getElementById("t2-months").value),
+                    document.getElementById("t2-startdate").value || null,
                 );
-                const mode = document.getElementById('t2-prepay-mode').value;
-                let prevInterest = tempPlan.reduce((s, r) => s + r.interestPart, 0);
+                const mode = document.getElementById("t2-prepay-mode").value;
+                let prevInterest = tempPlan.reduce(
+                    (s, r) => s + r.interestPart,
+                    0,
+                );
 
                 for (let k = 0; k < prepayEntries.length; k++) {
                     const subEntries = prepayEntries.slice(0, k + 1);
                     const subPlan = calcMultiPrepayPlan(
-                        parseFloat(document.getElementById('t2-principal').value),
-                        parseFloat(document.getElementById('t2-rate').value),
-                        parseInt(document.getElementById('t2-months').value),
-                        document.getElementById('t2-startdate').value || null,
-                        subEntries, mode
+                        parseFloat(
+                            document.getElementById("t2-principal").value,
+                        ),
+                        parseFloat(document.getElementById("t2-rate").value),
+                        parseInt(document.getElementById("t2-months").value),
+                        document.getElementById("t2-startdate").value || null,
+                        subEntries,
+                        mode,
                     );
-                    const subInterest = subPlan.reduce((s, r) => s + r.interestPart, 0);
-                    const origInterest = tempPlan.reduce((s, r) => s + r.interestPart, 0);
+                    const subInterest = subPlan.reduce(
+                        (s, r) => s + r.interestPart,
+                        0,
+                    );
+                    const origInterest = tempPlan.reduce(
+                        (s, r) => s + r.interestPart,
+                        0,
+                    );
                     savingsData.push({
-                        name: `第${prepayEntries[k].month}期\n还¥${(prepayEntries[k].amount/10000).toFixed(1)}万`,
+                        name: `第${prepayEntries[k].month}期\n还¥${(prepayEntries[k].amount / 10000).toFixed(1)}万`,
                         saved: +(origInterest - subInterest).toFixed(0),
-                        incremental: k === 0
-                            ? +(origInterest - subInterest).toFixed(0)
-                            : +(prevInterest - subInterest).toFixed(0)
+                        incremental:
+                            k === 0
+                                ? +(origInterest - subInterest).toFixed(0)
+                                : +(prevInterest - subInterest).toFixed(0),
                     });
                     prevInterest = subInterest;
                 }
 
-                getChart('chart-t2-savings').setOption({
-                    title: { text: '各次提前还款节省利息', left: 'center', top: 8, textStyle: { fontSize: 13, fontWeight: 600 } },
-                    tooltip: {
-                        trigger: 'axis',
-                        formatter: p => `${p[0].axisValue}<br/>累计节省：¥${p[0].value.toLocaleString()}<br/>本次新增节省：¥${p[1].value.toLocaleString()}`
+                getChart("chart-t2-savings").setOption({
+                    title: {
+                        text: "各次提前还款节省利息",
+                        left: "center",
+                        top: 8,
+                        textStyle: { fontSize: 13, fontWeight: 600 },
                     },
-                    legend: { bottom: 0, itemWidth: 12, textStyle: { fontSize: 11 } },
+                    tooltip: {
+                        trigger: "axis",
+                        formatter: (p) =>
+                            `${p[0].axisValue}<br/>累计节省：¥${p[0].value.toLocaleString()}<br/>本次新增节省：¥${p[1].value.toLocaleString()}`,
+                    },
+                    legend: {
+                        bottom: 0,
+                        itemWidth: 12,
+                        textStyle: { fontSize: 11 },
+                    },
                     grid: { top: 48, bottom: 50, left: 80, right: 20 },
-                    xAxis: { type: 'category', data: savingsData.map(d => d.name), axisLabel: { fontSize: 11, interval: 0 } },
-                    yAxis: { type: 'value', axisLabel: { formatter: v => (v/10000).toFixed(1)+'万', fontSize: 11 } },
+                    xAxis: {
+                        type: "category",
+                        data: savingsData.map((d) => d.name),
+                        axisLabel: { fontSize: 11, interval: 0 },
+                    },
+                    yAxis: {
+                        type: "value",
+                        axisLabel: {
+                            formatter: (v) => (v / 10000).toFixed(1) + "万",
+                            fontSize: 11,
+                        },
+                    },
                     series: [
-                        { name: '累计节省利息', type: 'bar', data: savingsData.map(d => d.saved), barMaxWidth: 40,
-                          itemStyle: { color: { type:'linear',x:0,y:0,x2:0,y2:1, colorStops:[{offset:0,color:'#10b981'},{offset:1,color:'#6ee7b7'}] }, borderRadius: [4,4,0,0] } },
-                        { name: '本次新增节省', type: 'bar', data: savingsData.map(d => d.incremental), barMaxWidth: 40,
-                          itemStyle: { color: { type:'linear',x:0,y:0,x2:0,y2:1, colorStops:[{offset:0,color:'#3b82f6'},{offset:1,color:'#93c5fd'}] }, borderRadius: [4,4,0,0] } }
-                    ]
+                        {
+                            name: "累计节省利息",
+                            type: "bar",
+                            data: savingsData.map((d) => d.saved),
+                            barMaxWidth: 40,
+                            itemStyle: {
+                                color: {
+                                    type: "linear",
+                                    x: 0,
+                                    y: 0,
+                                    x2: 0,
+                                    y2: 1,
+                                    colorStops: [
+                                        { offset: 0, color: "#10b981" },
+                                        { offset: 1, color: "#6ee7b7" },
+                                    ],
+                                },
+                                borderRadius: [4, 4, 0, 0],
+                            },
+                        },
+                        {
+                            name: "本次新增节省",
+                            type: "bar",
+                            data: savingsData.map((d) => d.incremental),
+                            barMaxWidth: 40,
+                            itemStyle: {
+                                color: {
+                                    type: "linear",
+                                    x: 0,
+                                    y: 0,
+                                    x2: 0,
+                                    y2: 1,
+                                    colorStops: [
+                                        { offset: 0, color: "#3b82f6" },
+                                        { offset: 1, color: "#93c5fd" },
+                                    ],
+                                },
+                                borderRadius: [4, 4, 0, 0],
+                            },
+                        },
+                    ],
                 });
 
                 // 图3：剩余本金对比（全宽）
-                getChart('chart-t2-remaining').setOption({
-                    title: { text: '剩余本金对比', left: 'center', top: 8, textStyle: { fontSize: 13, fontWeight: 600 } },
-                    tooltip: {
-                        trigger: 'axis',
-                        formatter: p => {
-                            const parts = [`${p[0].name}`];
-                            p.forEach(s => s.value !== null && parts.push(`${s.seriesName}：¥${s.value.toLocaleString()}`));
-                            return parts.join('<br/>');
-                        }
+                getChart("chart-t2-remaining").setOption({
+                    title: {
+                        text: "剩余本金对比",
+                        left: "center",
+                        top: 8,
+                        textStyle: { fontSize: 13, fontWeight: 600 },
                     },
-                    legend: { bottom: 0, itemWidth: 12, textStyle: { fontSize: 11 } },
+                    tooltip: {
+                        trigger: "axis",
+                        formatter: (p) => {
+                            const parts = [`${p[0].name}`];
+                            p.forEach(
+                                (s) =>
+                                    s.value !== null &&
+                                    parts.push(
+                                        `${s.seriesName}：¥${s.value.toLocaleString()}`,
+                                    ),
+                            );
+                            return parts.join("<br/>");
+                        },
+                    },
+                    legend: {
+                        bottom: 0,
+                        itemWidth: 12,
+                        textStyle: { fontSize: 11 },
+                    },
                     grid: { top: 48, bottom: 40, left: 80, right: 20 },
-                    xAxis: { type: 'category', data: labels, axisLabel: { interval: Math.floor(labels.length/8), fontSize: 11 } },
-                    yAxis: { type: 'value', axisLabel: { formatter: v => (v/10000).toFixed(0)+'万', fontSize: 11 } },
+                    xAxis: {
+                        type: "category",
+                        data: labels,
+                        axisLabel: {
+                            interval: Math.floor(labels.length / 8),
+                            fontSize: 11,
+                        },
+                    },
+                    yAxis: {
+                        type: "value",
+                        axisLabel: {
+                            formatter: (v) => (v / 10000).toFixed(0) + "万",
+                            fontSize: 11,
+                        },
+                    },
                     series: [
-                        { name: '原剩余本金', type: 'line', data: origRem, smooth: true, symbol: 'none',
-                          lineStyle: { color: '#94a3b8', width: 2 },
-                          areaStyle: { color: 'rgba(148,163,184,0.15)' } },
-                        { name: '提前还款后剩余本金', type: 'line', data: newRem, smooth: true, symbol: 'none',
-                          lineStyle: { color: '#10b981', width: 2.5 },
-                          areaStyle: { color: 'rgba(16,185,129,0.15)' } }
-                    ]
+                        {
+                            name: "原剩余本金",
+                            type: "line",
+                            data: origRem,
+                            smooth: true,
+                            symbol: "none",
+                            lineStyle: { color: "#94a3b8", width: 2 },
+                            areaStyle: { color: "rgba(148,163,184,0.15)" },
+                        },
+                        {
+                            name: "提前还款后剩余本金",
+                            type: "line",
+                            data: newRem,
+                            smooth: true,
+                            symbol: "none",
+                            lineStyle: { color: "#10b981", width: 2.5 },
+                            areaStyle: { color: "rgba(16,185,129,0.15)" },
+                        },
+                    ],
                 });
             }
 
@@ -1612,6 +2056,14 @@
 
             // 初始化：默认添加两条提前还款记录
             addPrepayRow(6, 900404.57);
+            addPrepayRow(12, 500000);
+
+            // ECharts resize 监听
+            window.addEventListener("resize", () => {
+                Object.values(chartInstances).forEach(
+                    (c) => c && !c.isDisposed() && c.resize(),
+                );
+            });
         </script>
     </body>
 </html>
