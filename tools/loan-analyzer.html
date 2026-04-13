@@ -1,0 +1,1380 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>等额本金贷款分析工具</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    "PingFang SC", "Hiragino Sans GB", sans-serif;
+                background: #f0f4f8;
+                color: #1a202c;
+                min-height: 100vh;
+            }
+
+            /* Header */
+            .header {
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+                color: white;
+                padding: 24px 32px;
+                box-shadow: 0 2px 12px rgba(30, 64, 175, 0.3);
+            }
+            .header h1 {
+                font-size: 22px;
+                font-weight: 700;
+                letter-spacing: 0.5px;
+            }
+            .header p {
+                font-size: 13px;
+                opacity: 0.8;
+                margin-top: 4px;
+            }
+
+            /* Tabs */
+            .tabs {
+                display: flex;
+                background: white;
+                border-bottom: 1px solid #e2e8f0;
+                padding: 0 32px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            }
+            .tab-btn {
+                padding: 14px 24px;
+                border: none;
+                background: none;
+                font-size: 14px;
+                font-weight: 500;
+                color: #718096;
+                cursor: pointer;
+                border-bottom: 3px solid transparent;
+                transition: all 0.2s;
+                margin-bottom: -1px;
+            }
+            .tab-btn:hover {
+                color: #3b82f6;
+            }
+            .tab-btn.active {
+                color: #1e40af;
+                border-bottom-color: #3b82f6;
+            }
+
+            /* Main */
+            .main {
+                padding: 28px 32px;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            .panel {
+                display: none;
+            }
+            .panel.active {
+                display: block;
+            }
+
+            /* Form Card */
+            .card {
+                background: white;
+                border-radius: 12px;
+                padding: 24px;
+                box-shadow:
+                    0 1px 3px rgba(0, 0, 0, 0.08),
+                    0 1px 2px rgba(0, 0, 0, 0.06);
+                margin-bottom: 20px;
+            }
+            .card-title {
+                font-size: 15px;
+                font-weight: 600;
+                color: #2d3748;
+                margin-bottom: 18px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .card-title::before {
+                content: "";
+                display: inline-block;
+                width: 4px;
+                height: 16px;
+                background: #3b82f6;
+                border-radius: 2px;
+            }
+
+            /* Form Grid */
+            .form-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 16px;
+                align-items: end;
+            }
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+            .form-group label {
+                font-size: 13px;
+                font-weight: 500;
+                color: #4a5568;
+            }
+            .form-group input,
+            .form-group select {
+                padding: 9px 12px;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 14px;
+                color: #2d3748;
+                transition:
+                    border-color 0.2s,
+                    box-shadow 0.2s;
+                outline: none;
+            }
+            .form-group input:focus,
+            .form-group select:focus {
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            }
+            .form-group .unit {
+                font-size: 12px;
+                color: #a0aec0;
+                margin-top: 2px;
+            }
+
+            /* Button */
+            .btn {
+                padding: 10px 28px;
+                border: none;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .btn-primary {
+                background: linear-gradient(135deg, #1e40af, #3b82f6);
+                color: white;
+                box-shadow: 0 2px 8px rgba(59, 130, 246, 0.35);
+            }
+            .btn-primary:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.45);
+            }
+            .btn-primary:active {
+                transform: translateY(0);
+            }
+
+            /* Summary Cards */
+            .summary-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 14px;
+                margin-bottom: 20px;
+            }
+            .summary-card {
+                background: white;
+                border-radius: 10px;
+                padding: 18px 20px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+                border-left: 4px solid #e2e8f0;
+            }
+            .summary-card.blue {
+                border-left-color: #3b82f6;
+            }
+            .summary-card.green {
+                border-left-color: #10b981;
+            }
+            .summary-card.orange {
+                border-left-color: #f59e0b;
+            }
+            .summary-card.purple {
+                border-left-color: #8b5cf6;
+            }
+            .summary-card.red {
+                border-left-color: #ef4444;
+            }
+            .summary-label {
+                font-size: 12px;
+                color: #718096;
+                margin-bottom: 6px;
+            }
+            .summary-value {
+                font-size: 22px;
+                font-weight: 700;
+                color: #1a202c;
+                letter-spacing: -0.5px;
+            }
+            .summary-sub {
+                font-size: 11px;
+                color: #a0aec0;
+                margin-top: 3px;
+            }
+
+            /* Table */
+            .table-wrap {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+                overflow: hidden;
+            }
+            .table-header {
+                padding: 16px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            .table-scroll {
+                overflow-x: auto;
+                max-height: 480px;
+                overflow-y: auto;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 13px;
+            }
+            thead th {
+                background: #f7fafc;
+                padding: 11px 14px;
+                text-align: right;
+                font-weight: 600;
+                color: #4a5568;
+                border-bottom: 1px solid #e2e8f0;
+                position: sticky;
+                top: 0;
+                white-space: nowrap;
+            }
+            thead th:first-child,
+            thead th:nth-child(2) {
+                text-align: center;
+            }
+            tbody tr {
+                border-bottom: 1px solid #f0f4f8;
+                transition: background 0.1s;
+            }
+            tbody tr:hover {
+                background: #f7fafc;
+            }
+            tbody tr:last-child {
+                border-bottom: none;
+            }
+            tbody td {
+                padding: 10px 14px;
+                text-align: right;
+                color: #2d3748;
+            }
+            tbody td:first-child,
+            tbody td:nth-child(2) {
+                text-align: center;
+                color: #718096;
+            }
+            .td-month {
+                font-weight: 600;
+                color: #3b82f6 !important;
+            }
+            .td-payment {
+                font-weight: 600;
+            }
+            .td-interest {
+                color: #f59e0b;
+            }
+            .td-remaining {
+                color: #718096;
+            }
+            /* 高亮提前还款月 */
+            tr.prepay-row {
+                background: #eff6ff !important;
+            }
+            tr.prepay-row td {
+                font-weight: 500;
+            }
+
+            /* Compare layout */
+            .compare-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                margin-bottom: 20px;
+            }
+            @media (max-width: 900px) {
+                .compare-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .compare-side {
+            }
+            .compare-label {
+                font-size: 13px;
+                font-weight: 600;
+                padding: 8px 14px;
+                border-radius: 6px 6px 0 0;
+                text-align: center;
+            }
+            .compare-label.original {
+                background: #dbeafe;
+                color: #1e40af;
+            }
+            .compare-label.after {
+                background: #d1fae5;
+                color: #065f46;
+            }
+
+            /* Diff table */
+            .diff-positive {
+                color: #10b981;
+                font-weight: 600;
+            }
+            .diff-negative {
+                color: #ef4444;
+                font-weight: 600;
+            }
+            .diff-zero {
+                color: #a0aec0;
+            }
+
+            /* Savings banner */
+            .savings-banner {
+                background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+                border: 1px solid #6ee7b7;
+                border-radius: 10px;
+                padding: 18px 24px;
+                margin-bottom: 20px;
+                display: flex;
+                gap: 32px;
+                flex-wrap: wrap;
+                align-items: center;
+            }
+            .savings-item {
+            }
+            .savings-item-label {
+                font-size: 12px;
+                color: #065f46;
+            }
+            .savings-item-value {
+                font-size: 20px;
+                font-weight: 700;
+                color: #047857;
+            }
+
+            /* Empty state */
+            .empty-state {
+                text-align: center;
+                padding: 48px 20px;
+                color: #a0aec0;
+            }
+            .empty-state .icon {
+                font-size: 48px;
+                margin-bottom: 12px;
+            }
+            .empty-state p {
+                font-size: 14px;
+            }
+
+            /* Responsive */
+            @media (max-width: 600px) {
+                .main {
+                    padding: 16px;
+                }
+                .header {
+                    padding: 16px;
+                }
+                .tabs {
+                    padding: 0 16px;
+                }
+                .form-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .summary-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>等额本金贷款分析工具</h1>
+            <p>按月还款分析 · 提前还贷对比</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('tab1', this)">
+                每月还款分析
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab2', this)">
+                提前还贷对比
+            </button>
+        </div>
+
+        <div class="main">
+            <!-- ========== Tab 1: 每月还款分析 ========== -->
+            <div id="tab1" class="panel active">
+                <div class="card">
+                    <div class="card-title">贷款参数</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>贷款总额（元）</label>
+                            <input
+                                type="number"
+                                id="t1-principal"
+                                value="4870000"
+                                min="1"
+                                step="10000"
+                            />
+                            <span class="unit">示例：1000000 = 100万</span>
+                        </div>
+                        <div class="form-group">
+                            <label>年利率（%）</label>
+                            <input
+                                type="number"
+                                id="t1-rate"
+                                value="3.05"
+                                min="0.01"
+                                step="0.01"
+                            />
+                            <span class="unit">贷款年利率，如 3.05</span>
+                        </div>
+                        <div class="form-group">
+                            <label>贷款期限（月）</label>
+                            <input
+                                type="number"
+                                id="t1-months"
+                                value="360"
+                                min="1"
+                                max="600"
+                            />
+                            <span class="unit">如 360 = 30年</span>
+                        </div>
+                        <div class="form-group">
+                            <label>首次还款日期（可选）</label>
+                            <input
+                                type="month"
+                                id="t1-startdate"
+                                value="2025-01"
+                            />
+                            <span class="unit">用于显示还款年月</span>
+                        </div>
+                        <div class="form-group" style="align-self: end">
+                            <button
+                                class="btn btn-primary"
+                                onclick="calcTab1()"
+                            >
+                                开始计算
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="t1-result" style="display: none">
+                    <div class="summary-grid" id="t1-summary"></div>
+                    <div class="table-wrap">
+                        <div class="table-header">
+                            <span class="card-title" style="margin: 0"
+                                >还款明细</span
+                            >
+                            <span
+                                style="font-size: 12px; color: #a0aec0"
+                                id="t1-table-info"
+                            ></span>
+                        </div>
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>期数</th>
+                                        <th>还款日期</th>
+                                        <th>月还款额（元）</th>
+                                        <th>还本金（元）</th>
+                                        <th>还利息（元）</th>
+                                        <th>剩余本金（元）</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="t1-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="t1-empty" class="empty-state">
+                    <div class="icon">🏦</div>
+                    <p>填写贷款参数后点击「开始计算」</p>
+                </div>
+            </div>
+
+            <!-- ========== Tab 2: 提前还贷对比 ========== -->
+            <div id="tab2" class="panel">
+                <div class="card">
+                    <div class="card-title">贷款参数</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>贷款总额（元）</label>
+                            <input
+                                type="number"
+                                id="t2-principal"
+                                value="4870000"
+                                min="1"
+                                step="10000"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>年利率（%）</label>
+                            <input
+                                type="number"
+                                id="t2-rate"
+                                value="3.05"
+                                min="0.01"
+                                step="0.01"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>贷款期限（月）</label>
+                            <input
+                                type="number"
+                                id="t2-months"
+                                value="360"
+                                min="1"
+                                max="600"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>首次还款日期（可选）</label>
+                            <input
+                                type="month"
+                                id="t2-startdate"
+                                value="2025-01"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        提前还款计划
+                        <span
+                            style="
+                                font-size: 12px;
+                                font-weight: 400;
+                                color: #718096;
+                                margin-left: 8px;
+                            "
+                            >可添加多次，按期数升序排列</span
+                        >
+                    </div>
+                    <!-- 多条提前还款记录 -->
+                    <div id="t2-prepay-list"></div>
+                    <div
+                        style="
+                            display: flex;
+                            gap: 12px;
+                            margin-top: 16px;
+                            align-items: center;
+                        "
+                    >
+                        <button
+                            class="btn"
+                            style="
+                                background: #f0f4f8;
+                                color: #3b82f6;
+                                border: 1px dashed #93c5fd;
+                                font-size: 13px;
+                                padding: 8px 20px;
+                            "
+                            onclick="addPrepayRow()"
+                        >
+                            + 添加一次提前还款
+                        </button>
+                        <div
+                            class="form-group"
+                            style="flex: 1; max-width: 260px; margin: 0"
+                        >
+                            <select
+                                id="t2-prepay-mode"
+                                style="
+                                    padding: 9px 12px;
+                                    border: 1px solid #e2e8f0;
+                                    border-radius: 8px;
+                                    font-size: 13px;
+                                    color: #2d3748;
+                                    outline: none;
+                                "
+                            >
+                                <option value="reduce_payment">
+                                    每次还款后：月供减少，期限不变
+                                </option>
+                                <option value="reduce_term">
+                                    每次还款后：月供不变，期限缩短
+                                </option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="calcTab2()">
+                            开始对比
+                        </button>
+                    </div>
+                </div>
+
+                <div id="t2-result" style="display: none">
+                    <!-- 节省汇总 -->
+                    <div class="savings-banner" id="t2-savings"></div>
+
+                    <!-- 两侧对比汇总 -->
+                    <div class="compare-grid" id="t2-compare-summary"></div>
+
+                    <!-- 对比明细表格 -->
+                    <div class="table-wrap">
+                        <div class="table-header">
+                            <span class="card-title" style="margin: 0"
+                                >还款计划对比</span
+                            >
+                            <span style="font-size: 12px; color: #a0aec0"
+                                >★ 标注行为提前还款节点</span
+                            >
+                        </div>
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>期数</th>
+                                        <th>还款日期</th>
+                                        <th>原月供（元）</th>
+                                        <th>新月供（元）</th>
+                                        <th>月供差额（元）</th>
+                                        <th>原剩余本金（元）</th>
+                                        <th>新剩余本金（元）</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="t2-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="t2-empty" class="empty-state">
+                    <div class="icon">📊</div>
+                    <p>填写参数后点击「开始对比」，查看提前还贷的效果</p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // ==================== 工具函数 ====================
+
+            function fmt(num, decimals = 2) {
+                if (num === null || num === undefined || isNaN(num)) return "-";
+                return num.toLocaleString("zh-CN", {
+                    minimumFractionDigits: decimals,
+                    maximumFractionDigits: decimals,
+                });
+            }
+
+            function fmtInt(num) {
+                return fmt(num, 0);
+            }
+
+            function addMonths(yearMonth, n) {
+                if (!yearMonth) return null;
+                const [year, month] = yearMonth.split("-").map(Number);
+                const d = new Date(year, month - 1 + n, 1);
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, "0");
+                return `${y}-${m}`;
+            }
+
+            // ==================== 核心计算 ====================
+
+            /**
+             * 生成等额本金还款计划
+             * @returns Array<{month, date, payment, principalPart, interestPart, remaining}>
+             */
+            function calcPrincipalPlan(
+                principal,
+                annualRate,
+                months,
+                startDate,
+            ) {
+                const monthlyRate = annualRate / 100 / 12;
+                const monthlyPrincipal = principal / months;
+                const plan = [];
+                let remaining = principal;
+
+                for (let i = 1; i <= months; i++) {
+                    const interest = remaining * monthlyRate;
+                    const payment = monthlyPrincipal + interest;
+                    remaining = remaining - monthlyPrincipal;
+                    if (remaining < 0.005) remaining = 0; // 浮点误差修正
+
+                    plan.push({
+                        month: i,
+                        date: startDate ? addMonths(startDate, i - 1) : null,
+                        payment: payment,
+                        principalPart: monthlyPrincipal,
+                        interestPart: interest,
+                        remaining: remaining,
+                    });
+                }
+                return plan;
+            }
+
+            /**
+             * 生成提前还款后的还款计划
+             * @param {Array} originalPlan 原始计划
+             * @param {number} prepayMonth 第 N 期还款后提前还款
+             * @param {number} prepayAmount 提前还款金额
+             * @param {number} annualRate 年利率
+             * @param {string} mode 'reduce_payment' | 'reduce_term'
+             */
+            function calcPrepayPlan(
+                originalPlan,
+                prepayMonth,
+                prepayAmount,
+                annualRate,
+                mode,
+            ) {
+                const monthlyRate = annualRate / 100 / 12;
+                const totalMonths = originalPlan.length;
+
+                const plan = [];
+
+                // 复制提前还款前的部分（1 ~ prepayMonth）
+                for (let i = 0; i < prepayMonth; i++) {
+                    plan.push({ ...originalPlan[i], prepayEvent: false });
+                }
+
+                // 计算提前还款后的剩余本金
+                const remainAfterPrepay =
+                    originalPlan[prepayMonth - 1].remaining - prepayAmount;
+                if (remainAfterPrepay < 0) {
+                    throw new Error(
+                        `提前还款金额（${fmt(prepayAmount)}元）超过第${prepayMonth}期后剩余本金（${fmt(originalPlan[prepayMonth - 1].remaining)}元）`,
+                    );
+                }
+
+                const remainingMonths = totalMonths - prepayMonth; // 剩余期数
+
+                if (remainingMonths <= 0) {
+                    // 已经还完了
+                    return plan;
+                }
+
+                if (mode === "reduce_term") {
+                    // 月供保持原节奏（月还本金不变），期限缩短
+                    // 原月还本金
+                    const origMonthlyPrincipal = originalPlan[0].principalPart;
+                    // 新的剩余期数
+                    const newRemainingMonths = Math.ceil(
+                        remainAfterPrepay / origMonthlyPrincipal,
+                    );
+                    let rem = remainAfterPrepay;
+
+                    for (let j = 0; j < newRemainingMonths; j++) {
+                        const i = prepayMonth + j; // 全局期数（从0）
+                        const monthNum = prepayMonth + j + 1;
+                        const interest = rem * monthlyRate;
+                        const mp = Math.min(origMonthlyPrincipal, rem);
+                        const payment = mp + interest;
+                        rem -= mp;
+                        if (rem < 0.005) rem = 0;
+
+                        plan.push({
+                            month: monthNum,
+                            date: originalPlan[0].date
+                                ? addMonths(
+                                      originalPlan[prepayMonth].date ||
+                                          addMonths(
+                                              originalPlan[0].date,
+                                              prepayMonth,
+                                          ),
+                                      j,
+                                  )
+                                : null,
+                            payment,
+                            principalPart: mp,
+                            interestPart: interest,
+                            remaining: rem,
+                            prepayEvent: j === 0, // 第一期标记提前还款节点
+                        });
+                    }
+                } else {
+                    // reduce_payment: 月供减少，期限不变
+                    const newMonthlyPrincipal =
+                        remainAfterPrepay / remainingMonths;
+                    let rem = remainAfterPrepay;
+
+                    for (let j = 0; j < remainingMonths; j++) {
+                        const monthNum = prepayMonth + j + 1;
+                        const interest = rem * monthlyRate;
+                        const payment = newMonthlyPrincipal + interest;
+                        rem -= newMonthlyPrincipal;
+                        if (rem < 0.005) rem = 0;
+
+                        const origDate =
+                            j < originalPlan.length - prepayMonth
+                                ? originalPlan[prepayMonth + j].date
+                                : null;
+
+                        plan.push({
+                            month: monthNum,
+                            date: origDate,
+                            payment,
+                            principalPart: newMonthlyPrincipal,
+                            interestPart: interest,
+                            remaining: rem,
+                            prepayEvent: j === 0,
+                        });
+                    }
+                }
+
+                return plan;
+            }
+
+            // ==================== Tab 1 ====================
+
+            function calcTab1() {
+                const principal = parseFloat(
+                    document.getElementById("t1-principal").value,
+                );
+                const rate = parseFloat(
+                    document.getElementById("t1-rate").value,
+                );
+                const months = parseInt(
+                    document.getElementById("t1-months").value,
+                );
+                const startDate =
+                    document.getElementById("t1-startdate").value || null;
+
+                if (
+                    !principal ||
+                    !rate ||
+                    !months ||
+                    principal <= 0 ||
+                    rate <= 0 ||
+                    months <= 0
+                ) {
+                    alert("请填写有效的贷款参数");
+                    return;
+                }
+
+                const plan = calcPrincipalPlan(
+                    principal,
+                    rate,
+                    months,
+                    startDate,
+                );
+
+                const totalPayment = plan.reduce((s, r) => s + r.payment, 0);
+                const totalInterest = plan.reduce(
+                    (s, r) => s + r.interestPart,
+                    0,
+                );
+                const firstPayment = plan[0].payment;
+                const lastPayment = plan[plan.length - 1].payment;
+                const avgPayment = totalPayment / months;
+
+                // 汇总
+                document.getElementById("t1-summary").innerHTML = `
+    <div class="summary-card blue">
+      <div class="summary-label">贷款总额</div>
+      <div class="summary-value">${fmtInt(principal)}</div>
+      <div class="summary-sub">元</div>
+    </div>
+    <div class="summary-card green">
+      <div class="summary-label">总还款额</div>
+      <div class="summary-value">${fmtInt(totalPayment)}</div>
+      <div class="summary-sub">元</div>
+    </div>
+    <div class="summary-card orange">
+      <div class="summary-label">总利息</div>
+      <div class="summary-value">${fmtInt(totalInterest)}</div>
+      <div class="summary-sub">元 · 利息占比 ${((totalInterest / principal) * 100).toFixed(1)}%</div>
+    </div>
+    <div class="summary-card purple">
+      <div class="summary-label">首月还款</div>
+      <div class="summary-value">${fmtInt(firstPayment)}</div>
+      <div class="summary-sub">元（最高）</div>
+    </div>
+    <div class="summary-card blue">
+      <div class="summary-label">末月还款</div>
+      <div class="summary-value">${fmtInt(lastPayment)}</div>
+      <div class="summary-sub">元（最低）</div>
+    </div>
+    <div class="summary-card green">
+      <div class="summary-label">月均还款</div>
+      <div class="summary-value">${fmtInt(avgPayment)}</div>
+      <div class="summary-sub">元</div>
+    </div>
+  `;
+
+                // 表格
+                document.getElementById("t1-table-info").textContent =
+                    `共 ${months} 期`;
+                const tbody = document.getElementById("t1-tbody");
+                tbody.innerHTML = plan
+                    .map(
+                        (r) => `
+    <tr>
+      <td class="td-month">第 ${r.month} 期</td>
+      <td>${r.date || "-"}</td>
+      <td class="td-payment">${fmt(r.payment)}</td>
+      <td>${fmt(r.principalPart)}</td>
+      <td class="td-interest">${fmt(r.interestPart)}</td>
+      <td class="td-remaining">${fmt(r.remaining)}</td>
+    </tr>
+  `,
+                    )
+                    .join("");
+
+                document.getElementById("t1-empty").style.display = "none";
+                document.getElementById("t1-result").style.display = "block";
+            }
+
+            // ==================== Tab 2 多次提前还款 ====================
+
+            let prepayRowId = 0;
+
+            function addPrepayRow(month = "", amount = "") {
+                prepayRowId++;
+                const id = prepayRowId;
+                const div = document.createElement("div");
+                div.id = `prepay-row-${id}`;
+                div.style.cssText =
+                    "display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;margin-bottom:12px;padding:14px;background:#f7fafc;border-radius:8px;border:1px solid #e2e8f0";
+                div.innerHTML = `
+    <div class="form-group" style="margin:0">
+      <label style="font-size:12px">第 N 期正常还款后提前还</label>
+      <input type="number" id="prepay-month-${id}" value="${month}" min="1" placeholder="如 12" style="padding:8px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;outline:none">
+      <span class="unit">在该期正常还款后额外一次性还款</span>
+    </div>
+    <div class="form-group" style="margin:0">
+      <label style="font-size:12px">提前还款金额（元）</label>
+      <input type="number" id="prepay-amount-${id}" value="${amount}" min="1" step="10000" placeholder="如 500000" style="padding:8px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;outline:none">
+    </div>
+    <button onclick="removePrepayRow(${id})" style="padding:8px 14px;border:1px solid #fca5a5;background:#fff5f5;color:#ef4444;border-radius:6px;font-size:13px;cursor:pointer;white-space:nowrap">删除</button>
+  `;
+                document.getElementById("t2-prepay-list").appendChild(div);
+            }
+
+            function removePrepayRow(id) {
+                const el = document.getElementById(`prepay-row-${id}`);
+                if (el) el.remove();
+            }
+
+            // 读取所有提前还款行，返回按期数排序的数组
+            function getPrepayEntries(totalMonths) {
+                const rows = document
+                    .getElementById("t2-prepay-list")
+                    .querySelectorAll('[id^="prepay-row-"]');
+                const entries = [];
+                for (const row of rows) {
+                    const id = row.id.replace("prepay-row-", "");
+                    const m = parseInt(
+                        document.getElementById(`prepay-month-${id}`).value,
+                    );
+                    const a = parseFloat(
+                        document.getElementById(`prepay-amount-${id}`).value,
+                    );
+                    if (!m || !a || m <= 0 || a <= 0) {
+                        throw new Error(
+                            "请确认所有提前还款行的期数和金额均已填写",
+                        );
+                    }
+                    if (m >= totalMonths) {
+                        throw new Error(
+                            `提前还款期数（${m}）必须小于贷款期限（${totalMonths}）`,
+                        );
+                    }
+                    entries.push({ month: m, amount: a });
+                }
+                // 期数去重检查
+                const months = entries.map((e) => e.month);
+                if (new Set(months).size !== months.length) {
+                    throw new Error("存在重复的提前还款期数，请检查");
+                }
+                entries.sort((a, b) => a.month - b.month);
+                return entries;
+            }
+
+            /**
+             * 支持多次提前还款的计划生成
+             * 每次提前还款后，在当前计划基础上继续追加
+             */
+            function calcMultiPrepayPlan(
+                principal,
+                annualRate,
+                totalMonths,
+                startDate,
+                prepayEntries,
+                mode,
+            ) {
+                // 先生成原始计划
+                let currentPlan = calcPrincipalPlan(
+                    principal,
+                    annualRate,
+                    totalMonths,
+                    startDate,
+                );
+                // 记录每次提前还款的事件，附加到 plan 节点上
+                // prepayEvents: Set of month numbers (1-based)
+                const prepayEventMap = {}; // month -> amount
+                for (const e of prepayEntries) {
+                    prepayEventMap[e.month] = e.amount;
+                }
+
+                // 逐次应用提前还款，每次重建后续计划
+                // 由于每次都会改变 plan 结构，需要追踪当前 plan 的实际期数
+                let plan = currentPlan.map((r) => ({
+                    ...r,
+                    prepayAmount: prepayEventMap[r.month] || 0,
+                }));
+
+                for (const entry of prepayEntries) {
+                    const { month: prepayMonth, amount: prepayAmount } = entry;
+
+                    // 找到 plan 中 month === prepayMonth 的位置（索引）
+                    const idx = plan.findIndex((r) => r.month === prepayMonth);
+                    if (idx === -1) {
+                        throw new Error(
+                            `提前还款期数 ${prepayMonth} 在当前还款计划中不存在（可能已被之前的还款缩短）`,
+                        );
+                    }
+
+                    const remainAfterPrepay =
+                        plan[idx].remaining - prepayAmount;
+                    if (remainAfterPrepay < 0) {
+                        throw new Error(
+                            `第 ${prepayMonth} 期后剩余本金 ${fmt(plan[idx].remaining)} 元，提前还款 ${fmt(prepayAmount)} 元超出上限`,
+                        );
+                    }
+                    if (remainAfterPrepay < 0.01) {
+                        // 直接还清，截断 plan
+                        plan = plan.slice(0, idx + 1);
+                        plan[idx].prepayAmount = prepayAmount;
+                        break;
+                    }
+
+                    const monthlyRate = annualRate / 100 / 12;
+                    const remainingMonths = plan.length - (idx + 1); // 当前 plan 中 prepayMonth 之后还剩多少期
+
+                    if (remainingMonths <= 0) break;
+
+                    // 重建 prepayMonth 之后的计划
+                    const newTail = [];
+                    if (mode === "reduce_term") {
+                        // 保持原月还本金，缩短期限
+                        const origMonthlyPrincipal = plan[0].principalPart;
+                        const newRemainingMonths = Math.ceil(
+                            remainAfterPrepay / origMonthlyPrincipal,
+                        );
+                        let rem = remainAfterPrepay;
+                        for (let j = 0; j < newRemainingMonths; j++) {
+                            const monthNum = prepayMonth + j + 1;
+                            const interest = rem * monthlyRate;
+                            const mp = Math.min(origMonthlyPrincipal, rem);
+                            const payment = mp + interest;
+                            rem -= mp;
+                            if (rem < 0.005) rem = 0;
+                            const origSlot = plan[idx + 1 + j];
+                            newTail.push({
+                                month: monthNum,
+                                date: origSlot
+                                    ? origSlot.date
+                                    : plan[idx].date
+                                      ? addMonths(plan[idx].date, j + 1)
+                                      : null,
+                                payment,
+                                principalPart: mp,
+                                interestPart: interest,
+                                remaining: rem,
+                                prepayAmount: prepayEventMap[monthNum] || 0,
+                            });
+                        }
+                    } else {
+                        // 月供减少，期限不变
+                        const newMonthlyPrincipal =
+                            remainAfterPrepay / remainingMonths;
+                        let rem = remainAfterPrepay;
+                        for (let j = 0; j < remainingMonths; j++) {
+                            const monthNum = prepayMonth + j + 1;
+                            const interest = rem * monthlyRate;
+                            const payment = newMonthlyPrincipal + interest;
+                            rem -= newMonthlyPrincipal;
+                            if (rem < 0.005) rem = 0;
+                            const origSlot = plan[idx + 1 + j];
+                            newTail.push({
+                                month: monthNum,
+                                date: origSlot
+                                    ? origSlot.date
+                                    : plan[idx].date
+                                      ? addMonths(plan[idx].date, j + 1)
+                                      : null,
+                                payment,
+                                principalPart: newMonthlyPrincipal,
+                                interestPart: interest,
+                                remaining: rem,
+                                prepayAmount: prepayEventMap[monthNum] || 0,
+                            });
+                        }
+                    }
+
+                    // 标记提前还款事件
+                    plan[idx].prepayAmount = prepayAmount;
+                    plan = [...plan.slice(0, idx + 1), ...newTail];
+                }
+
+                return plan;
+            }
+
+            function calcTab2() {
+                const principal = parseFloat(
+                    document.getElementById("t2-principal").value,
+                );
+                const rate = parseFloat(
+                    document.getElementById("t2-rate").value,
+                );
+                const months = parseInt(
+                    document.getElementById("t2-months").value,
+                );
+                const startDate =
+                    document.getElementById("t2-startdate").value || null;
+                const mode = document.getElementById("t2-prepay-mode").value;
+
+                if (
+                    !principal ||
+                    !rate ||
+                    !months ||
+                    principal <= 0 ||
+                    rate <= 0 ||
+                    months <= 0
+                ) {
+                    alert("请填写有效的贷款参数");
+                    return;
+                }
+
+                let prepayEntries;
+                try {
+                    prepayEntries = getPrepayEntries(months);
+                } catch (e) {
+                    alert(e.message);
+                    return;
+                }
+                if (prepayEntries.length === 0) {
+                    alert("请至少添加一条提前还款记录");
+                    return;
+                }
+
+                let originalPlan, newPlan;
+                try {
+                    originalPlan = calcPrincipalPlan(
+                        principal,
+                        rate,
+                        months,
+                        startDate,
+                    );
+                    newPlan = calcMultiPrepayPlan(
+                        principal,
+                        rate,
+                        months,
+                        startDate,
+                        prepayEntries,
+                        mode,
+                    );
+                } catch (e) {
+                    alert(e.message);
+                    return;
+                }
+
+                const origTotal = originalPlan.reduce(
+                    (s, r) => s + r.payment,
+                    0,
+                );
+                const origInterest = originalPlan.reduce(
+                    (s, r) => s + r.interestPart,
+                    0,
+                );
+
+                const totalPrepayAmount = prepayEntries.reduce(
+                    (s, e) => s + e.amount,
+                    0,
+                );
+                const newTotal =
+                    newPlan.reduce((s, r) => s + r.payment, 0) +
+                    totalPrepayAmount;
+                const newInterest = newPlan.reduce(
+                    (s, r) => s + r.interestPart,
+                    0,
+                );
+
+                const savedInterest = origInterest - newInterest;
+                const savedMonths = months - newPlan.length;
+
+                // 节省 Banner
+                const prepayDesc = prepayEntries
+                    .map((e) => `第${e.month}期后还¥${fmtInt(e.amount)}`)
+                    .join("、");
+                document.getElementById("t2-savings").innerHTML = `
+    <div class="savings-item">
+      <div class="savings-item-label">节省总利息</div>
+      <div class="savings-item-value">¥ ${fmt(savedInterest)}</div>
+    </div>
+    <div class="savings-item">
+      <div class="savings-item-label">原总利息</div>
+      <div class="savings-item-value" style="font-size:16px">¥ ${fmt(origInterest)}</div>
+    </div>
+    <div class="savings-item">
+      <div class="savings-item-label">提前还款后总利息</div>
+      <div class="savings-item-value" style="font-size:16px">¥ ${fmt(newInterest)}</div>
+    </div>
+    <div class="savings-item">
+      <div class="savings-item-label">提前还款总额</div>
+      <div class="savings-item-value" style="font-size:16px">¥ ${fmt(totalPrepayAmount)}</div>
+    </div>
+    ${savedMonths > 0 ? `<div class="savings-item"><div class="savings-item-label">缩短还款期限</div><div class="savings-item-value">${savedMonths} 个月</div></div>` : ""}
+    <div class="savings-item">
+      <div class="savings-item-label">提前还款计划</div>
+      <div style="font-size:12px;color:#065f46;margin-top:4px;max-width:300px">${prepayDesc}</div>
+    </div>
+  `;
+
+                // 对比汇总
+                document.getElementById("t2-compare-summary").innerHTML = `
+    <div>
+      <div class="compare-label original">原计划（无提前还款）</div>
+      <div style="background:white;border-radius:0 0 10px 10px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.08)">
+        <div class="summary-grid" style="grid-template-columns:1fr 1fr;gap:10px">
+          <div class="summary-card blue" style="border-radius:8px">
+            <div class="summary-label">总还款额</div>
+            <div class="summary-value" style="font-size:18px">${fmtInt(origTotal)}</div>
+            <div class="summary-sub">元</div>
+          </div>
+          <div class="summary-card orange" style="border-radius:8px">
+            <div class="summary-label">总利息</div>
+            <div class="summary-value" style="font-size:18px">${fmtInt(origInterest)}</div>
+            <div class="summary-sub">元</div>
+          </div>
+          <div class="summary-card purple" style="border-radius:8px">
+            <div class="summary-label">还款总期数</div>
+            <div class="summary-value" style="font-size:18px">${months}</div>
+            <div class="summary-sub">期</div>
+          </div>
+          <div class="summary-card blue" style="border-radius:8px">
+            <div class="summary-label">首月月供</div>
+            <div class="summary-value" style="font-size:18px">${fmt(originalPlan[0].payment)}</div>
+            <div class="summary-sub">元</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="compare-label after">提前还款后（共 ${prepayEntries.length} 次）</div>
+      <div style="background:white;border-radius:0 0 10px 10px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.08)">
+        <div class="summary-grid" style="grid-template-columns:1fr 1fr;gap:10px">
+          <div class="summary-card blue" style="border-radius:8px">
+            <div class="summary-label">总还款额</div>
+            <div class="summary-value" style="font-size:18px">${fmtInt(newTotal)}</div>
+            <div class="summary-sub">元（含提前还款）</div>
+          </div>
+          <div class="summary-card green" style="border-radius:8px">
+            <div class="summary-label">总利息</div>
+            <div class="summary-value" style="font-size:18px">${fmtInt(newInterest)}</div>
+            <div class="summary-sub">元 ↓ 少 ${fmtInt(savedInterest)}</div>
+          </div>
+          <div class="summary-card purple" style="border-radius:8px">
+            <div class="summary-label">还款总期数</div>
+            <div class="summary-value" style="font-size:18px">${newPlan.length}</div>
+            <div class="summary-sub">${savedMonths > 0 ? `缩短 ${savedMonths} 期` : "期数不变"}</div>
+          </div>
+          <div class="summary-card green" style="border-radius:8px">
+            <div class="summary-label">末期月供</div>
+            <div class="summary-value" style="font-size:18px">${fmt(newPlan[newPlan.length - 1].payment)}</div>
+            <div class="summary-sub">元</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+                // 对比表格
+                const prepayMonthSet = new Set(
+                    prepayEntries.map((e) => e.month),
+                );
+                const maxLen = Math.max(originalPlan.length, newPlan.length);
+                const rows = [];
+
+                for (let i = 0; i < maxLen; i++) {
+                    const orig = originalPlan[i];
+                    const nw = newPlan[i];
+                    const monthNum = i + 1;
+                    const date = (orig && orig.date) || (nw && nw.date) || "-";
+                    const origPay = orig ? orig.payment : null;
+                    const newPay = nw ? nw.payment : null;
+                    const diff =
+                        origPay !== null && newPay !== null
+                            ? newPay - origPay
+                            : null;
+
+                    let diffHtml = "-";
+                    if (diff !== null) {
+                        if (Math.abs(diff) < 0.005)
+                            diffHtml = '<span class="diff-zero">0.00</span>';
+                        else if (diff < 0)
+                            diffHtml = `<span class="diff-positive">${fmt(diff)}</span>`;
+                        else
+                            diffHtml = `<span class="diff-negative">+${fmt(diff)}</span>`;
+                    }
+
+                    const isPrepayRow = prepayMonthSet.has(monthNum);
+                    const prepayAmtForRow = isPrepayRow
+                        ? prepayEntries.find((e) => e.month === monthNum)
+                              ?.amount
+                        : null;
+
+                    rows.push(`
+      <tr class="${isPrepayRow ? "prepay-row" : ""}">
+        <td class="td-month">${isPrepayRow ? `★ 第 ${monthNum} 期` : `第 ${monthNum} 期`}</td>
+        <td>${date}</td>
+        <td>${orig ? fmt(orig.payment) : '<span style="color:#a0aec0">已还清</span>'}</td>
+        <td>${nw ? fmt(nw.payment) : '<span style="color:#10b981">已还清</span>'}</td>
+        <td>${diffHtml}</td>
+        <td>${orig ? fmt(orig.remaining) : '<span style="color:#a0aec0">-</span>'}</td>
+        <td>${nw ? fmt(nw.remaining) : '<span style="color:#10b981">-</span>'}</td>
+      </tr>
+    `);
+
+                    if (isPrepayRow && prepayAmtForRow) {
+                        rows.push(`
+        <tr style="background:#fef3c7">
+          <td colspan="7" style="text-align:center;color:#92400e;font-size:12px;padding:7px;font-weight:600">
+            ↑ 第 ${monthNum} 期正常还款后，额外一次性偿还本金 ¥${fmt(prepayAmtForRow)} 元
+          </td>
+        </tr>
+      `);
+                    }
+                }
+
+                document.getElementById("t2-tbody").innerHTML = rows.join("");
+                document.getElementById("t2-empty").style.display = "none";
+                document.getElementById("t2-result").style.display = "block";
+            }
+
+            // ==================== Tab 切换 ====================
+
+            function switchTab(tabId, btn) {
+                document
+                    .querySelectorAll(".panel")
+                    .forEach((p) => p.classList.remove("active"));
+                document
+                    .querySelectorAll(".tab-btn")
+                    .forEach((b) => b.classList.remove("active"));
+                document.getElementById(tabId).classList.add("active");
+                btn.classList.add("active");
+            }
+
+            // 初始化：默认添加两条提前还款记录
+            addPrepayRow(6, 900404.57);
+        </script>
+    </body>
+</html>
