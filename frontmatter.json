@@ -52,8 +52,8 @@
   "frontMatter.git.enabled": true,
   "frontMatter.content.pageFolders": [
     {
-      "title": "content",
-      "path": "[[workspace]]/content"
+      "title": "posts",
+      "path": "[[workspace]]/content/posts"
     }
   ]
 }
