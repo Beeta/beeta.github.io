@@ -304,6 +304,16 @@ hugo server -D 4. 提交到github # 一般情况下 git add -A git cm -m &amp;#3
     </item>
     
     <item>
+      <title>我的浏览器扩展介绍</title>
+      <link>http://tubaozi.top/posts/2023/my_browser_extensions/</link>
+      <pubDate>Tue, 13 Jun 2023 17:23:02 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2023/my_browser_extensions/</guid>
+      <description>分享下我常用的浏览器扩展。我的浏览器是Edge，不过这些扩展chrome也可以使用。
+TL;DR better-onetab better-onetab https://github.com/cnwangjie/better-onetab</description>
+    </item>
+    
+    <item>
       <title>Hugo 静态博客搭建指南</title>
       <link>http://tubaozi.top/posts/2023/create_blog_with_hugo/</link>
       <pubDate>Mon, 12 Jun 2023 00:07:59 +0800</pubDate>
