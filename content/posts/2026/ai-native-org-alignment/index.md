@@ -1,8 +1,8 @@
 ---
-title: "AI 原生组织转型：用 AI 对齐事实、对齐打法" #标题
+title: "[转载] AI 原生组织转型：用 AI 对齐事实、对齐打法" #标题
 date: 2026-10-11T10:52:29Z #创建时间
 lastmod: 2026-10-11T10:52:29Z #更新时间
-author: ["Beeta"] #作者
+author: ["AI炼金术"] #作者
 categories: 
 - 效率
 tags: 
