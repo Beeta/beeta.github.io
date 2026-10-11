@@ -6,7 +6,24 @@
     <description>Recent content in 工具 on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 13 Jun 2023 17:23:02 +0800</lastBuildDate><atom:link href="http://tubaozi.top/categories/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 11 Oct 2026 17:02:25 +0800</lastBuildDate><atom:link href="http://tubaozi.top/categories/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>有听有记 Voxi：会议音频转译摘要app</title>
+      <link>http://tubaozi.top/posts/2026/voxi/</link>
+      <pubDate>Sun, 11 Oct 2026 17:02:25 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2026/voxi/</guid>
+      <description>一次关于「把会议录音这件事收回到本地」的尝试：录制、转写、摘要、脑图、问答、笔记，一个窗口装下。
+为什么要自己写一个 开会这件事的痛点很稳定：说了什么记不住，记了笔记又来不及听。
+市面上的会议助手不少，但它们大多长一个样——注册、登录、把会议音频传到某个云端、等一个订阅制的转写额度。对于内容敏感的会议，「把录音上传到别人服务器」本身就是个需要犹豫三秒的动作；而对于只是想把每周例会的结论留个底的人来说，为这个装一个订阅制 SaaS 也未免太重。
+所以我想要的东西很朴素：
+录音和资料库在本地。 录下来的东西是我的文件，存在我选的目录里，索引也是本地一个 JSON。 转写和 AI 能力按需接。 用哪家的语音识别、用哪家的大模型，我自己填 Key，不绑定任何平台账号。 不配也能用。 没有 Key 的时候，它至少是个能录音、能播放、能记笔记的录音机，而不是一个打不开的空白页。 于是有了 有听有记 Voxi——一个 macOS 上的会议助手。整个项目 4800 行 Go（含测试），直接依赖只有两个：purego 和 mygo。
+它长什么样 一个窗口，左边录音库，右边详情。
+页签 做什么 转写 带时间戳的分段文字。点时间戳跳转播放、点文字就地改（自动保存）、点说话人改名（可只改这条，也可改全部同名） 摘要 「概览 + 关键要点 + 待办事项」，生成指令可自己改 脑图 把转写整理成可展开折叠的大纲树 问答 基于这条录音多轮提问，回答逐字流式返回 笔记 每条录音一段自由文本，随改随存 录制本身支持麦克风和系统输出（扬声器/耳机正在放的声音）两个源，可以只勾一个，也可以都勾——都勾就是一份「我的声音 + 对面/视频里的声音」的混合音轨。输出是 48 kHz 立体声、128 kbps 的 AAC（.m4a）。
+三个真正的技术坑 界面是 mygo 画的，业务逻辑没什么新鲜的。有意思的是底下这三件事——每一件都是被 macOS 或者服务商的接口设计逼出来的。
+一、纯 Go 捕获系统音频，一行 cgo 都没有 macOS 上要拿到「系统正在播放的声音」，正路是 ScreenCaptureKit。它是 Objective-C 的 API，常规做法是写一段 ObjC 桥接、开 cgo。</description>
+    </item>
+    
     <item>
       <title>我的浏览器扩展介绍</title>
       <link>http://tubaozi.top/posts/2023/my_browser_extensions/</link>
