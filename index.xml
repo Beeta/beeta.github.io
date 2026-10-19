@@ -6,7 +6,16 @@
     <description>Recent content on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 11 Oct 2026 10:52:29 +0000</lastBuildDate><atom:link href="http://tubaozi.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Oct 2026 15:44:12 +0800</lastBuildDate><atom:link href="http://tubaozi.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[翻译] 如何更有野心：给带着模型干活的人的教程</title>
+      <link>http://tubaozi.top/posts/2026/how-to-be-more-ambitious/</link>
+      <pubDate>Mon, 19 Oct 2026 15:44:12 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2026/how-to-be-more-ambitious/</guid>
+      <description>Anthropic 的 Felix Rieseberg 把「用 AI 要有野心」拆成速度、高度、深度、广度四个方向，每个方向都给了能直接照做的具体手法。</description>
+    </item>
+    
     <item>
       <title>[转载] AI 原生组织转型：用 AI 对齐事实、对齐打法</title>
       <link>http://tubaozi.top/posts/2026/ai-native-org-alignment/</link>
