@@ -138,3 +138,5 @@ kero report done "Deployed to staging"
 `blocked` 会让会话变成 waiting，人不在时 `done` 和 `blocked` 会发通知。一个窗格里有多个任务时用 `--id`、`--title` 区分，窗格显示优先级最高的那条：blocked > working > error > done。
 
 这个协议不归 Kero 所有。不用 `kero report`，直接用上面那段 `printf` 也一样，换到别的支持 7501 的终端照样能用。用 `OSC 7501 ; ?` 探测时，Kero 会原样回应。所以给自己的部署脚本加几行 `status`，在 Kero 里就能直接看到它卡在哪一步。
+
+实际用下来，这个能力很丝滑。有状态变化，Kero 会在右上角提醒一下，不打断手上的事，用着挺舒服。体验上不太像是终端做的东西，但它确实就是终端在做的事。
