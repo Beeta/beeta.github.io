@@ -26,13 +26,13 @@ cover:
     relative: false
 ---
 
-Mitchell Hashimoto（Ghostty 作者）前几天发了篇文章 [A Terminal Protocol for Program Status: OSC 7501](https://mitchellh.com/writing/program-status-osc7501)，提出一个新的终端转义序列：OSC 7501，名字叫 Program Status Protocol，完整规范见 [这里](https://superlogical.com/rex/docs/build/program-status)（目前是 0.4 草案）。程序用它告诉终端自己现在处于什么状态：空闲、运行中、在等用户、已完成、已失败，还可以附上原因。规范是通用的，不绑定任何产品。
+Ghostty 作者 Mitchell Hashimoto 10 月 6 日发了篇文章 [A Terminal Protocol for Program Status: OSC 7501](https://mitchellh.com/writing/program-status-osc7501)，提出一个新的终端转义序列 OSC 7501，叫 Program Status Protocol。程序用它告诉终端自己处在什么状态：空闲、运行中、在等用户、已完成或已失败，还能附上原因。完整规范在 [这里](https://superlogical.com/rex/docs/build/program-status)，目前是 0.4 草案，不绑定任何产品。
 
 ## 为什么需要它
 
-在终端里跑长任务太常见了：构建、部署、升级依赖、处理数据，现在又多了编码 Agent。任务一跑起来，人就切走去干别的，然后希望它跑完或者需要我拍板的时候能叫我一声。
+你在终端里跑构建、部署、升级依赖，现在还多了编码 Agent。任务一跑起来你就切走了，等它跑完或者要你拍板时，希望它能叫你一声。
 
-现在的做法基本靠猜：看前台进程有没有变，等输出安静一段时间。这些办法都不通用，也没法同时表达进度、阻塞、完成和任务树。把现有的几个转义序列拼起来用，同样靠不住。
+终端现在只能猜：看前台进程有没有变，或者等输出安静一会儿。这两招表达不了进度、阻塞和任务树，也分不清「跑完了」和「卡住了」。把现有的几个转义序列拼起来，也解决不了这个问题。
 
 ### 以 Agent 收件箱为例
 
@@ -40,7 +40,7 @@ Mitchell Hashimoto（Ghostty 作者）前几天发了篇文章 [A Terminal Proto
 
 **启发式。** 解析屏幕内容或窗口标题。Herdr 用一份 TOML 规则判断 Claude Code 的状态，其中一条是：标题以 Braille 或半圆 spinner 字符开头，就算 working。这份规则三个月里光为 Claude Code 就改了十次。作者特意说明，这不是在批评 Herdr。
 
-**带外 API。** 比如 Herdr 的 socket API、`cmux notify`。程序自己上报，结果准确，代价是每个程序都得分别对接每个收件箱；本地 socket 到了 SSH 或容器里还要额外桥接。而 pty 本来就能穿过这些环境。
+**带外 API。** 比如 Herdr 的 socket API、`cmux notify`。程序自己上报，结果准确，代价是每个程序都得逐个对接收件箱，本地 socket 到了 SSH 或容器里还要另外桥接。pty 则能原样穿过 SSH 和容器。
 
 ## 协议长什么样
 
@@ -81,7 +81,7 @@ ESC ] 7501 ; state=blocked:kind=permission:app=terraform:msg=QXBwbHkgMyB0byBhZGQ
 
 ### 特性检测
 
-程序发 `OSC 7501 ; ? ST`，支持的终端回一个 `?`。检测可以不做，因为终端本来就要忽略不认识的 OSC，直接发就行。想检测又不想傻等超时，就在查询后面紧跟一个 `CSI c`：所有终端都会回它，如果它的回复先到，说明终端不支持 7501。
+程序发 `OSC 7501 ; ? ST`，支持的终端回一个 `?`。检测可以省掉，终端遇到不认识的 OSC 必须忽略，程序照发就行。想检测又不想等超时，就在查询后面紧跟一个 `CSI c`。终端都会回应 `CSI c`，它的回复要是先到，说明终端不支持 7501。
 
 ### 限制和安全
 
@@ -99,7 +99,7 @@ status working "Syncing photos"
 rsync -a ~/Photos backup:/photos && status done "Photos synced" || status error "rsync failed"
 ```
 
-终端不认识这个序列就直接忽略，所以在哪儿发都安全。
+不认识这个序列的终端会忽略它，你在哪儿发都不会弄乱屏幕。
 
 ## 现有的序列为什么不够用
 
@@ -108,26 +108,26 @@ rsync -a ~/Photos backup:/photos && status done "Photos synced" || status error 
 - **OSC 133（shell 集成）**：由 shell 发，只知道命令开始、结束和退出码，看不到程序内部在干什么。
 - **OSC 0 / 2（窗口标题）**：一个无结构字符串，程序往里塞 spinner，机器没法可靠解析。
 
-7501 的分工是：程序最清楚自己的状态，由它上报；终端只负责保存，怎么展示自己决定。
+7501 让程序上报自己的状态，终端负责保存，展示方式由终端决定。
 
 ## 现状
 
-作者已经在 libghostty 和 Rex 里实现了，还用插件或 fork 的方式给 Terraform、Claude Code、Codex、Homebrew 做了概念验证，每处改动不超过十几行。注意这些只是作者的 PoC，还不是这些项目的官方支持。规范评审有好几个终端和终端程序的维护者参与。
+作者在 libghostty 和 Rex 里实现了 7501，还用插件或 fork 给 Terraform、Claude Code、Codex、Homebrew 做了概念验证，每处改动不超过十几行。这几个项目都还没有官方合入。几个终端和终端程序的维护者参与了规范评审。
 
-作者的结论是一句话：
+文章最后一句：
 
 > The program already knows. Let's give it a way to tell us!
 
 ## Kero 已经支持
 
-终端 [Kero](https://kero.sh) 已经支持 OSC 7501。Kero 是专门给编码 Agent 用的终端，侧边栏显示每个会话处于 working、waiting、idle、done 还是 failed，`⌘J` 直接跳到等你的那个会话。
+[Kero](https://kero.sh) 是给编码 Agent 用的终端。侧边栏标出每个会话是 working、waiting、idle、done 还是 failed，按 `⌘J` 跳到正在等你的会话。
 
 Kero 判断状态有两条路（见 [状态文档](https://kero.sh/docs/status)）：
 
-- **被动识别**：对 Claude Code、Codex 这类编码 Agent，看屏幕上的 spinner、权限确认框、输入提示符；对其他程序，看标题里有没有 spinner。就是上文说的启发式那一套。
+- **被动识别**：对 Claude Code、Codex 这类编码 Agent，看屏幕上的 spinner、权限确认框和输入提示符；对其他程序，看标题里有没有 spinner。这就是前面说的启发式。
 - **主动上报**：程序自己发 OSC 7501。
 
-Kero 自带一个 `kero report` 命令，底层写的就是 OSC 7501 序列：
+Kero 带了一个 `kero report` 命令，它输出的就是 OSC 7501 序列：
 
 ```sh
 kero report working "Migrating the database" --progress 40
@@ -135,8 +135,8 @@ kero report blocked "Approve the production deploy?" --kind permission
 kero report done "Deployed to staging"
 ```
 
-`blocked` 会让会话变成 waiting，人不在时 `done` 和 `blocked` 会发通知。一个窗格里有多个任务时用 `--id`、`--title` 区分，窗格显示优先级最高的那条：blocked > working > error > done。
+`blocked` 会把会话标成 waiting。你不在时，`done` 和 `blocked` 会触发通知。一个窗格里跑多个任务，用 `--id` 和 `--title` 区分，窗格按 blocked、working、error、done 的顺序显示优先级最高的那条。
 
-这个协议不归 Kero 所有。不用 `kero report`，直接用上面那段 `printf` 也一样，换到别的支持 7501 的终端照样能用。用 `OSC 7501 ; ?` 探测时，Kero 会原样回应。所以给自己的部署脚本加几行 `status`，在 Kero 里就能直接看到它卡在哪一步。
+协议不归 Kero 所有。你可以不用 `kero report`，用前面那段 `printf` 效果一样，脚本换到别的支持 7501 的终端也能用。程序发 `OSC 7501 ; ?` 探测时，Kero 会原样回应。给部署脚本加几行 `status`，你在 Kero 里就能看到它卡在哪一步。
 
-实际用下来，这个能力很丝滑。有状态变化，Kero 会在右上角提醒一下，不打断手上的事，用着挺舒服。体验上不太像是终端做的东西，但它确实就是终端在做的事。
+我用下来觉得很顺。状态一变，Kero 在右上角提醒一下，不打断手上的事，用着舒服。用起来不太像终端会做的事，但确实是终端做的。
