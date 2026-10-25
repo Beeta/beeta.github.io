@@ -6,7 +6,16 @@
     <description>Recent content in 大模型 on 今是昨非 | 技术.生活.阅读.思考</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 19 Oct 2026 15:44:12 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 25 Oct 2026 15:55:15 +0800</lastBuildDate><atom:link href="http://tubaozi.top/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2026 年大模型这一年：时间线、关键事件与几点洞察</title>
+      <link>http://tubaozi.top/posts/2026/2026-llms-timeline/</link>
+      <pubDate>Sun, 25 Oct 2026 15:55:15 +0800</pubDate>
+      
+      <guid>http://tubaozi.top/posts/2026/2026-llms-timeline/</guid>
+      <description>基于 Simon Willison 的演讲《2026 in LLMs (so far)》整理：从 2025 年 11 月的拐点到 9 月的 GPT-6，按月梳理模型、Agent、安全事件，再谈几点我的理解。</description>
+    </item>
+    
     <item>
       <title>[翻译] 如何更有野心：给带着模型干活的人的教程</title>
       <link>http://tubaozi.top/posts/2026/how-to-be-more-ambitious/</link>
