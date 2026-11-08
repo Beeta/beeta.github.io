@@ -70,6 +70,14 @@ TODO：
 - 什么时候开始改用 Claude Code
 - 替代的原因：从「对话框里问答」变成「让 Agent 直接干活」
 
+### 框架：LangChain → Agent Loop
+
+TODO：
+
+- 当年用 LangChain 做过什么（Chain、Prompt 模板、Memory、RAG……）
+- 什么时候发现不需要它了
+- 替代的原因：模型原生支持工具调用后，一个「调模型 → 执行工具 → 把结果喂回去」的循环就够了，层层封装反而碍事
+
 ## 待补充
 
 - [ ] ……
